@@ -5,7 +5,7 @@ import java.util.Date;
 public class UsuarioModel{
  private int idCliente;
     private String nombre,apellidos,localidad,provincia,comunidad,pais,mail,telefono,usuario,pass,tipoUsuario;
-    private Date fechaNacimiento;
+    private String fechaNacimiento;
     private String fotoPerfil;
 
     public UsuarioModel() {
@@ -107,11 +107,11 @@ public class UsuarioModel{
         this.tipoUsuario = tipoUsuario;
     }
 
-    public Date getFechaNacimiento() {
+    public String getFechaNacimiento() {
         return fechaNacimiento;
     }
 
-    public void setFechaNacimiento(Date fechaNacimiento) {
+    public void setFechaNacimiento(String fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
 

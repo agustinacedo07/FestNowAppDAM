@@ -7,15 +7,15 @@
     tools:context=".Registro">
 
     <EditText
-        android:id="@+id/telefono"
+        android:id="@+id/etiTelefono"
         android:layout_width="193dp"
         android:layout_height="38dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="Telefono"
         android:inputType="textPersonName"
@@ -27,15 +27,15 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <EditText
-        android:id="@+id/correo"
+        android:id="@+id/etiCorreo"
         android:layout_width="193dp"
         android:layout_height="38dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="Correo"
         android:inputType="textPersonName"
@@ -47,15 +47,35 @@
         app:layout_constraintVertical_bias="0.904" />
 
     <EditText
-        android:id="@+id/nUsuario"
+        android:id="@+id/etiPass"
         android:layout_width="193dp"
         android:layout_height="43dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="Contraseña"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.091"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.102" />
+
+    <EditText
+        android:id="@+id/etiUsuario"
+        android:layout_width="193dp"
+        android:layout_height="43dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="Nombre de usuario"
         android:inputType="textPersonName"
@@ -67,15 +87,15 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <EditText
-        android:id="@+id/pais"
+        android:id="@+id/etiPais"
         android:layout_width="193dp"
         android:layout_height="38dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="Pais"
         android:inputType="textPersonName"
@@ -87,15 +107,15 @@
         app:layout_constraintVertical_bias="0.805" />
 
     <EditText
-        android:id="@+id/comunidad"
+        android:id="@+id/etiComunidad"
         android:layout_width="193dp"
         android:layout_height="38dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="Comunidad"
         android:inputType="textPersonName"
@@ -107,15 +127,15 @@
         app:layout_constraintVertical_bias="0.707" />
 
     <EditText
-        android:id="@+id/provincia"
+        android:id="@+id/etiProvincia"
         android:layout_width="193dp"
         android:layout_height="38dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="Provincia"
         android:inputType="textPersonName"
@@ -127,15 +147,15 @@
         app:layout_constraintVertical_bias="0.61" />
 
     <EditText
-        android:id="@+id/localidad"
+        android:id="@+id/etiLocalidad"
         android:layout_width="193dp"
         android:layout_height="38dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="Localidad"
         android:inputType="textPersonName"
@@ -147,7 +167,7 @@
         app:layout_constraintVertical_bias="0.518" />
 
     <EditText
-        android:id="@+id/apellidos"
+        android:id="@+id/etiApellidos"
         android:layout_width="193dp"
         android:layout_height="38dp"
         android:layout_marginStart="8dp"
@@ -167,15 +187,15 @@
         app:layout_constraintVertical_bias="0.298" />
 
     <EditText
-        android:id="@+id/nombre"
+        android:id="@+id/etiNombre"
         android:layout_width="192dp"
         android:layout_height="38dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="Nombre"
         android:inputType="textPersonName"
@@ -187,15 +207,15 @@
         app:layout_constraintVertical_bias="0.2" />
 
     <EditText
-        android:id="@+id/fechaNacimiento"
+        android:id="@+id/etiFechaNacimiento"
         android:layout_width="194dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="Fecha de nacimiento"
         android:inputType="date"
@@ -203,21 +223,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.091"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/apellidos"
+        app:layout_constraintTop_toBottomOf="@+id/etiApellidos"
         app:layout_constraintVertical_bias="0.029" />
-
-    <EditText
-        android:id="@+id/contraseña"
-        android:layout_width="193dp"
-        android:layout_height="37dp"
-        android:layout_marginTop="64dp"
-        android:layout_marginEnd="192dp"
-        android:layout_marginRight="192dp"
-        android:ems="10"
-        android:hint="Contraseña"
-        android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/fotoPerfil"
@@ -231,12 +238,12 @@
         tools:srcCompat="@mipmap/ic_launcher_round" />
 
     <Button
-        android:id="@+id/enviar"
+        android:id="@+id/btnEnviarRegistro"
         android:layout_width="121dp"
         android:layout_height="80dp"
+        android:layout_marginBottom="84dp"
         android:layout_marginEnd="24dp"
         android:layout_marginRight="24dp"
-        android:layout_marginBottom="84dp"
         android:text="Enviar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -254,4 +261,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.843" />
+
 </android.support.constraint.ConstraintLayout>

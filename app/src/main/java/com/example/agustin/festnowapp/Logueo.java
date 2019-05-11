@@ -4,22 +4,38 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.net.Socket;
+import java.util.ArrayList;
 
 public class Logueo extends AppCompatActivity implements View.OnClickListener {
+    //para comunicación con el SERVIDOR
+    private Socket skCliente;
+    public  static Comando comando;
+
+    //flujos de comunicacion
+    //FLUJOS DE COMUNICACION
+    //flujo de datos
+    public static DataInputStream flujoDatosEntrada;
+    public static DataOutputStream flujoDatosSalida;
+    //flujo de objetos
+    public static ObjectInputStream flujoEntradaObjetos;
+    public static ObjectOutputStream flujoSalidaObjetos;
+
+
+
 
     private EditText usuario, contraseña;
     private Button entrar;
@@ -40,6 +56,12 @@ public class Logueo extends AppCompatActivity implements View.OnClickListener {
         enlaceRegistro.setOnClickListener(this);
 
 
+        comando = new Comando();
+
+
+        new ConexionServer().execute();
+
+
         entrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -47,12 +69,39 @@ public class Logueo extends AppCompatActivity implements View.OnClickListener {
                 String nombreUsu = usuario.getText().toString();
                 String nombrePass = contraseña.getText().toString();
 
-                new LoginWS().execute("http://192.168.1.37/WebServiceFestNow/scripts/login.php?user="+nombreUsu+"&pass="+nombrePass);
+                comando.setOrden("login");
+                ArrayList<Object> argumentos = new ArrayList<Object>();
+                argumentos.add(nombreUsu);
+                argumentos.add(nombrePass);
+                comando.setArgumentos(argumentos);
 
+                Toast.makeText(getApplicationContext(),skCliente.toString(),Toast.LENGTH_LONG).show();
             }
         });
 
 
+    }
+
+    private boolean abrirFlujos() {
+        try {
+
+            skCliente = new Socket("192.168.1.37",2000);
+
+
+            InputStream entrada = skCliente.getInputStream();
+            OutputStream salida = skCliente.getOutputStream();
+
+            flujoDatosEntrada = new DataInputStream(entrada);
+            flujoDatosSalida = new DataOutputStream(salida);
+            flujoSalidaObjetos = new ObjectOutputStream(salida);
+            flujoEntradaObjetos = new ObjectInputStream(entrada);
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return false;
+        }
+
+        return true;
     }
 
 
@@ -66,26 +115,20 @@ public class Logueo extends AppCompatActivity implements View.OnClickListener {
 
 
 
-    private class  LoginWS extends  AsyncTask<String,Void,String>{
+    private class  ConexionServer extends  AsyncTask<Void,Void,Boolean>{
 
-        //descarga y procesa la URL de respuesta del WebService
+
         @Override
-        protected String doInBackground(String... strings) {
-            try{
-                return WebServiceUtil.dowloadUrl(strings[0]);
-            }catch (IOException ex){
-                return "URL no válida";
-            }
+        protected Boolean doInBackground(Void... voids) {
+            return abrirFlujos();
         }
 
-
         @Override
-        protected void onPostExecute(String s) {
-            if(s.contains("1")){
-                Intent pantallaPrincipal = new Intent(getApplicationContext(),PantallaPrincipal.class);
-                startActivity(pantallaPrincipal);
+        protected void onPostExecute(Boolean aBoolean) {
+            if(aBoolean == true){
+                Toast.makeText(getApplicationContext(),"Conexion realizada con éxito",Toast.LENGTH_LONG).show();
             }else{
-                Toast.makeText(getApplicationContext(),"INCORRECTO",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"No se ha podido establecer la conexion",Toast.LENGTH_LONG).show();
 
             }
         }
