@@ -2,7 +2,9 @@ package com.example.agustin.festnowapp;
 
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -18,12 +20,15 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
-import java.util.ArrayList;
 
+import modelos.Comando;
+
+/**
+ * Clase que establece la conexion con el servidor y da opción para el logueo del usuario
+ */
 public class Logueo extends AppCompatActivity implements View.OnClickListener {
     //para comunicación con el SERVIDOR
-    private Socket skCliente;
-    public  static Comando comando;
+    private static Socket skCliente;
 
     //flujos de comunicacion
     //FLUJOS DE COMUNICACION
@@ -36,12 +41,15 @@ public class Logueo extends AppCompatActivity implements View.OnClickListener {
 
 
 
-
+    //elementos de la pantalla
     private EditText usuario, contraseña;
     private Button entrar;
     private TextView enlaceRegistro;
-    private boolean login;
 
+    //elementos para el logueo
+    String usuarioLogin,passLogin;
+
+    //metodo constructo de la ventana
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,26 +64,20 @@ public class Logueo extends AppCompatActivity implements View.OnClickListener {
         enlaceRegistro.setOnClickListener(this);
 
 
-        comando = new Comando();
+        if(skCliente==null){
+            new ConexionServer().execute();
+
+        }
 
 
-        new ConexionServer().execute();
-
-
+        //boton de aceptar login
         entrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                 usuarioLogin = usuario.getText().toString();
+                 passLogin =  contraseña.getText().toString();
 
-                String nombreUsu = usuario.getText().toString();
-                String nombrePass = contraseña.getText().toString();
-
-                comando.setOrden("login");
-                ArrayList<Object> argumentos = new ArrayList<Object>();
-                argumentos.add(nombreUsu);
-                argumentos.add(nombrePass);
-                comando.setArgumentos(argumentos);
-
-                Toast.makeText(getApplicationContext(),skCliente.toString(),Toast.LENGTH_LONG).show();
+                 new LoginServer().execute();
             }
         });
 
@@ -85,23 +87,25 @@ public class Logueo extends AppCompatActivity implements View.OnClickListener {
     private boolean abrirFlujos() {
         try {
 
-            skCliente = new Socket("192.168.1.37",2000);
+            skCliente = new Socket("192.168.1.128",2000);
 
 
             InputStream entrada = skCliente.getInputStream();
             OutputStream salida = skCliente.getOutputStream();
 
-            flujoDatosEntrada = new DataInputStream(entrada);
-            flujoDatosSalida = new DataOutputStream(salida);
+
             flujoSalidaObjetos = new ObjectOutputStream(salida);
-            flujoEntradaObjetos = new ObjectInputStream(entrada);
+            flujoEntradaObjetos = new ObjectInputStream(skCliente.getInputStream());
+            flujoDatosSalida = new DataOutputStream(salida);
+            flujoDatosEntrada = new DataInputStream(entrada);
+
+            return true;
 
         } catch (Exception ex) {
             ex.printStackTrace();
             return false;
         }
 
-        return true;
     }
 
 
@@ -115,7 +119,8 @@ public class Logueo extends AppCompatActivity implements View.OnClickListener {
 
 
 
-    private class  ConexionServer extends  AsyncTask<Void,Void,Boolean>{
+    @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
+    private class ConexionServer extends AsyncTask<Void ,Void,Boolean>{
 
 
         @Override
@@ -125,14 +130,51 @@ public class Logueo extends AppCompatActivity implements View.OnClickListener {
 
         @Override
         protected void onPostExecute(Boolean aBoolean) {
-            if(aBoolean == true){
+            if(aBoolean){
                 Toast.makeText(getApplicationContext(),"Conexion realizada con éxito",Toast.LENGTH_LONG).show();
             }else{
-                Toast.makeText(getApplicationContext(),"No se ha podido establecer la conexion",Toast.LENGTH_LONG).show();
-
+                Toast.makeText(getApplicationContext(),"Conexion NO REALIZADA",Toast.LENGTH_LONG).show();
             }
         }
     }
+
+
+    private class LoginServer extends  AsyncTask<Void,Void,Boolean>{
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            boolean validacionLogin = false;
+            Comando comando = new Comando();
+            comando.setOrden("login");
+            comando.getArgumentos().add(usuarioLogin);
+            comando.getArgumentos().add(passLogin);
+
+            try {
+                flujoSalidaObjetos.writeObject(comando);
+                validacionLogin = flujoDatosEntrada.readBoolean();
+            } catch (IOException e) {
+                validacionLogin=false;
+            }
+
+            return validacionLogin;
+        }
+
+
+        @Override
+        protected void onPostExecute(Boolean validacionLogin) {
+            if(validacionLogin){
+                Intent pantallaPrincipal = new Intent(getApplicationContext(),PantallaPrincipal.class);
+                startActivity(pantallaPrincipal);
+                Toast.makeText(getApplicationContext(),"Bienvenido a la Aplicación FEST NOW",Toast.LENGTH_LONG).show();
+            }else{
+                Toast.makeText(getApplicationContext(),"Usuario y contraseña incorrectos",Toast.LENGTH_LONG).show();
+            }
+
+            usuario.setText("");
+            contraseña.setText("");
+        }
+    }
+
 
 
 

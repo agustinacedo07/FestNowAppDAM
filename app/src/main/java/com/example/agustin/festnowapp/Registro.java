@@ -1,22 +1,25 @@
 package com.example.agustin.festnowapp;
 
+
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import java.io.IOException;
+
+import modelos.Cliente;
+import modelos.Comando;
+
 
 public class Registro extends AppCompatActivity {
 
     private EditText etiUsuario,etiPass,etiNombre,etiApellidos,etiFechaNacimiento,etiLocalidad,etiProvincia,etiComunidad,etiPais,etiCorreo,etiTelefono;
     private Button btnAceptarLogin;
-    private UsuarioModel nuevoUsuario;
+    private Cliente nuevoUsuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +56,7 @@ public class Registro extends AppCompatActivity {
                 String mail = etiCorreo.getText().toString();
                 String telefono = etiTelefono.getText().toString();
 
-                nuevoUsuario = new UsuarioModel();
+                nuevoUsuario = new Cliente();
                 nuevoUsuario.setNombre(nombre);
                 nuevoUsuario.setApellidos(apellidos);
                 nuevoUsuario.setUsuario(usuario);
@@ -65,9 +68,12 @@ public class Registro extends AppCompatActivity {
                 nuevoUsuario.setPais(pais);
                 nuevoUsuario.setMail(mail);
                 nuevoUsuario.setTelefono(telefono);
+                nuevoUsuario.setFotoPerfil(null);
+                nuevoUsuario.setTipoUsuario("user");
 
 
                 new RegistroServer().execute();
+
 
 
 
@@ -88,15 +94,14 @@ public class Registro extends AppCompatActivity {
 
 
             boolean respuesta = false;
-            Logueo.comando.getArgumentos().clear();
-            Logueo.comando.setOrden("");
+            Comando comando = new Comando();
 
-            Logueo.comando.setOrden("reg");
-            Logueo.comando.getArgumentos().add(nuevoUsuario);
+            comando.setOrden("reg");
+            comando.getArgumentos().add(nuevoUsuario);
 
             try {
-                Logueo.flujoSalidaObjetos.writeObject(Logueo.comando);
-                 respuesta = Logueo.flujoDatosEntrada.readBoolean();
+                Logueo.flujoSalidaObjetos.writeObject(comando);
+                respuesta = Logueo.flujoDatosEntrada.readBoolean();
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -111,8 +116,11 @@ public class Registro extends AppCompatActivity {
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             if(aBoolean == true){
-                Toast.makeText(getApplicationContext(),"Correcto",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"Se ha registrado el usuario ("+nuevoUsuario.getUsuario()+" correctamente",Toast.LENGTH_LONG).show();
+                Intent pantallaLogueo = new Intent(getApplicationContext(),Logueo.class);
+                startActivity(pantallaLogueo);
             }else {
+
                 Toast.makeText(getApplicationContext(),"Incorrecto",Toast.LENGTH_LONG).show();
 
             }
