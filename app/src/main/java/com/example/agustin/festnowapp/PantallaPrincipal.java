@@ -17,6 +17,8 @@ public class PantallaPrincipal extends AppCompatActivity {
 
     private ArrayList<Festival> listaFestis;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

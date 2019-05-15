@@ -21,10 +21,13 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
+import modelos.Cliente;
 import modelos.Comando;
 
 /**
  * Clase que establece la conexion con el servidor y da opción para el logueo del usuario
+ * Además también establece una serie de variables estáticas que se usarán genericas durante el tiempo
+ * que use el cliente la aplicacion
  */
 public class Logueo extends AppCompatActivity implements View.OnClickListener {
     //para comunicación con el SERVIDOR
@@ -48,8 +51,12 @@ public class Logueo extends AppCompatActivity implements View.OnClickListener {
 
     //elementos para el logueo
     String usuarioLogin,passLogin;
+    //para que una vez se logue se cree una variable estática con todos los datos del cliente
+    public static Cliente clienteAplicacion;
 
-    //metodo constructo de la ventana
+
+
+    //metodo constructor de la ventana
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,9 +68,10 @@ public class Logueo extends AppCompatActivity implements View.OnClickListener {
         enlaceRegistro = (TextView) findViewById(R.id.enlaceRegistro);
         contraseña = (EditText) findViewById(R.id.contraseña);
 
+        //damos funcionalidad al enlace que nos redireccionará a la página de registro
         enlaceRegistro.setOnClickListener(this);
 
-
+        //por si se vuelve a la pantalla de logueo tras un registro que no inicialize de nuevo la conexion
         if(skCliente==null){
             new ConexionServer().execute();
 
@@ -84,10 +92,14 @@ public class Logueo extends AppCompatActivity implements View.OnClickListener {
 
     }
 
+    /**
+     * Abre los flujos de comunicación con el servidor
+     * @return - un booleano indicando si la conexion se ha realizado o no
+     */
     private boolean abrirFlujos() {
         try {
 
-            skCliente = new Socket("192.168.1.128",2000);
+            skCliente = new Socket("192.168.1.129",2000);
 
 
             InputStream entrada = skCliente.getInputStream();
@@ -109,6 +121,10 @@ public class Logueo extends AppCompatActivity implements View.OnClickListener {
     }
 
 
+    /**
+     * Método para dar funcionaliad a el enlace de la pantalla de login que nos llevará a la pantalla de registro
+     * @param v -
+     */
     @Override
     public void onClick(View v) {
 
@@ -117,8 +133,9 @@ public class Logueo extends AppCompatActivity implements View.OnClickListener {
     }
 
 
-
-
+    /**
+     * Hilo que se ejecutará de manera concurrente al hilo principal para ejecutar una conexion con el servidor
+     */
     @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
     private class ConexionServer extends AsyncTask<Void ,Void,Boolean>{
 
@@ -140,29 +157,35 @@ public class Logueo extends AppCompatActivity implements View.OnClickListener {
 
 
     private class LoginServer extends  AsyncTask<Void,Void,Boolean>{
+        Comando comando = new Comando();
 
         @Override
         protected Boolean doInBackground(Void... voids) {
             boolean validacionLogin = false;
-            Comando comando = new Comando();
             comando.setOrden("login");
             comando.getArgumentos().add(usuarioLogin);
             comando.getArgumentos().add(passLogin);
 
             try {
                 flujoSalidaObjetos.writeObject(comando);
-                validacionLogin = flujoDatosEntrada.readBoolean();
+                comando = (Comando) flujoEntradaObjetos.readObject();
+                 validacionLogin = comando.isRespuestaBooleana();
             } catch (IOException e) {
                 validacionLogin=false;
+            } catch (ClassNotFoundException e) {
+                validacionLogin = false;
             }
 
             return validacionLogin;
         }
 
 
+
         @Override
         protected void onPostExecute(Boolean validacionLogin) {
             if(validacionLogin){
+                //creamos una variable estática con todos los datos del cliente logueado
+                clienteAplicacion = (Cliente) comando.getArgumentos().get(0);
                 Intent pantallaPrincipal = new Intent(getApplicationContext(),PantallaPrincipal.class);
                 startActivity(pantallaPrincipal);
                 Toast.makeText(getApplicationContext(),"Bienvenido a la Aplicación FEST NOW",Toast.LENGTH_LONG).show();
@@ -174,6 +197,10 @@ public class Logueo extends AppCompatActivity implements View.OnClickListener {
             contraseña.setText("");
         }
     }
+
+
+
+
 
 
 

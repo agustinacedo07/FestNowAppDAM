@@ -21,6 +21,8 @@ public class Registro extends AppCompatActivity {
     private Button btnAceptarLogin;
     private Cliente nuevoUsuario;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
