@@ -31,9 +31,15 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import modelos.Cliente;
 import modelos.Comando;
@@ -43,9 +49,9 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 
 public class Registro extends AppCompatActivity implements View.OnClickListener {
-
+    //elementos de la pantalla
     private EditText etiUsuario,etiPass,etiNombre,etiApellidos,etiFechaNacimiento,etiLocalidad,etiProvincia,etiComunidad,etiPais,etiCorreo,etiTelefono;
-    private Button btnAceptarLogin;
+    private Button btnAceptarRegistro;
     private Cliente nuevoUsuario;
 
     private static String APP_DIRECTORY="MyPictureApp/";
@@ -57,11 +63,10 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
 
     private ImageView mSetImage;
     private Button mOptionButton;
-    private String mPath;
+    private String mPath = "";
     private ConstraintLayout mRLView;
 
 
-    //-----------------
     Button bfecha;
     EditText fechaNacimiento;
     private int dia, mes, ano;
@@ -80,7 +85,6 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
 
         bfecha.setOnClickListener(this);
 
-        //----------
 
         mRLView =(ConstraintLayout) findViewById(R.id.c);
         mSetImage=(ImageView) findViewById(R.id.fotoPerfil);
@@ -101,7 +105,6 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
 
 
 
-        /* ---- */
 
 
 
@@ -113,47 +116,86 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
         etiPass=(EditText)findViewById(R.id.etiPass);
         etiNombre=(EditText)findViewById(R.id.etiNombre);
         etiApellidos=(EditText)findViewById(R.id.etiApellidos);
+        //instanciar fecha a la actual
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+        Date fechaActual = new Date();
         etiFechaNacimiento=(EditText)findViewById(R.id.fechaNacimiento);
+        etiFechaNacimiento.setText(formatoFecha.format(fechaActual));
         etiLocalidad=(EditText)findViewById(R.id.etiLocalidad);
         etiProvincia=(EditText)findViewById(R.id.etiProvincia);
         etiComunidad=(EditText)findViewById(R.id.etiComunidad);
         etiPais=(EditText)findViewById(R.id.etiPais);
         etiCorreo=(EditText)findViewById(R.id.etiCorreo);
         etiTelefono=(EditText)findViewById(R.id.etiTelefono);
-        btnAceptarLogin=(Button)findViewById(R.id.btnEnviarRegistro);
+        btnAceptarRegistro=(Button)findViewById(R.id.btnEnviarRegistro);
 
-        btnAceptarLogin.setOnClickListener(new View.OnClickListener() {
+
+        /**
+         * Funcionalidad del boton Aceptar Registro
+         */
+        btnAceptarRegistro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                //cojemos las variables introducidas por el usuario
-                String usuario = etiUsuario.getText().toString();
-                String pass = etiPass.getText().toString();
+                //PASAR LOS DATOS PRIMERO POR CONTROL DE ERRORES
+                //Implementar por Adrían
                 String nombre = etiNombre.getText().toString();
                 String apellidos = etiApellidos.getText().toString();
-                String fecha = etiFechaNacimiento.getText().toString();
                 String localidad = etiLocalidad.getText().toString();
                 String provincia = etiProvincia.getText().toString();
                 String comunidad = etiComunidad.getText().toString();
                 String pais = etiPais.getText().toString();
                 String mail = etiCorreo.getText().toString();
+                String usuario = etiUsuario.getText().toString();
+                String pass = etiPass.getText().toString();
                 String telefono = etiTelefono.getText().toString();
+                String tipoUsuario = "user";
+                String fechaString = fechaNacimiento.getText().toString();
+                SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+                Date fechaNacimientoUser = null;
+                try {
+                    fechaNacimientoUser = formatoFecha.parse(fechaString);
+                } catch (ParseException e) {
+                    Toast.makeText(getApplicationContext(),"Problema al formar la fecha",Toast.LENGTH_LONG).show();
+                }
 
-                nuevoUsuario = new Cliente();
-                nuevoUsuario.setNombre(nombre);
-                nuevoUsuario.setApellidos(apellidos);
-                nuevoUsuario.setUsuario(usuario);
-                nuevoUsuario.setPass(pass);
-                nuevoUsuario.setFechaNacimiento(fecha);
-                nuevoUsuario.setLocalidad(localidad);
-                nuevoUsuario.setProvincia(provincia);
-                nuevoUsuario.setComunidad(comunidad);
-                nuevoUsuario.setPais(pais);
-                nuevoUsuario.setMail(mail);
-                nuevoUsuario.setTelefono(telefono);
-                nuevoUsuario.setFotoPerfil(null);
-                nuevoUsuario.setTipoUsuario("user");
+                //si pasa todos los controles de errores
+                Cliente nuevoCliente = new Cliente();
 
+
+
+                //imagen de perfil que guardaremos en un array de bytes
+                byte [] fotoPerfilByte = null;
+                //si se ha seleccionado foto se crea un fichero y se convierte en un array de bytes
+                if(!mPath.equals("")){
+                    File imagenFotoPerfil = new File(mPath);
+                    fotoPerfilByte = new byte[(int)imagenFotoPerfil.length()];
+                    nuevoCliente.setNombreFoto("perfil"+usuario);//se le pone un nombre para la fotografía
+                }else{
+                    //si no se ha elegido foto el nombre será default que se guardará en la base de datos y se creará el array con un solo elemento
+                    //para evitar que sea nulo
+                    nuevoCliente.setNombreFoto("default");
+                    fotoPerfilByte = new byte[1];
+                }
+
+
+
+
+                nuevoCliente.setNombre(nombre);
+                nuevoCliente.setApellidos(apellidos);
+                nuevoCliente.setLocalidad(localidad);
+                nuevoCliente.setProvincia(provincia);
+                nuevoCliente.setComunidad(comunidad);
+                nuevoCliente.setPais(pais);
+                nuevoCliente.setMail(mail);
+                nuevoCliente.setUsuario(usuario);
+                nuevoCliente.setPass(pass);
+                nuevoCliente.setFechaNacimiento(fechaNacimientoUser);
+                nuevoCliente.setFotoByte(fotoPerfilByte);
+                nuevoCliente.setTelefono(telefono);
+                nuevoCliente.setTipoUsuario(tipoUsuario);
+
+                nuevoUsuario = nuevoCliente;
 
                 new RegistroServer().execute();
 
@@ -169,6 +211,16 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
     }
 
 
+
+
+
+
+
+
+
+    /**
+     * Hilo que recoge los datos de el registro de el nuevo ususario y lo registra en la BD
+     */
     private class RegistroServer extends AsyncTask<Void,Void,Boolean>{
 
 
@@ -218,6 +270,9 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
      */
 
 
+    /**
+     * Método que que se ejecuta para seleccionar una imagen de perfil de usuario
+     */
     private void showOptions() {
         //opciones del cuadro de dialogo
         final CharSequence[] option ={"Tomar foto","Elegir de galeria","Cancelar"};
@@ -248,6 +303,9 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
 
     }
 
+    /**
+     * Metodo para abrir la cámara del dispositivo
+     */
     private void openCamera() {
         //guarda la ruta del almacenamiento interno
         File file = new File(Environment.getExternalStorageDirectory(),MEDIA_DIRECTORY);
@@ -313,13 +371,17 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
                     break;
 
                 case SELECT_PICTURE:
-                    Uri path = data.getData();
+                    Uri path = Uri.parse(mPath);
                     mSetImage.setImageURI(path);
                     break;
             }
         }
     }
 
+    /**
+     * Métodos de permiso
+     * @return - booleano con el permmiso concedido o no
+     */
     private boolean mayRequestStoragePermission() {
 
         //verificar version menor 6
@@ -350,6 +412,10 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
     }
 
 
+    /**
+     * Método de selección de fecha
+     * @param v
+     */
     @TargetApi(Build.VERSION_CODES.N)
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void onClick(View v) {
@@ -364,7 +430,7 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
                 @Override
                 public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
 
-                    fechaNacimiento.setText(dayOfMonth+"/"+(month+1)+"/"+year);
+                    fechaNacimiento.setText(year+"-"+(month+1)+"-"+dayOfMonth);
 
                 }
             }
@@ -422,6 +488,9 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
 
         builder.show();
     }
+
+
+
 
 
 }

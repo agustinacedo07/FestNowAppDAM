@@ -33,6 +33,10 @@
         <activity android:name=".Registro" />
         <activity android:name=".Comentarios" />
 
-    </application>
+
+
+
+
+</application>
 
 </manifest>

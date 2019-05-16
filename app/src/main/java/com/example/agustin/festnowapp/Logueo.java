@@ -82,10 +82,15 @@ public class Logueo extends AppCompatActivity implements View.OnClickListener {
         entrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                 usuarioLogin = usuario.getText().toString();
-                 passLogin =  contraseña.getText().toString();
+                usuarioLogin = usuario.getText().toString();
+                passLogin =  contraseña.getText().toString();
+                if(usuarioLogin.isEmpty() && passLogin.isEmpty()){
+                    Toast.makeText(getApplicationContext(),"Los campos son obligatorios",Toast.LENGTH_LONG).show();
+                }else{
+                    new LoginServer().execute();
+                }
 
-                 new LoginServer().execute();
+
             }
         });
 
@@ -99,7 +104,7 @@ public class Logueo extends AppCompatActivity implements View.OnClickListener {
     private boolean abrirFlujos() {
         try {
 
-            skCliente = new Socket("192.168.1.129",2000);
+            skCliente = new Socket(Constantes.IP_CONEXION,2000);
 
 
             InputStream entrada = skCliente.getInputStream();
