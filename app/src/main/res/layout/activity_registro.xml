@@ -223,17 +223,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/fotoPerfil"
-        android:layout_width="97dp"
-        android:layout_height="96dp"
-        android:layout_marginTop="48dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@mipmap/ic_launcher_round" />
-
     <Button
         android:id="@+id/btnEnviarRegistro"
         android:layout_width="121dp"
@@ -252,12 +241,9 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="48dp"
         android:layout_marginRight="48dp"
-        android:layout_marginBottom="8dp"
         android:text="Foto de perfil"
-        app:layout_constraintBottom_toTopOf="@+id/fotoPerfil"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.333" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/bfecha"
@@ -271,10 +257,10 @@
         android:text="Seleccionar Fecha"
         android:textAppearance="@style/TextAppearance.AppCompat"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bimagen" />
+        app:layout_constraintTop_toBottomOf="@+id/btnCargarImg" />
 
     <Button
-        android:id="@+id/bimagen"
+        android:id="@+id/btnCargarImg"
         style="@style/Widget.MaterialComponents.Button"
         android:layout_width="121dp"
         android:layout_height="50dp"
@@ -285,9 +271,25 @@
         android:layout_marginTop="144dp"
         android:background="@android:color/holo_orange_light"
         android:text="Seleccionar foto de perfil"
+        android:onClick="cimag"
         android:textAppearance="@style/TextAppearance.AppCompat"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/etiApellidos"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imagenId"
+        android:layout_width="98dp"
+        android:layout_height="98dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.97"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/fotovacia" />
 </android.support.constraint.ConstraintLayout>

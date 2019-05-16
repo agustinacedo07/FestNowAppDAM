@@ -19,7 +19,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Logueo"
+            android:name=".Registro"
             android:label="FestNow"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -30,7 +30,7 @@
         </activity>
         <activity android:name=".PantallaPrincipal" />
         <activity android:name=".PantallaPrincipalDelFestival" />
-        <activity android:name=".Registro" />
+        <activity android:name=".Logueo" />
         <activity android:name=".Comentarios" />
 
 
