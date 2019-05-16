@@ -7,7 +7,7 @@
     tools:context=".PantallaPrincipal">
 
     <ListView
-        android:id="@+id/list1"
+        android:id="@+id/listFestivalesPantallaPral"
         android:layout_width="367dp"
         android:layout_height="328dp"
         android:layout_marginStart="8dp"
@@ -54,7 +54,7 @@
         android:text="ToggleButton"
         android:textOff="Distancia"
         android:textOn="Popularidad"
-        app:layout_constraintBottom_toTopOf="@+id/list1"
+        app:layout_constraintBottom_toTopOf="@+id/listFestivalesPantallaPral"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -79,7 +79,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/list1"
+        app:layout_constraintBottom_toTopOf="@+id/listFestivalesPantallaPral"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@mipmap/lupa" />
 

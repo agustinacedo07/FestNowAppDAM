@@ -1,21 +1,23 @@
 package com.example.agustin.festnowapp;
 
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.ArrayList;
+
+import modelos.Comando;
+import modelos.Festival;
 
 
 public class PantallaPrincipal extends AppCompatActivity {
 
-    private ArrayList<Festival> listaFestis;
+    private AdaptadorFestivalesUser adaptadorFestivalesUser;
+    private ListView listaFestivales;
+    private ArrayList<Festival> arrayFestivales;
 
 
 
@@ -24,46 +26,52 @@ public class PantallaPrincipal extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pantalla_principal);
 
-        listaFestis =new ArrayList<Festival>();
-        listaFestis.add(new Festival("Festi1", 'm'));
-        listaFestis.add(new Festival("Festi2",'m'));
-        listaFestis.add(new Festival("Festi1",'m'));
-        listaFestis.add(new Festival("Festi5",'f'));
-        listaFestis.add(new Festival("Festi6",'f'));
-        listaFestis.add(new Festival("Festi7",'f'));
-        listaFestis.add(new Festival("Festi8",'m'));
+        listaFestivales = (ListView)findViewById(R.id.listFestivalesPantallaPral);
 
+        new ListaFestivalesUser(Logueo.clienteAplicacion.getIdCliente()).execute();
 
-        AdaptadorPersonas adaptador = new AdaptadorPersonas(this);
-        ListView lv1 = (ListView)findViewById(R.id.list1);
-        lv1.setAdapter(adaptador);
 
 
     }
 
-    class AdaptadorPersonas extends ArrayAdapter<Festival> {
 
-        AppCompatActivity appCompatActivity;
+    private  class ListaFestivalesUser extends AsyncTask<Integer,Void,Object>{
+        int idCliente;
 
-        AdaptadorPersonas(AppCompatActivity context) {
-            super(context, R.layout.festival, listaFestis);
-            appCompatActivity = context;
+        public ListaFestivalesUser(int idCliente) {
+            this.idCliente = idCliente;
         }
 
-        public View getView(int position, View convertView, ViewGroup parent) {
-            LayoutInflater inflater = appCompatActivity.getLayoutInflater();
-            View item = inflater.inflate(R.layout.festival, null);
 
-            TextView textView1 = (TextView)item.findViewById(R.id.textView3);
-            textView1.setText(listaFestis.get(position).getNombre());
+        @Override
+        protected Object doInBackground(Integer... integers) {
+            Comando comando = new Comando();
+            comando.setOrden("listFestUser");
+            comando.getArgumentos().add(idCliente);
 
-            ImageView imageView1 = (ImageView)item.findViewById(R.id.imageView);
-            if (listaFestis.get(position).getGenero()=='m')
-                imageView1.setImageResource(R.mipmap.logo2);
-            else
-                imageView1.setImageResource(R.mipmap.logo3);
-            return(item);
+            try {
+                Logueo.flujoSalidaObjetos.writeObject(comando);
+                comando = (Comando) Logueo.flujoEntradaObjetos.readObject();
+            } catch (IOException e) {
+                return null;
+            } catch (ClassNotFoundException e) {
+                return null;
+            }
+
+            return comando.getArgumentos().get(0);
+        }
+
+        @Override
+        protected void onPostExecute(Object listaFestivalesBD) {
+            if(listaFestivalesBD==null){
+                Toast.makeText(getApplicationContext(),"Ha habido un problema al conectarse con el Servidor",Toast.LENGTH_LONG).show();
+            }else{
+                ArrayList<Festival>listaFestivalesUser = (ArrayList<Festival>) listaFestivalesBD;
+                adaptadorFestivalesUser = new AdaptadorFestivalesUser(getApplicationContext(),listaFestivalesUser);
+                listaFestivales.setAdapter(adaptadorFestivalesUser);
+            }
         }
     }
+
 
 }

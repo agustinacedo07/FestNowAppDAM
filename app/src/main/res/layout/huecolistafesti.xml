@@ -9,12 +9,14 @@
         android:id="@+id/fechafin"
         android:layout_width="54dp"
         android:layout_height="26dp"
+        android:layout_marginLeft="84dp"
+        android:layout_marginStart="84dp"
         android:text="fechafin"
         app:layout_constraintStart_toEndOf="@+id/fechainicio"
         app:layout_constraintTop_toBottomOf="@+id/titulo" />
 
     <ImageView
-        android:id="@+id/imageView5"
+        android:id="@+id/fotoFestival"
         android:layout_width="132dp"
         android:layout_height="133dp"
         android:layout_marginStart="16dp"
@@ -35,13 +37,15 @@
         android:text="Titulo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/imageView5"
+        app:layout_constraintStart_toEndOf="@+id/fotoFestival"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/fechainicio"
         android:layout_width="80dp"
         android:layout_height="26dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginStart="4dp"
         android:text="fechainicio"
         app:layout_constraintStart_toStartOf="@+id/titulo"
         app:layout_constraintTop_toTopOf="@+id/fechafin" />
@@ -51,7 +55,7 @@
         android:layout_width="256dp"
         android:layout_height="27dp"
         android:text="ciudad"
-        app:layout_constraintStart_toEndOf="@+id/imageView5"
+        app:layout_constraintStart_toEndOf="@+id/fotoFestival"
         app:layout_constraintTop_toBottomOf="@+id/fechafin" />
 
     <TextView
@@ -59,6 +63,7 @@
         android:layout_width="237dp"
         android:layout_height="35dp"
         android:text="artistas"
+        android:textSize="8sp"
         app:layout_constraintStart_toStartOf="@+id/ciudad"
         app:layout_constraintTop_toBottomOf="@+id/ciudad" />
 </android.support.constraint.ConstraintLayout>
