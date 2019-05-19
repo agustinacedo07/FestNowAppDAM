@@ -262,19 +262,19 @@
     <Button
         android:id="@+id/btnCargarImg"
         style="@style/Widget.MaterialComponents.Button"
-        android:layout_width="121dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="16dp"
+        android:layout_width="79dp"
+        android:layout_height="80dp"
         android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginTop="144dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
         android:background="@android:color/holo_orange_light"
-        android:text="Seleccionar foto de perfil"
         android:onClick="cimag"
+        android:text="Seleccionar foto de perfil"
         android:textAppearance="@style/TextAppearance.AppCompat"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/etiApellidos"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -292,4 +292,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@mipmap/fotovacia" />
+
+    <Button
+        android:id="@+id/btnSelFoto"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="78dp"
+        android:layout_height="90dp"
+        android:layout_marginTop="4dp"
+        android:text="Tomar foto"
+        android:onClick="selfoto"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imagenId" />
 </android.support.constraint.ConstraintLayout>

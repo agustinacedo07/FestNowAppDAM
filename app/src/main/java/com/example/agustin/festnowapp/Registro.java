@@ -4,6 +4,7 @@ package com.example.agustin.festnowapp;
 import android.annotation.TargetApi;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -32,13 +33,14 @@ import modelos.Comando;
 
 
 public class Registro extends AppCompatActivity implements View.OnClickListener {
+     static final int REQUEST_IMAGE_CAPTURE =  1;
     //elementos de la pantalla
     private EditText etiUsuario,etiPass,etiNombre,etiApellidos,etiFechaNacimiento,etiLocalidad,etiProvincia,etiComunidad,etiPais,etiCorreo,etiTelefono;
     private Button btnAceptarRegistro;
     private Cliente nuevoUsuario;
 
     ImageView imagen;
-
+    private Button botonFoto;
 
 
     private String mPath = "";
@@ -62,6 +64,7 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
 
         bfecha=(Button)findViewById(R.id.bfecha);
         fechaNacimiento=(EditText) findViewById(R.id.fechaNacimiento);
+        botonFoto=(Button) findViewById(R.id.btnSelFoto);
 
 
         bfecha.setOnClickListener(this);
@@ -168,6 +171,8 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
     }
 
 
+
+
     /**
      * Hilo que recoge los datos de el registro de el nuevo ususario y lo registra en la BD
      */
@@ -256,7 +261,31 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
             imagen.setImageURI(path);
         }
 
+        //tomar foto
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode ==RESULT_OK){
+            Bundle extras=data.getExtras();
+            Bitmap imageBitmap=(Bitmap)extras.get("data");
+            imagen.setImageBitmap(imageBitmap);
+        }
+
+
     }
+
+    public void selfoto(View view) {
+        llamarIntent();
+
+    }
+
+    private void llamarIntent() {
+        //declaramos el intent definido de la camara
+        Intent takePictureIntent=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        if(takePictureIntent.resolveActivity(getPackageManager())!=null){
+            startActivityForResult(takePictureIntent,REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
+
 
 
 }

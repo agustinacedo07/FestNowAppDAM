@@ -11,6 +11,8 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <protected-broadcast android:name="android.intent.action.MEDIA_MOUNTED"/>
 
+
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -19,7 +21,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Logueo"
+            android:name=".Registro"
             android:label="FestNow"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -30,7 +32,7 @@
         </activity>
         <activity android:name=".PantallaPrincipal" />
         <activity android:name=".PantallaPrincipalDelFestival" />
-        <activity android:name=".Registro"></activity>
+        <activity android:name=".Logueo"></activity>
         <activity android:name=".Comentarios" />
 
 
