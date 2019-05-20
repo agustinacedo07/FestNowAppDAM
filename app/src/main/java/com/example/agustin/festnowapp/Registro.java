@@ -97,6 +97,10 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
             @Override
             public void onClick(View v) {
 
+
+
+
+
                 //PASAR LOS DATOS PRIMERO POR CONTROL DE ERRORES
                 //Implementar por Adrían
                 String nombre = etiNombre.getText().toString();
@@ -119,50 +123,69 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
                     Toast.makeText(getApplicationContext(),"Problema al formar la fecha",Toast.LENGTH_LONG).show();
                 }
 
-                //si pasa todos los controles de errores
-                Cliente nuevoCliente = new Cliente();
 
+                /*
+                Cosas controladas por el .xml:
+                    Tamaño de los campos, nombre no mayor de 15 letras, etc.
+                    Teclado para el telefono.
+                 */
+                if(nombre.equals("")||(apellidos.equals("")||(localidad.equals("")||(provincia.equals("")||(comunidad.equals("")||(pais.equals("")||(mail.equals("")||(usuario.equals("")||(pass.equals("")||(telefono.equals("")||fechaString.equals(""))))))))))){
+                    Toast.makeText(getApplicationContext(),"Todos los campos son obligatorios, no pueden estar vacios",Toast.LENGTH_LONG).show();
+                }else if (ControlErrores.controlTelefono(telefono)==false) {
+                    Toast.makeText(getApplicationContext(),"El campo telefono esta mal introducido, debe de ser numerico y empezar por 6,7 o 9",Toast.LENGTH_LONG).show();
+                    /*
+                }else if() {
 
+                }else if() {
 
-                //imagen de perfil que guardaremos en un array de bytes
-                byte [] fotoPerfilByte = null;
-                //si se ha seleccionado foto se crea un fichero y se convierte en un array de bytes
-                if(!mPath.equals("")){
-                    File imagenFotoPerfil = new File(mPath);
-                    fotoPerfilByte = new byte[(int)imagenFotoPerfil.length()];
-                    nuevoCliente.setNombreFoto("perfil"+usuario);//se le pone un nombre para la fotografía
+                }else if() {
+
+                }else if() {
+                */
+
                 }else{
-                    //si no se ha elegido foto el nombre será default que se guardará en la base de datos y se creará el array con un solo elemento
-                    //para evitar que sea nulo
-                    nuevoCliente.setNombreFoto("default");
-                    fotoPerfilByte = new byte[1];
+
+
+
+                    //si pasa todos los controles de errores
+                    Cliente nuevoCliente = new Cliente();
+
+
+                    //imagen de perfil que guardaremos en un array de bytes
+                    byte[] fotoPerfilByte = null;
+                    //si se ha seleccionado foto se crea un fichero y se convierte en un array de bytes
+                    if (!mPath.equals("")) {
+                        File imagenFotoPerfil = new File(mPath);
+                        fotoPerfilByte = new byte[(int) imagenFotoPerfil.length()];
+                        nuevoCliente.setNombreFoto("perfil" + usuario);//se le pone un nombre para la fotografía
+                    } else {
+                        //si no se ha elegido foto el nombre será default que se guardará en la base de datos y se creará el array con un solo elemento
+                        //para evitar que sea nulo
+                        nuevoCliente.setNombreFoto("default");
+                        fotoPerfilByte = new byte[1];
+                    }
+
+
+                    nuevoCliente.setNombre(nombre);
+                    nuevoCliente.setApellidos(apellidos);
+                    nuevoCliente.setLocalidad(localidad);
+                    nuevoCliente.setProvincia(provincia);
+                    nuevoCliente.setComunidad(comunidad);
+                    nuevoCliente.setPais(pais);
+                    nuevoCliente.setMail(mail);
+                    nuevoCliente.setUsuario(usuario);
+                    nuevoCliente.setPass(pass);
+                    nuevoCliente.setFechaNacimiento(fechaNacimientoUser);
+                    nuevoCliente.setFotoByte(fotoPerfilByte);
+                    nuevoCliente.setTelefono(telefono);
+                    nuevoCliente.setTipoUsuario(tipoUsuario);
+
+                    nuevoUsuario = nuevoCliente;
+
+                    new RegistroServer().execute();
+
+
                 }
-
-
-
-
-                nuevoCliente.setNombre(nombre);
-                nuevoCliente.setApellidos(apellidos);
-                nuevoCliente.setLocalidad(localidad);
-                nuevoCliente.setProvincia(provincia);
-                nuevoCliente.setComunidad(comunidad);
-                nuevoCliente.setPais(pais);
-                nuevoCliente.setMail(mail);
-                nuevoCliente.setUsuario(usuario);
-                nuevoCliente.setPass(pass);
-                nuevoCliente.setFechaNacimiento(fechaNacimientoUser);
-                nuevoCliente.setFotoByte(fotoPerfilByte);
-                nuevoCliente.setTelefono(telefono);
-                nuevoCliente.setTipoUsuario(tipoUsuario);
-
-                nuevoUsuario = nuevoCliente;
-
-                new RegistroServer().execute();
-
-
-
-
-
 
 
 
