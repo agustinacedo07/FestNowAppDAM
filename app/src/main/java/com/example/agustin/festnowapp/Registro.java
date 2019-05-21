@@ -133,17 +133,12 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
                     Toast.makeText(getApplicationContext(),"Todos los campos son obligatorios, no pueden estar vacios",Toast.LENGTH_LONG).show();
                 }else if (ControlErrores.controlTelefono(telefono)==false) {
                     Toast.makeText(getApplicationContext(),"El campo telefono esta mal introducido, debe de ser numerico y empezar por 6,7 o 9",Toast.LENGTH_LONG).show();
-                    /*
-                }else if() {
-
-                }else if() {
-
-                }else if() {
-
-                }else if() {
-                */
-
+                }else if(ControlErrores.controlCaracter(nombre)==false) {
+                    Toast.makeText(getApplicationContext(), "El campo nombre no puede contener numeros", Toast.LENGTH_LONG).show();
+                }else if(ControlErrores.controlCaracter(apellidos)==false) {
+                    Toast.makeText(getApplicationContext(), "El campo apellidos no puede contener numeros", Toast.LENGTH_LONG).show();
                 }else{
+
 
 
 
