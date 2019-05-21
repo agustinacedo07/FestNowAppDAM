@@ -9,8 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
@@ -21,16 +24,22 @@ import modelos.Festival;
 
 public class AdaptadorFestivalesUser extends BaseAdapter{
     private Context contexto;
-    private ArrayList<Festival> listaFestivales;
+    private static ArrayList<Festival> listaFestivales;
+    private ListView listaFestivalesUsuario;
 
-    public AdaptadorFestivalesUser(Context contexto, ArrayList<Festival> listaFestivales) {
+    public AdaptadorFestivalesUser(Context contexto, ArrayList<Festival> listaFestivales,ListView listaFestivalesUsuario) {
         this.contexto = contexto;
         this.listaFestivales = listaFestivales;
+        this.listaFestivalesUsuario = listaFestivalesUsuario;
     }
 
     @Override
     public int getCount() {
         return listaFestivales.size();
+    }
+
+    public static void eliminarFestival(int posicion){
+        listaFestivales.remove(posicion);
     }
 
     @Override
@@ -44,8 +53,8 @@ public class AdaptadorFestivalesUser extends BaseAdapter{
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        Festival festival = (Festival) getItem(position);
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        final Festival festival = (Festival) getItem(position);
 
 
         convertView = LayoutInflater.from(contexto).inflate(R.layout.huecolistafesti,null);
@@ -55,6 +64,9 @@ public class AdaptadorFestivalesUser extends BaseAdapter{
         TextView fechaFin = (TextView)convertView.findViewById(R.id.fechafin);
         TextView ciudad = (TextView)convertView.findViewById(R.id.ciudad);
         TextView artistas = (TextView)convertView.findViewById(R.id.artistas);
+        TextView precioMedio = (TextView)convertView.findViewById(R.id.precioMedio);
+        TextView valoracion = (TextView)convertView.findViewById(R.id.valoracion);
+        Button btnSeguir = (Button)convertView.findViewById(R.id.btnSeguirFestival);
 
         if(festival.getNombreFotoPral().equals("default")){
             imagenFoto.setImageResource(R.mipmap.logo2);
@@ -68,16 +80,52 @@ public class AdaptadorFestivalesUser extends BaseAdapter{
         fechaInicio.setText(formatoFecha.format(festival.getFechaInicio()));
         fechaFin.setText(formatoFecha.format(festival.getFechaFin()));
         ciudad.setText(festival.getLocalidad());
-        ArrayList<Artista> listaArtistas = new ArrayList<>();
+        precioMedio.setText(Double.toString(festival.getPrecioMedio())+" €");
+        ArrayList<Artista> listaArtistas = festival.getListaArtistas();
         String txtArtistas = "";
-
+        if(listaArtistas.size()==0){
+            txtArtistas = "Artístas sin confirmar";
+        }else{
             for(int i=0;i<listaArtistas.size();i++){
-                txtArtistas += listaArtistas.get(i).getNombreArtista()+" ";
+                txtArtistas += listaArtistas.get(i).getNombreArtista()+"  ";
             }
 
-            artistas.setText(txtArtistas);
+        }
+
+        artistas.setText(txtArtistas);
+
+
+        //recogida de valoraciones
+        String mensajeValoraciones;
+        double valoracionFestival = festival.getValoracion();
+        int numeroValoraciones = festival.getNumValoraciones();
+        if(valoracionFestival==-1){
+            mensajeValoraciones = "Aún no tiene valoraciones";
+        }else{
+            mensajeValoraciones = "Valoración : "+valoracionFestival+" / "+numeroValoraciones;
+
+        }
+
+        valoracion.setText(mensajeValoraciones);
+
+        final AdaptadorFestivalesUser adaptador = this;
+
+        //funcionalidad del boton seguir Festival
+        btnSeguir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    new SeguirFestivalServer(contexto,festival,position,adaptador).execute(Integer.toString(Logueo.clienteAplicacion.getIdCliente()),Integer.toString(festival.getIdFestival()));
+            }
+        });
+
+
+
+
 
 
         return convertView;
     }
+
+
+
 }

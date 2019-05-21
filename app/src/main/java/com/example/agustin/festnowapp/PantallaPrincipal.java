@@ -3,6 +3,8 @@ package com.example.agustin.festnowapp;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -28,7 +30,8 @@ public class PantallaPrincipal extends AppCompatActivity {
 
         listaFestivales = (ListView)findViewById(R.id.listFestivalesPantallaPral);
 
-        new ListaFestivalesUser(Logueo.clienteAplicacion.getIdCliente()).execute();
+        new ListaFestivalesUser(Logueo.clienteAplicacion.getIdCliente(),listaFestivales).execute();
+
 
 
 
@@ -37,9 +40,11 @@ public class PantallaPrincipal extends AppCompatActivity {
 
     private  class ListaFestivalesUser extends AsyncTask<Integer,Void,Object>{
         int idCliente;
+        ListView listaFestivalesUsuario;
 
-        public ListaFestivalesUser(int idCliente) {
+        public ListaFestivalesUser(int idCliente,ListView listaFestivalesUsuario) {
             this.idCliente = idCliente;
+            this.listaFestivalesUsuario = listaFestivalesUsuario;
         }
 
 
@@ -67,11 +72,15 @@ public class PantallaPrincipal extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"Ha habido un problema al conectarse con el Servidor",Toast.LENGTH_LONG).show();
             }else{
                 ArrayList<Festival>listaFestivalesUser = (ArrayList<Festival>) listaFestivalesBD;
-                adaptadorFestivalesUser = new AdaptadorFestivalesUser(getApplicationContext(),listaFestivalesUser);
+                adaptadorFestivalesUser = new AdaptadorFestivalesUser(getApplicationContext(),listaFestivalesUser,listaFestivalesUsuario);
                 listaFestivales.setAdapter(adaptadorFestivalesUser);
+
             }
         }
     }
+
+
+
 
 
 }
