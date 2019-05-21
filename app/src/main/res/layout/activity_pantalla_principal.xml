@@ -42,21 +42,57 @@
         app:srcCompat="@mipmap/images" />
 
     <ToggleButton
-        android:id="@+id/toglebutton1"
+        android:id="@+id/btnCoste"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="121dp"
         android:layout_height="37dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="20dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:text="ToggleButton"
-        android:textOff="Distancia"
-        android:textOn="Popularidad"
+        android:textOff="Coste"
+        android:textOn="Coste"
+        app:layout_constraintBottom_toTopOf="@+id/listFestivalesPantallaPral"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.004"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ToggleButton
+        android:id="@+id/btnFecha"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="121dp"
+        android:layout_height="37dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:text="ToggleButton"
+        android:textOff="Fecha"
+        android:textOn="Fecha"
         app:layout_constraintBottom_toTopOf="@+id/listFestivalesPantallaPral"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ToggleButton
+        android:id="@+id/btnPopularidad"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="121dp"
+        android:layout_height="37dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:text="ToggleButton"
+        android:textOff="Popularidad"
+        android:textOn="Popularidad"
+        app:layout_constraintBottom_toTopOf="@+id/listFestivalesPantallaPral"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
@@ -72,16 +108,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@mipmap/logo2" />
-
-    <ImageButton
-        android:id="@+id/imageButton5"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/listFestivalesPantallaPral"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@mipmap/lupa" />
 
 </android.support.constraint.ConstraintLayout>

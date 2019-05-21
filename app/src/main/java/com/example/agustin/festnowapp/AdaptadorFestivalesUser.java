@@ -127,5 +127,19 @@ public class AdaptadorFestivalesUser extends BaseAdapter{
     }
 
 
+    public static ArrayList<Festival> getListaFestivales() {
+        return listaFestivales;
+    }
 
+    public static void setListaFestivales(ArrayList<Festival> listaFestivales) {
+        AdaptadorFestivalesUser.listaFestivales = listaFestivales;
+    }
+
+    public ListView getListaFestivalesUsuario() {
+        return listaFestivalesUsuario;
+    }
+
+    public void setListaFestivalesUsuario(ListView listaFestivalesUsuario) {
+        this.listaFestivalesUsuario = listaFestivalesUsuario;
+    }
 }

@@ -1,5 +1,6 @@
 package com.example.agustin.festnowapp;
 
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,9 +8,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import modelos.Comando;
 import modelos.Festival;
@@ -20,6 +24,8 @@ public class PantallaPrincipal extends AppCompatActivity {
     private AdaptadorFestivalesUser adaptadorFestivalesUser;
     private ListView listaFestivales;
     private ArrayList<Festival> arrayFestivales;
+
+    private ToggleButton btnCoste,btnFecha,btnPopularidad;
 
 
 
@@ -32,10 +38,63 @@ public class PantallaPrincipal extends AppCompatActivity {
 
         new ListaFestivalesUser(Logueo.clienteAplicacion.getIdCliente(),listaFestivales).execute();
 
+        btnCoste = (ToggleButton)findViewById(R.id.btnCoste);
+        btnFecha = (ToggleButton)findViewById(R.id.btnFecha);
+        btnPopularidad = (ToggleButton)findViewById(R.id.btnPopularidad);
+
+
+
+
+        btnCoste.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    btnCoste.setBackgroundColor(Color.RED);
+                    btnFecha.setBackgroundColor(Color.BLUE);
+                    btnPopularidad.setBackgroundColor(Color.BLUE);
+                    //ordenar por coste mas bajo a mayor
+                    ordenarCoste();
+                    adaptadorFestivalesUser.notifyDataSetChanged();
+
+            }
+        });
+
+
+        btnFecha.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btnFecha.setBackgroundColor(Color.RED);
+                btnCoste.setBackgroundColor(Color.BLUE);
+                btnPopularidad.setBackgroundColor(Color.BLUE);
+                //ordenar por fecha, primero mas cercanos y despues más lejanos
+                ordenarFechas();
+                adaptadorFestivalesUser.notifyDataSetChanged();
+
+            }
+        });
+
+
+        btnPopularidad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btnPopularidad.setBackgroundColor(Color.RED);
+                btnCoste.setBackgroundColor(Color.BLUE);
+                btnFecha.setBackgroundColor(Color.BLUE);
+                //ordenar por popularidad primeros mas populares y despues menos populares
+                try {
+                    ordenarPopularidad();
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+                adaptadorFestivalesUser.notifyDataSetChanged();
+            }
+        });
 
 
 
     }
+
+
+
 
 
     private  class ListaFestivalesUser extends AsyncTask<Integer,Void,Object>{
@@ -77,6 +136,37 @@ public class PantallaPrincipal extends AppCompatActivity {
 
             }
         }
+    }
+
+
+    public void ordenarCoste(){
+        Collections.sort(AdaptadorFestivalesUser.getListaFestivales(), new Comparator<Festival>() {
+            @Override
+            public int compare(Festival o1, Festival o2) {
+              return Double.compare(o1.getPrecioMedio(),o2.getPrecioMedio());
+
+            }
+        });
+    }
+
+    public void ordenarPopularidad(){
+        Collections.sort(AdaptadorFestivalesUser.getListaFestivales(), new Comparator<Festival>() {
+            @Override
+            public int compare(Festival o1, Festival o2) {
+                return Double.compare(o2.getValoracion(),o1.getValoracion());
+            }
+        });
+
+    }
+
+    public void ordenarFechas(){
+        Collections.sort(AdaptadorFestivalesUser.getListaFestivales(), new Comparator<Festival>() {
+            @Override
+            public int compare(Festival o1, Festival o2) {
+               return  o2.getFechaInicio().compareTo(o1.getFechaInicio());
+            }
+        });
+
     }
 
 
