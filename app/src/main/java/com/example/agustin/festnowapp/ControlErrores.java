@@ -4,6 +4,9 @@ package com.example.agustin.festnowapp;
 public class ControlErrores {
 
 
+    private static final String ERR_EMAIL = "^[\\w-]+(\\.[\\w-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+
+
 
     public static boolean controlTelefono(String datos){
         String patron="[6,9,7]{1}[0-9]{8}";
@@ -20,6 +23,19 @@ public class ControlErrores {
         }
         return false;
     }
+
+    //([a-z0-9]+(\\.?[a-z0-9])*)+@(([a-z]+)\\.([a-z]+))+
+
+
+    public static boolean controlEmail(String email){
+
+        if(email.matches(ERR_EMAIL)){
+            return true;
+        }
+        return false;
+    }
+
+
 
 
 }

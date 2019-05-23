@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
@@ -137,6 +138,8 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
                     Toast.makeText(getApplicationContext(), "El campo nombre no puede contener numeros", Toast.LENGTH_LONG).show();
                 }else if(ControlErrores.controlCaracter(apellidos)==false) {
                     Toast.makeText(getApplicationContext(), "El campo apellidos no puede contener numeros", Toast.LENGTH_LONG).show();
+                }else if(ControlErrores.controlEmail(mail)==false){
+                    Toast.makeText(getApplicationContext(), "El formato del correo no es el correcto, Por ejemplo: adrian@gmail.com", Toast.LENGTH_LONG).show();
                 }else{
 
 
