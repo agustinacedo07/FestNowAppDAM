@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.agustin.festnowapp.Util.SesionServer;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -30,19 +32,6 @@ import modelos.Comando;
  * que use el cliente la aplicacion
  */
 public class Logueo extends AppCompatActivity implements View.OnClickListener {
-    //para comunicación con el SERVIDOR
-    private static Socket skCliente;
-
-    //flujos de comunicacion
-    //FLUJOS DE COMUNICACION
-    //flujo de datos
-    public static DataInputStream flujoDatosEntrada;
-    public static DataOutputStream flujoDatosSalida;
-    //flujo de objetos
-    public static ObjectInputStream flujoEntradaObjetos;
-    public static ObjectOutputStream flujoSalidaObjetos;
-
-
 
     //elementos de la pantalla
     private EditText usuario, contraseña;
@@ -51,8 +40,7 @@ public class Logueo extends AppCompatActivity implements View.OnClickListener {
 
     //elementos para el logueo
     String usuarioLogin,passLogin;
-    //para que una vez se logue se cree una variable estática con todos los datos del cliente
-    public static Cliente clienteAplicacion;
+
 
 
 
@@ -72,8 +60,8 @@ public class Logueo extends AppCompatActivity implements View.OnClickListener {
         enlaceRegistro.setOnClickListener(this);
 
         //por si se vuelve a la pantalla de logueo tras un registro que no inicialize de nuevo la conexion
-        if(skCliente==null){
-            new ConexionServer().execute();
+        if(SesionServer.skCliente==null){
+            new SesionServer().execute();
 
         }
 
@@ -97,33 +85,7 @@ public class Logueo extends AppCompatActivity implements View.OnClickListener {
 
     }
 
-    /**
-     * Abre los flujos de comunicación con el servidor
-     * @return - un booleano indicando si la conexion se ha realizado o no
-     */
-    private boolean abrirFlujos() {
-        try {
 
-            skCliente = new Socket(Constantes.IP_CONEXION,2000);
-
-
-            InputStream entrada = skCliente.getInputStream();
-            OutputStream salida = skCliente.getOutputStream();
-
-
-            flujoSalidaObjetos = new ObjectOutputStream(salida);
-            flujoEntradaObjetos = new ObjectInputStream(skCliente.getInputStream());
-            flujoDatosSalida = new DataOutputStream(salida);
-            flujoDatosEntrada = new DataInputStream(entrada);
-
-            return true;
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return false;
-        }
-
-    }
 
 
     /**
@@ -138,27 +100,12 @@ public class Logueo extends AppCompatActivity implements View.OnClickListener {
     }
 
 
-    /**
-     * Hilo que se ejecutará de manera concurrente al hilo principal para ejecutar una conexion con el servidor
-     */
-    @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
-    private class ConexionServer extends AsyncTask<Void ,Void,Boolean>{
 
 
-        @Override
-        protected Boolean doInBackground(Void... voids) {
-            return abrirFlujos();
-        }
 
-        @Override
-        protected void onPostExecute(Boolean aBoolean) {
-            if(aBoolean){
-                Toast.makeText(getApplicationContext(),"Conexion realizada con éxito",Toast.LENGTH_LONG).show();
-            }else{
-                Toast.makeText(getApplicationContext(),"Conexion NO REALIZADA",Toast.LENGTH_LONG).show();
-            }
-        }
-    }
+
+
+
 
 
     private class LoginServer extends  AsyncTask<Void,Void,Boolean>{
@@ -172,11 +119,11 @@ public class Logueo extends AppCompatActivity implements View.OnClickListener {
             comando.getArgumentos().add(passLogin);
 
             try {
-                flujoSalidaObjetos.writeObject(comando);
-                comando = (Comando) flujoEntradaObjetos.readObject();
+                SesionServer.flujoSalidaObjetos.writeObject(comando);
+                comando = (Comando) SesionServer.flujoEntradaObjetos.readObject();
                  validacionLogin = comando.isRespuestaBooleana();
             } catch (IOException e) {
-                validacionLogin=false;
+                Toast.makeText(getApplicationContext(),"Problema con la conexion con el Servidor",Toast.LENGTH_LONG).show();
             } catch (ClassNotFoundException e) {
                 validacionLogin = false;
             }
@@ -190,10 +137,12 @@ public class Logueo extends AppCompatActivity implements View.OnClickListener {
         protected void onPostExecute(Boolean validacionLogin) {
             if(validacionLogin){
                 //creamos una variable estática con todos los datos del cliente logueado
-                clienteAplicacion = (Cliente) comando.getArgumentos().get(0);
+                SesionServer.clienteAplicacion = (Cliente) comando.getArgumentos().get(0);
                 Intent pantallaPrincipal = new Intent(getApplicationContext(),PantallaPrincipal.class);
                 startActivity(pantallaPrincipal);
                 Toast.makeText(getApplicationContext(),"Bienvenido a la Aplicación FEST NOW",Toast.LENGTH_LONG).show();
+                //evita que vuelva a la pantalla de logueo si ya ha iniciado sesion
+                finish();
             }else{
                 Toast.makeText(getApplicationContext(),"Usuario y contraseña incorrectos",Toast.LENGTH_LONG).show();
             }

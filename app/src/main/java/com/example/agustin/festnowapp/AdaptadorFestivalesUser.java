@@ -15,6 +15,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.agustin.festnowapp.Util.SesionServer;
+
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -114,7 +116,7 @@ public class AdaptadorFestivalesUser extends BaseAdapter{
         btnSeguir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    new SeguirFestivalServer(contexto,festival,position,adaptador).execute(Integer.toString(Logueo.clienteAplicacion.getIdCliente()),Integer.toString(festival.getIdFestival()));
+                    new SeguirFestivalServer(contexto,festival,position,adaptador).execute(Integer.toString(SesionServer.clienteAplicacion.getIdCliente()),Integer.toString(festival.getIdFestival()));
             }
         });
 

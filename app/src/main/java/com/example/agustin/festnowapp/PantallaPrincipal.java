@@ -10,6 +10,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.example.agustin.festnowapp.Util.SesionServer;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,7 +38,7 @@ public class PantallaPrincipal extends AppCompatActivity {
 
         listaFestivales = (ListView)findViewById(R.id.listFestivalesPantallaPral);
 
-        new ListaFestivalesUser(Logueo.clienteAplicacion.getIdCliente(),listaFestivales).execute();
+        new ListaFestivalesUser(SesionServer.clienteAplicacion.getIdCliente(),listaFestivales).execute();
 
         btnCoste = (ToggleButton)findViewById(R.id.btnCoste);
         btnFecha = (ToggleButton)findViewById(R.id.btnFecha);
@@ -114,8 +116,8 @@ public class PantallaPrincipal extends AppCompatActivity {
             comando.getArgumentos().add(idCliente);
 
             try {
-                Logueo.flujoSalidaObjetos.writeObject(comando);
-                comando = (Comando) Logueo.flujoEntradaObjetos.readObject();
+                SesionServer.flujoSalidaObjetos.writeObject(comando);
+                comando = (Comando) SesionServer.flujoEntradaObjetos.readObject();
             } catch (IOException e) {
                 return null;
             } catch (ClassNotFoundException e) {

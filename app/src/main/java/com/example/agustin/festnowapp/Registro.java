@@ -5,6 +5,7 @@ import android.annotation.TargetApi;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -14,6 +15,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -22,6 +24,9 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 
+import com.example.agustin.festnowapp.Util.SesionServer;
+
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
@@ -44,7 +49,9 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
     private Button botonFoto;
 
 
-    private String mPath = "";
+
+    private String path = "";
+    private boolean comprobacionUserBD;
 
 
     Button bfecha;
@@ -115,6 +122,7 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
                 String pass = etiPass.getText().toString();
                 String telefono = etiTelefono.getText().toString();
                 String tipoUsuario = "user";
+
                 String fechaString = fechaNacimiento.getText().toString();
                 SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
                 Date fechaNacimientoUser = null;
@@ -140,7 +148,14 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
                     Toast.makeText(getApplicationContext(), "El campo apellidos no puede contener numeros", Toast.LENGTH_LONG).show();
                 }else if(ControlErrores.controlEmail(mail)==false){
                     Toast.makeText(getApplicationContext(), "El formato del correo no es el correcto, Por ejemplo: adrian@gmail.com", Toast.LENGTH_LONG).show();
-                }else{
+
+                }else if(comprobacionUserBD){
+
+                    //Control de errores de usuario en BD
+                    //control de nombre de usuario
+                    //control de contraseña
+                    //control geográfico (IMPLEMENTAR EN MEJORAS)
+                    //control de correo electrónico
 
 
 
@@ -152,10 +167,13 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
                     //imagen de perfil que guardaremos en un array de bytes
                     byte[] fotoPerfilByte = null;
                     //si se ha seleccionado foto se crea un fichero y se convierte en un array de bytes
-                    if (!mPath.equals("")) {
-                        File imagenFotoPerfil = new File(mPath);
-                        fotoPerfilByte = new byte[(int) imagenFotoPerfil.length()];
+                    if (imagen!=null) {
+                        Bitmap bitMapImagenPerfil = ((BitmapDrawable)imagen.getDrawable()).getBitmap();
+                        ByteArrayOutputStream stremSalida = new ByteArrayOutputStream();
+                        bitMapImagenPerfil.compress(Bitmap.CompressFormat.JPEG,100,stremSalida);
+                        fotoPerfilByte = stremSalida.toByteArray();
                         nuevoCliente.setNombreFoto("perfil" + usuario);//se le pone un nombre para la fotografía
+                        nuevoCliente.setFotoByte(fotoPerfilByte);
                     } else {
                         //si no se ha elegido foto el nombre será default que se guardará en la base de datos y se creará el array con un solo elemento
                         //para evitar que sea nulo
@@ -211,8 +229,8 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
             comando.getArgumentos().add(nuevoUsuario);
 
             try {
-                Logueo.flujoSalidaObjetos.writeObject(comando);
-                respuesta = Logueo.flujoDatosEntrada.readBoolean();
+                SesionServer.flujoSalidaObjetos.writeObject(comando);
+                respuesta = SesionServer.flujoDatosEntrada.readBoolean();
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -223,6 +241,7 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
 
 
         }
+
 
         @Override
         protected void onPostExecute(Boolean aBoolean) {
@@ -253,7 +272,7 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
 
-                fechaNacimiento.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
+                fechaNacimiento.setText(year + "-" + (month + 1) + "-" + dayOfMonth);
             }
         }
                 , dia, mes, ano);
@@ -290,6 +309,39 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
         }
 
 
+    }
+
+    private class ControlErroresUserBD extends AsyncTask<String,Void,Boolean>{
+        Comando comando = new Comando();
+        String campoValorar;
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            boolean comprobacionCampo = false;
+            comando.setOrden("errorUser");
+            campoValorar = strings[0];
+
+            comando.getArgumentos().add(campoValorar);
+
+            try {
+                SesionServer.flujoSalidaObjetos.writeObject(comando);
+
+                comprobacionCampo = SesionServer.flujoEntradaObjetos.readBoolean();
+            } catch (IOException e) {
+               Toast.makeText(getApplicationContext(),"Problema con la conexion con el servidor",Toast.LENGTH_LONG).show();
+            }
+
+            return comprobacionCampo;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            if(aBoolean){
+                comprobacionUserBD = true;
+            }else{
+                Toast.makeText(getApplicationContext(),"El campo "+campoValorar+" ya existe en la base de datos",Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     public void selfoto(View view) {
