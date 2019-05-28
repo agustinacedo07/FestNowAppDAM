@@ -1,5 +1,6 @@
 package com.example.agustin.festnowapp;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -95,8 +96,12 @@ public class PantallaPrincipal extends AppCompatActivity {
 
     }
 
+    public void IrPantallaFestisSeguidos(View view) {
 
+        Intent pantFestisSeguidos = new Intent(getApplicationContext(), FestivalesSeguidos.class);
+        startActivity(pantFestisSeguidos);
 
+    }
 
 
     private  class ListaFestivalesUser extends AsyncTask<Integer,Void,Object>{

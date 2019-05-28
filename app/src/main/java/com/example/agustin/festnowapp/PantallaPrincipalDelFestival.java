@@ -14,7 +14,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /*
 import com.example.adrian.pruebapantallamenu.fragmentos.Fragment02;
@@ -28,10 +31,13 @@ public class PantallaPrincipalDelFestival extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener  {
 
     private TextView camino;
-
+    RatingBar ratingratingBar;
+    Button btnValorar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
 
 
 
@@ -124,5 +130,19 @@ public class PantallaPrincipalDelFestival extends AppCompatActivity
     }
 
 
+    public void valora(View view) {
+        ratingratingBar = (RatingBar) findViewById(R.id.ratingVal);
+        btnValorar = (Button) findViewById(R.id.btnValorar);
+    
+        cargarVal();
 
+
+    }
+
+    private void cargarVal() {
+        float val= (int) ratingratingBar.getRating();
+
+        Toast.makeText(getApplicationContext(),"La valoracion es: "+val,Toast.LENGTH_LONG).show();
+
+    }
 }
