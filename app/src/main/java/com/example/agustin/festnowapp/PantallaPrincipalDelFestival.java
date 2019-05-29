@@ -131,8 +131,8 @@ public class PantallaPrincipalDelFestival extends AppCompatActivity
 
 
     public void valora(View view) {
-        ratingratingBar = (RatingBar) findViewById(R.id.ratingVal);
-        btnValorar = (Button) findViewById(R.id.btnValorar);
+        //ratingratingBar = (RatingBar) findViewById(R.id.ratingVal);
+        //btnValorar = (Button) findViewById(R.id.btnValorar);
     
         cargarVal();
 

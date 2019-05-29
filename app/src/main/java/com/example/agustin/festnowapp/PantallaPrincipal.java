@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -29,6 +30,7 @@ public class PantallaPrincipal extends AppCompatActivity {
     private ArrayList<Festival> arrayFestivales;
 
     private ToggleButton btnCoste,btnFecha,btnPopularidad;
+    private ImageButton btnFestivalesSeguidos;
 
 
 
@@ -44,6 +46,17 @@ public class PantallaPrincipal extends AppCompatActivity {
         btnCoste = (ToggleButton)findViewById(R.id.btnCoste);
         btnFecha = (ToggleButton)findViewById(R.id.btnFecha);
         btnPopularidad = (ToggleButton)findViewById(R.id.btnPopularidad);
+        btnFestivalesSeguidos = (ImageButton)findViewById(R.id.btnFestivalesSeguidos);
+
+
+        //funcionalidad de festivales seguidos
+        btnFestivalesSeguidos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent pantFestisSeguidos = new Intent(getApplicationContext(), FestivalesSeguidos.class);
+                startActivity(pantFestisSeguidos);
+            }
+        });
 
 
 
@@ -96,12 +109,7 @@ public class PantallaPrincipal extends AppCompatActivity {
 
     }
 
-    public void IrPantallaFestisSeguidos(View view) {
 
-        Intent pantFestisSeguidos = new Intent(getApplicationContext(), FestivalesSeguidos.class);
-        startActivity(pantFestisSeguidos);
-
-    }
 
 
     private  class ListaFestivalesUser extends AsyncTask<Integer,Void,Object>{

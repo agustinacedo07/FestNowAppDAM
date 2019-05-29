@@ -20,11 +20,11 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageButton
-        android:id="@+id/imagenizq"
+        android:id="@+id/btnFestivalesSeguidos"
         android:layout_width="36dp"
         android:layout_height="36dp"
-        android:layout_marginStart="24dp"
         android:layout_marginLeft="24dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:onClick="IrPantallaFestisSeguidos"
         app:layout_constraintStart_toStartOf="parent"
