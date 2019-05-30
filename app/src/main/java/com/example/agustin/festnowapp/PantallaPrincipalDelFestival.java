@@ -1,5 +1,7 @@
 package com.example.agustin.festnowapp;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -7,14 +9,22 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,6 +39,12 @@ import com.example.agustin.festnowapp.fragmentos.Fragment03;
 
 public class PantallaPrincipalDelFestival extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener  {
+
+    private ViewPager view1;
+    private LinearLayout paginainformacion;
+    private LinearLayout paginaartistas;
+    private LinearLayout paginanoticias;
+
 
     private TextView camino;
     RatingBar ratingratingBar;
@@ -63,7 +79,88 @@ public class PantallaPrincipalDelFestival extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        //implementacion slider
+        view1=(ViewPager) findViewById(R.id.view);
+        view1.setAdapter(new AdminPageAdapter());
+
     }
+
+    //implementacion slider
+    class AdminPageAdapter extends PagerAdapter
+    {
+
+        @Override
+        public int getCount()
+        {
+            return 3;
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup collection, int position)
+        {
+            View paginaactual = null;
+            switch (position)
+            {
+                case 0:
+                    if (paginainformacion == null)
+                    {
+                        paginainformacion = (LinearLayout) LayoutInflater.from(PantallaPrincipalDelFestival.this).inflate(R.layout.paginainformacion, null);
+                    }
+                    paginaactual = paginainformacion;
+                    break;
+                case 1:
+                    if (paginaartistas == null)
+                    {
+                        paginaartistas = (LinearLayout) LayoutInflater.from(PantallaPrincipalDelFestival.this).inflate(R.layout.paginaartistas, null);
+                    }
+                    paginaactual = paginaartistas;
+                    break;
+                case 2:
+                    if (paginanoticias == null)
+                    {
+                        paginanoticias = (LinearLayout) LayoutInflater.from(PantallaPrincipalDelFestival.this).inflate(R.layout.paginanoticias, null);
+                    }
+                    paginaactual = paginanoticias;
+                    break;
+            }
+            ViewPager vp=(ViewPager) collection;
+            vp.addView(paginaactual, 0);
+            return paginaactual;
+        }
+
+        @Override
+        public boolean isViewFromObject(View view, Object object)
+        {
+            return view == object;
+        }
+
+
+        @Override
+        public void destroyItem(View collection, int position, Object view)
+        {
+            ((ViewPager) collection).removeView((View) view);
+        }
+
+    }
+
+    public void irPaginaInformacion(View v) {
+        view1.setCurrentItem(0);
+    }
+
+    public void irPaginaArtistas(View v) {
+        view1.setCurrentItem(1);
+    }
+
+    public void irPaginaNoticias(View v) {
+        view1.setCurrentItem(2);
+    }
+
+
+
+
+
+
 
     @Override
     public void onBackPressed() {
@@ -131,7 +228,7 @@ public class PantallaPrincipalDelFestival extends AppCompatActivity
 
 
     public void valora(View view) {
-        //ratingratingBar = (RatingBar) findViewById(R.id.ratingVal);
+        ratingratingBar = (RatingBar) findViewById(R.id.ratingVal);
         //btnValorar = (Button) findViewById(R.id.btnValorar);
     
         cargarVal();
@@ -145,4 +242,17 @@ public class PantallaPrincipalDelFestival extends AppCompatActivity
         Toast.makeText(getApplicationContext(),"La valoracion es: "+val,Toast.LENGTH_LONG).show();
 
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
