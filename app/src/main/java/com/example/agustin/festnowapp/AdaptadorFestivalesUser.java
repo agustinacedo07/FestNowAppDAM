@@ -3,8 +3,6 @@ package com.example.agustin.festnowapp;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,11 +11,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.agustin.festnowapp.Util.SesionServer;
 
-import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
@@ -60,7 +56,7 @@ public class AdaptadorFestivalesUser extends BaseAdapter{
 
 
         convertView = LayoutInflater.from(contexto).inflate(R.layout.huecolistafesti,null);
-        ImageView imagenFoto = (ImageView)convertView.findViewById(R.id.fotoFestival);
+        ImageView imagenFoto = (ImageView)convertView.findViewById(R.id.fotoLogo);
         TextView titulo = (TextView)convertView.findViewById(R.id.titulo);
         TextView fechaInicio = (TextView)convertView.findViewById(R.id.fechainicio);
         TextView fechaFin = (TextView)convertView.findViewById(R.id.fechafin);
@@ -70,10 +66,10 @@ public class AdaptadorFestivalesUser extends BaseAdapter{
         TextView valoracion = (TextView)convertView.findViewById(R.id.valoracion);
         Button btnSeguir = (Button)convertView.findViewById(R.id.btnSeguirFestival);
 
-        if(festival.getNombreFotoPral().equals("default")){
+        if(festival.getNombreFotoLogo().equals("default")){
             imagenFoto.setImageResource(R.mipmap.logo2);
         }else{
-            Bitmap bitmap = BitmapFactory.decodeByteArray(festival.getImagenPralByte(),0,festival.getImagenPralByte().length);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(festival.getImagenLogo(),0,festival.getImagenLogo().length);
             imagenFoto.setImageBitmap(bitmap);
         }
 
@@ -108,7 +104,12 @@ public class AdaptadorFestivalesUser extends BaseAdapter{
 
         }
 
-        valoracion.setText(mensajeValoraciones);
+        try{
+            valoracion.setText(mensajeValoraciones);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
         final AdaptadorFestivalesUser adaptador = this;
 

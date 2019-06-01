@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/fotoFestival"
+        android:id="@+id/fotoLogo"
         android:layout_width="136dp"
         android:layout_height="260dp"
         android:layout_marginLeft="16dp"
@@ -30,7 +30,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/fotoFestival"
+        app:layout_constraintStart_toEndOf="@+id/fotoLogo"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -44,8 +44,8 @@
         android:gravity="center"
         android:hint="fechaInicio"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/fotoFestival"
-        app:layout_constraintStart_toEndOf="@+id/fotoFestival"
+        app:layout_constraintBottom_toBottomOf="@+id/fotoLogo"
+        app:layout_constraintStart_toEndOf="@+id/fotoLogo"
         app:layout_constraintTop_toBottomOf="@+id/titulo"
         app:layout_constraintVertical_bias="0.048" />
 
@@ -62,7 +62,7 @@
         android:gravity="center"
         android:hint="fechaFin"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/fotoFestival"
+        app:layout_constraintBottom_toBottomOf="@+id/fotoLogo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/fechainicio"
@@ -82,10 +82,10 @@
         android:gravity="center"
         android:hint="localizacion"
         android:textStyle="bold|italic"
-        app:layout_constraintBottom_toBottomOf="@+id/fotoFestival"
+        app:layout_constraintBottom_toBottomOf="@+id/fotoLogo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/fotoFestival"
+        app:layout_constraintStart_toEndOf="@+id/fotoLogo"
         app:layout_constraintTop_toBottomOf="@+id/titulo"
         app:layout_constraintVertical_bias="0.238" />
 
@@ -102,10 +102,10 @@
         android:gravity="fill"
         android:hint="artistas"
         android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="@+id/fotoFestival"
+        app:layout_constraintBottom_toBottomOf="@+id/fotoLogo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/fotoFestival"
+        app:layout_constraintStart_toEndOf="@+id/fotoLogo"
         app:layout_constraintTop_toBottomOf="@+id/ciudad"
         app:layout_constraintVertical_bias="0.051" />
 
@@ -143,9 +143,9 @@
         android:textColor="@android:color/holo_orange_dark"
         android:textSize="18sp"
         android:textStyle="bold|italic"
-        app:layout_constraintBottom_toBottomOf="@+id/fotoFestival"
+        app:layout_constraintBottom_toBottomOf="@+id/fotoLogo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.2"
-        app:layout_constraintStart_toEndOf="@+id/fotoFestival" />
+        app:layout_constraintStart_toEndOf="@+id/fotoLogo" />
 
 </android.support.constraint.ConstraintLayout>

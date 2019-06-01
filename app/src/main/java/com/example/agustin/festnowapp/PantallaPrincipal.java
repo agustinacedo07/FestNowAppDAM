@@ -27,7 +27,7 @@ public class PantallaPrincipal extends AppCompatActivity {
 
     private AdaptadorFestivalesUser adaptadorFestivalesUser;
     private ListView listaFestivales;
-    private ArrayList<Festival> arrayFestivales;
+
 
     private ToggleButton btnCoste,btnFecha,btnPopularidad;
     private ImageButton btnFestivalesSeguidos;
@@ -178,7 +178,7 @@ public class PantallaPrincipal extends AppCompatActivity {
         Collections.sort(AdaptadorFestivalesUser.getListaFestivales(), new Comparator<Festival>() {
             @Override
             public int compare(Festival o1, Festival o2) {
-               return  o2.getFechaInicio().compareTo(o1.getFechaInicio());
+               return  o1.getFechaInicio().compareTo(o2.getFechaInicio());
             }
         });
 

@@ -6,9 +6,9 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/fotoFestival"
+        android:id="@+id/fotoLogo"
         android:layout_width="136dp"
-        android:layout_height="255dp"
+        android:layout_height="212dp"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
@@ -30,7 +30,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/fotoFestival"
+        app:layout_constraintStart_toEndOf="@+id/fotoLogo"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -38,16 +38,16 @@
         android:layout_width="92dp"
         android:layout_height="21dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginStart="12dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:gravity="center"
         android:hint="fechaInicio"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/fotoFestival"
-        app:layout_constraintStart_toEndOf="@+id/fotoFestival"
+        app:layout_constraintBottom_toBottomOf="@+id/fotoLogo"
+        app:layout_constraintStart_toEndOf="@+id/fotoLogo"
         app:layout_constraintTop_toBottomOf="@+id/titulo"
-        app:layout_constraintVertical_bias="0.048" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/fechafin"
@@ -62,12 +62,12 @@
         android:gravity="center"
         android:hint="fechaFin"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/fotoFestival"
+        app:layout_constraintBottom_toBottomOf="@+id/fotoLogo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/fechainicio"
         app:layout_constraintTop_toBottomOf="@+id/titulo"
-        app:layout_constraintVertical_bias="0.061" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/ciudad"
@@ -82,12 +82,12 @@
         android:gravity="center"
         android:hint="localizacion"
         android:textStyle="bold|italic"
-        app:layout_constraintBottom_toBottomOf="@+id/fotoFestival"
+        app:layout_constraintBottom_toBottomOf="@+id/fotoLogo"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/fotoFestival"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/fotoLogo"
         app:layout_constraintTop_toBottomOf="@+id/titulo"
-        app:layout_constraintVertical_bias="0.238" />
+        app:layout_constraintVertical_bias="0.167" />
 
     <TextView
         android:id="@+id/artistas"
@@ -102,12 +102,12 @@
         android:gravity="fill"
         android:hint="artistas"
         android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="@+id/fotoFestival"
+        app:layout_constraintBottom_toBottomOf="@+id/fotoLogo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/fotoFestival"
+        app:layout_constraintStart_toEndOf="@+id/fotoLogo"
         app:layout_constraintTop_toBottomOf="@+id/ciudad"
-        app:layout_constraintVertical_bias="0.051" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/btnSeguirFestival"
@@ -121,12 +121,12 @@
         android:layout_marginTop="8dp"
         android:text="SEGUIR"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/fotoFestival"
+        app:layout_constraintBottom_toBottomOf="@+id/fotoLogo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/fotoFestival"
+        app:layout_constraintStart_toEndOf="@+id/fotoLogo"
         app:layout_constraintTop_toBottomOf="@+id/titulo"
-        app:layout_constraintVertical_bias="0.738" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/precioMedio"
@@ -145,27 +145,28 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/fechafin"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.111"
         app:layout_constraintStart_toEndOf="@+id/titulo"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.888" />
 
     <TextView
         android:id="@+id/valoracion"
         android:layout_width="206dp"
-        android:layout_height="28dp"
+        android:layout_height="27dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:gravity="right|center|end"
+        android:gravity="right|center"
         android:hint="valoracion"
         android:textColor="@android:color/holo_orange_dark"
-        android:textSize="18sp"
-        android:textStyle="bold|italic"
-        app:layout_constraintBottom_toBottomOf="@+id/fotoFestival"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/btnSeguirFestival"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/fotoFestival"
-        app:layout_constraintTop_toBottomOf="@+id/btnSeguirFestival" />
+        app:layout_constraintHorizontal_bias="0.555"
+        app:layout_constraintStart_toEndOf="@+id/fotoLogo"
+        app:layout_constraintTop_toBottomOf="@+id/artistas"
+        app:layout_constraintVertical_bias="1.0" />
 
 </android.support.constraint.ConstraintLayout>

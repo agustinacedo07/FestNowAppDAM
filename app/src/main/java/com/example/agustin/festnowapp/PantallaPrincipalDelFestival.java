@@ -37,6 +37,8 @@ import com.example.agustin.festnowapp.fragmentos.Fragment01;
 import com.example.agustin.festnowapp.fragmentos.Fragment02;
 import com.example.agustin.festnowapp.fragmentos.Fragment03;
 
+import modelos.Festival;
+
 public class PantallaPrincipalDelFestival extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener  {
 
@@ -49,6 +51,8 @@ public class PantallaPrincipalDelFestival extends AppCompatActivity
     private TextView camino;
     RatingBar ratingratingBar;
     Button btnValorar;
+
+    private Festival festival;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +87,8 @@ public class PantallaPrincipalDelFestival extends AppCompatActivity
         //implementacion slider
         view1=(ViewPager) findViewById(R.id.view);
         view1.setAdapter(new AdminPageAdapter());
+
+        this.setTitle(festival.getNombre());
 
     }
 

@@ -58,7 +58,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.0"
-                    app:srcCompat="@mipmap/pruebaImagenFondo" />
+                    app:srcCompat="@mipmap/pruebaimagenfondo" />
 
                 <ImageView
                     android:id="@+id/imagenLogo"
@@ -76,7 +76,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.582"
-                    app:srcCompat="@mipmap/logoPrueba" />
+                    app:srcCompat="@mipmap/logoprueba" />
 
                 <TextView
                     android:id="@+id/labelLugar"
@@ -175,7 +175,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="1.0"
-                    app:srcCompat="@mipmap/logoInstagram" />
+                    app:srcCompat="@mipmap/logoinstagram" />
 
                 <ImageButton
                     android:id="@+id/btnTwitter"
@@ -196,7 +196,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="1.0"
-                    app:srcCompat="@mipmap/logoTwitter" />
+                    app:srcCompat="@mipmap/logotwitter" />
 
                 <ImageButton
                     android:id="@+id/btnFacebook"
@@ -217,7 +217,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="1.0"
-                    app:srcCompat="@mipmap/logoFacebook" />
+                    app:srcCompat="@mipmap/logofacebook" />
 
             </android.support.constraint.ConstraintLayout>
 

@@ -8,7 +8,7 @@
     android:background="@color/colorPrimary"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".PantallaPrincipalDelFestival"
-    tools:showIn="@layout/content_main">
+    tools:showIn="content_main">
 
     <Button
         android:id="@+id/valoraFesti"

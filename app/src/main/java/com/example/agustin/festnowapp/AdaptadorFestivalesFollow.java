@@ -1,6 +1,7 @@
 package com.example.agustin.festnowapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
@@ -53,7 +54,7 @@ public class AdaptadorFestivalesFollow extends BaseAdapter {
 
         convertView = LayoutInflater.from(contexto).inflate(R.layout.itemfestivalesfollow,null);
         //adaptar componentes de item
-        ImageView imagenFoto = (ImageView)convertView.findViewById(R.id.fotoFestival);
+        ImageView imagenFoto = (ImageView)convertView.findViewById(R.id.fotoLogo);
         TextView titulo = (TextView)convertView.findViewById(R.id.titulo);
         TextView fechaInicio = (TextView)convertView.findViewById(R.id.fechainicio);
         TextView fechaFin = (TextView)convertView.findViewById(R.id.fechafin);
@@ -69,7 +70,7 @@ public class AdaptadorFestivalesFollow extends BaseAdapter {
         if(festival.getNombreFotoPral().equals("default")){
             imagenFoto.setImageResource(R.mipmap.logo2);
         }else{
-            Bitmap bitmap = BitmapFactory.decodeByteArray(festival.getImagenPralByte(),0,festival.getImagenPralByte().length);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(festival.getImagenLogo(),0,festival.getImagenLogo().length);
             imagenFoto.setImageBitmap(bitmap);
         }
 
