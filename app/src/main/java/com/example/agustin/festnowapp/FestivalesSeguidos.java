@@ -34,6 +34,9 @@ public class FestivalesSeguidos extends AppCompatActivity {
 
 
         new ListarFestivalesFollow(SesionServer.clienteAplicacion.getIdCliente(),listaFestivales).execute();
+        if(adaptadorFestivalesFollow.getListaFestivalesSeguidos().size()==0){
+            Toast.makeText(getApplicationContext(),"Aún no sigue a ningún festival",Toast.LENGTH_LONG).show();
+        }
 
         //funcionalidad de volver a pantalla principal
         btnVolverPantallaPrincipal.setOnClickListener(new View.OnClickListener() {
@@ -57,7 +60,7 @@ public class FestivalesSeguidos extends AppCompatActivity {
         @Override
         protected Object doInBackground(Integer... integers) {
             modelos.Comando comando = new Comando();
-            comando.setOrden("listFestUser");
+            comando.setOrden("listFestUserFollow");
             comando.getArgumentos().add(idCliente);
 
             try {

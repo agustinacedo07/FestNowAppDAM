@@ -118,4 +118,29 @@ public class AdaptadorFestivalesFollow extends BaseAdapter {
 
         return  convertView;
     }
+
+
+    public Context getContexto() {
+        return contexto;
+    }
+
+    public void setContexto(Context contexto) {
+        this.contexto = contexto;
+    }
+
+    public ArrayList<Festival> getListaFestivalesSeguidos() {
+        return listaFestivalesSeguidos;
+    }
+
+    public void setListaFestivalesSeguidos(ArrayList<Festival> listaFestivalesSeguidos) {
+        this.listaFestivalesSeguidos = listaFestivalesSeguidos;
+    }
+
+    public ListView getListaPantallaFestivales() {
+        return listaPantallaFestivales;
+    }
+
+    public void setListaPantallaFestivales(ListView listaPantallaFestivales) {
+        this.listaPantallaFestivales = listaPantallaFestivales;
+    }
 }
