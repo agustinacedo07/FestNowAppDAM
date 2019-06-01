@@ -109,7 +109,9 @@ public class PantallaPrincipal extends AppCompatActivity {
 
     }
 
+    public void IrPantallaFestisSeguidos(View view) {
 
+    }
 
 
     private  class ListaFestivalesUser extends AsyncTask<Integer,Void,Object>{

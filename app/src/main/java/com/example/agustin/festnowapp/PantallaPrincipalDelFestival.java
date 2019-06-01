@@ -3,6 +3,7 @@ package com.example.agustin.festnowapp;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -36,6 +37,7 @@ import com.example.adrian.pruebapantallamenu.fragmentos.Fragment03;
 import com.example.agustin.festnowapp.fragmentos.Fragment01;
 import com.example.agustin.festnowapp.fragmentos.Fragment02;
 import com.example.agustin.festnowapp.fragmentos.Fragment03;
+import com.example.agustin.festnowapp.fragmentos.Fragment04;
 
 import modelos.Festival;
 
@@ -56,9 +58,6 @@ public class PantallaPrincipalDelFestival extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
-
 
 
         super.onCreate(savedInstanceState);
@@ -215,15 +214,13 @@ public class PantallaPrincipalDelFestival extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
 
-            fragmentManager.beginTransaction().replace(R.id.contenedor,new Fragment01()).commit();
+            //llamada al fragment del mapa
+            fragmentManager.beginTransaction().replace(R.id.contenedor,new Fragment04()).commit();
 
         } else if (id == R.id.nav_gallery) {
 
+            //llamada al fragment de la valoracion y comentarios
             fragmentManager.beginTransaction().replace(R.id.contenedor,new Fragment02()).commit();
-
-        } else if (id == R.id.nav_send) {
-            fragmentManager.beginTransaction().replace(R.id.contenedor,new Fragment03()).commit();
-
 
         }
 
