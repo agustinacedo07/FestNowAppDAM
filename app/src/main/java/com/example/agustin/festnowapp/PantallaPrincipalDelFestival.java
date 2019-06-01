@@ -1,5 +1,6 @@
 package com.example.agustin.festnowapp;
 
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -87,7 +88,6 @@ public class PantallaPrincipalDelFestival extends AppCompatActivity
         view1=(ViewPager) findViewById(R.id.view);
         view1.setAdapter(new AdminPageAdapter());
 
-        this.setTitle(festival.getNombre());
 
     }
 
@@ -209,18 +209,27 @@ public class PantallaPrincipalDelFestival extends AppCompatActivity
 
         int id = item.getItemId();
 
-        FragmentManager fragmentManager=getSupportFragmentManager();
+
+        FragmentManager manager = getSupportFragmentManager();
+        android.support.v4.app.FragmentTransaction transaction = manager.beginTransaction();
+
+        Fragment02 fragmento2=new Fragment02();
+        Fragment04 fragmento4=new Fragment04();
 
 
         if (id == R.id.nav_camera) {
 
-            //llamada al fragment del mapa
-            fragmentManager.beginTransaction().replace(R.id.contenedor,new Fragment04()).commit();
+            transaction.add(R.id.contenedor,  fragmento4);
+            transaction.addToBackStack(null);
+            transaction.commit();
+
+
 
         } else if (id == R.id.nav_gallery) {
 
-            //llamada al fragment de la valoracion y comentarios
-            fragmentManager.beginTransaction().replace(R.id.contenedor,new Fragment02()).commit();
+            transaction.add(R.id.contenedor,  fragmento2);
+            transaction.addToBackStack(null);
+            transaction.commit();
 
         }
 
@@ -228,28 +237,6 @@ public class PantallaPrincipalDelFestival extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
-
-    public void valora(View view) {
-        ratingratingBar = (RatingBar) findViewById(R.id.ratingVal);
-        //btnValorar = (Button) findViewById(R.id.btnValorar);
-    
-        cargarVal();
-
-
-    }
-
-    private void cargarVal() {
-        float val= (int) ratingratingBar.getRating();
-
-        Toast.makeText(getApplicationContext(),"La valoracion es: "+val,Toast.LENGTH_LONG).show();
-
-    }
-
-
-
-
-
 
 
 

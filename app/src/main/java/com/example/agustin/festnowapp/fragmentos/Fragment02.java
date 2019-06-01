@@ -18,6 +18,8 @@ public class Fragment02 extends Fragment{
     RatingBar ratingBarUsuario;
     Button btnValoraFesti;
     Button btnValoraUsuario;
+    Button enviarComent;
+    Button listarComent;
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -28,7 +30,11 @@ public class Fragment02 extends Fragment{
 
         btnValoraFesti = (Button) view.findViewById(R.id.btnValFestival);
         btnValoraUsuario = (Button) view.findViewById(R.id.btnRatingValUsuario);
+        enviarComent = (Button) view.findViewById(R.id.btnEnviarComentario);
+        listarComent = (Button) view.findViewById(R.id.btnListarComentarios);
 
+
+        //ejecucion valoracion festi
         btnValoraFesti.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -37,6 +43,7 @@ public class Fragment02 extends Fragment{
             }
         });
 
+        //ejecucion valoracion usu
         btnValoraUsuario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -45,6 +52,20 @@ public class Fragment02 extends Fragment{
             }
         });
 
+        //ejecucion enviar comentario
+        enviarComent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    //recoger texto de la caja de texto y enviarlo
+            }
+        });
+
+        listarComent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    //hacer la llamada a la clase comentarios
+            }
+        });
 
 
 

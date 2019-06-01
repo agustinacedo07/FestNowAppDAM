@@ -11,54 +11,6 @@
     tools:showIn="content_main">
 
     <Button
-        android:id="@+id/valoraFesti"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="107dp"
-        android:layout_height="38dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:onClick="valora"
-        android:text="¡Valoralo!"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cajaComen" />
-
-    <Button
-        android:id="@+id/listarComentarios"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="120dp"
-        android:layout_height="37dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="36dp"
-        android:layout_marginRight="36dp"
-        android:text="Ver comentarios"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragment" />
-
-    <Button
-        android:id="@+id/EnviarComentario"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="78dp"
-        android:layout_height="36dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="156dp"
-        android:layout_marginRight="156dp"
-        android:text="Enviar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragment" />
-
-    <TextView
-        android:id="@+id/Comentarios"
-        android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="8dp"
-        android:text="Comentarios"
-        android:textAppearance="@style/TextAppearance.AppCompat.Button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragment" />
-
-    <Button
         android:id="@+id/Informacion"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="120dp"
@@ -144,25 +96,10 @@
         android:layout_height="wrap_content"
         app:barrierDirection="left" />
 
-    <EditText
-        android:id="@+id/cajaComen"
-        android:layout_width="340dp"
-        android:layout_height="38dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:ems="10"
-        android:hint="Comenta"
-        android:inputType="textMultiLine"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/EnviarComentario" />
-
     <android.support.v4.view.ViewPager
         android:id="@+id/view"
         android:layout_width="354dp"
-        android:layout_height="288dp"
+        android:layout_height="426dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
@@ -174,17 +111,5 @@
         app:layout_constraintHorizontal_bias="0.533"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/noticias" />
-
-    <RatingBar
-        android:id="@+id/ratingVal"
-        android:layout_width="140dp"
-        android:layout_height="46dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:numStars="3"
-        android:stepSize="0.5"
-        app:layout_constraintStart_toEndOf="@+id/valoraFesti"
-        app:layout_constraintTop_toBottomOf="@+id/cajaComen" />
 
 </android.support.constraint.ConstraintLayout>
