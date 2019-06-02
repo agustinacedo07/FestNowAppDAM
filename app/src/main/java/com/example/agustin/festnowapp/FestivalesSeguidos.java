@@ -33,10 +33,8 @@ public class FestivalesSeguidos extends AppCompatActivity {
         btnVolverPantallaPrincipal = (Button)findViewById(R.id.btnVolverPantalla);
 
 
-        new ListarFestivalesFollow(SesionServer.clienteAplicacion.getIdCliente(),listaFestivales).execute();
-        if(adaptadorFestivalesFollow.getListaFestivalesSeguidos().size()==0){
-            Toast.makeText(getApplicationContext(),"Aún no sigue a ningún festival",Toast.LENGTH_LONG).show();
-        }
+
+        new ListarFestivalesFollow(SesionServer.clienteAplicacion.getIdCliente(),listaFestivales,this).execute();
 
         //funcionalidad de volver a pantalla principal
         btnVolverPantallaPrincipal.setOnClickListener(new View.OnClickListener() {
@@ -51,10 +49,12 @@ public class FestivalesSeguidos extends AppCompatActivity {
     private class ListarFestivalesFollow extends AsyncTask<Integer,Void,Object>{
         private int idCliente;
         private ListView listaFestivalesFollor;
+        private FestivalesSeguidos pantallaFestivalesSeguidos;
 
-        public ListarFestivalesFollow(int idCliente,ListView listaFestivales){
+        public ListarFestivalesFollow(int idCliente,ListView listaFestivales,FestivalesSeguidos pantallaFestivalesSeguidos){
             this.idCliente = idCliente;
             this.listaFestivalesFollor = listaFestivales;
+            this.pantallaFestivalesSeguidos = pantallaFestivalesSeguidos;
         }
 
         @Override
@@ -84,11 +84,23 @@ public class FestivalesSeguidos extends AppCompatActivity {
             }else{
                 ArrayList<Festival> listaFestivalesFollow = (ArrayList<Festival>) listaFestivalesBD;
                 //adaptar el festival
-                adaptadorFestivalesFollow = new AdaptadorFestivalesFollow(getApplicationContext(),listaFestivalesFollow,listaFestivalesFollor);
+                adaptadorFestivalesFollow = new AdaptadorFestivalesFollow(getApplicationContext(),listaFestivalesFollow,listaFestivalesFollor,pantallaFestivalesSeguidos);
                 listaFestivales.setAdapter(adaptadorFestivalesFollow);
 
             }
         }
+    }
+
+
+    public void lanzarDetalleFestival(Festival festival){
+        try{
+            Intent pantallaDetalleFestival = new Intent(getApplicationContext(),PantallaPrincipalDelFestival.class);
+            pantallaDetalleFestival.putExtra("festival",festival);
+            startActivity(pantallaDetalleFestival);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
 

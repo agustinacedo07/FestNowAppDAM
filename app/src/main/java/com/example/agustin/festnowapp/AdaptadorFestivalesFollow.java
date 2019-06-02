@@ -23,12 +23,14 @@ public class AdaptadorFestivalesFollow extends BaseAdapter {
     private Context contexto;
     private ArrayList<Festival>listaFestivalesSeguidos;
     private ListView listaPantallaFestivales;
+    private FestivalesSeguidos pantallaFestivalesSeguidos;
 
 
-    public AdaptadorFestivalesFollow(Context contexto, ArrayList<Festival> listaFestivalesSeguidos, ListView listaPantallaFestivales) {
+    public AdaptadorFestivalesFollow(Context contexto, ArrayList<Festival> listaFestivalesSeguidos, ListView listaPantallaFestivales,FestivalesSeguidos pantallaFestivalesSeguidos) {
         this.contexto = contexto;
         this.listaFestivalesSeguidos = listaFestivalesSeguidos;
         this.listaPantallaFestivales = listaPantallaFestivales;
+        this.pantallaFestivalesSeguidos = pantallaFestivalesSeguidos;
     }
 
 
@@ -111,7 +113,9 @@ public class AdaptadorFestivalesFollow extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 //nos llevaria a la otra pantalla a la que le pasaremos el festival completo
-                Toast.makeText(contexto,"Ha pulsado el Festival "+festival.getNombre(),Toast.LENGTH_LONG).show();
+                //Toast.makeText(contexto,"Ha pulsado el Festival "+festival.getNombre(),Toast.LENGTH_LONG).show();
+                pantallaFestivalesSeguidos.lanzarDetalleFestival(festival);
+
             }
         });
 

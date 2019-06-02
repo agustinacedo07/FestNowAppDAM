@@ -26,7 +26,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat">
         <activity
-            android:name=".PantallaPrincipalDelFestival"
+            android:name=".Logueo"
             android:label="FestNow"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -35,12 +35,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Logueo" />
-        <activity android:name=".PantallaPrincipal" />
-        <activity android:name=".Registro" />
-        <!-- <activity android:name=".Logueo"></activity> -->
+        <activity android:name=".PantallaPrincipal"
+            android:theme="@style/Theme.AppCompat.Light"/>
+
+        <activity android:name=".Registro"
+            android:theme="@style/Theme.AppCompat.Light"/>
         <activity android:name=".Comentarios" />
-        <activity android:name=".FestivalesSeguidos" />
+        <activity android:name=".FestivalesSeguidos"
+            android:theme="@style/Theme.AppCompat.Light"/>
+        <activity android:name=".PantallaPrincipalDelFestival"
+            android:theme="@style/AppTheme.NoActionBar"
+            />
 
         <!-- maps android key -->
         <meta-data

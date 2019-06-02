@@ -2,6 +2,8 @@ package com.example.agustin.festnowapp;
 
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
@@ -25,6 +27,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RatingBar;
@@ -39,6 +42,9 @@ import com.example.agustin.festnowapp.fragmentos.Fragment01;
 import com.example.agustin.festnowapp.fragmentos.Fragment02;
 import com.example.agustin.festnowapp.fragmentos.Fragment03;
 import com.example.agustin.festnowapp.fragmentos.Fragment04;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import modelos.Festival;
 
@@ -60,33 +66,36 @@ public class PantallaPrincipalDelFestival extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+           festival = (Festival) getIntent().getExtras().get("festival");
+           setContentView(R.layout.activity_main);
+           Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+           setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
+           FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+           fab.setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View view) {
+                   Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                           .setAction("Action", null).show();
+               }
+           });
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+           DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+           ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                   this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+           drawer.addDrawerListener(toggle);
+           toggle.syncState();
 
-        //implementacion slider
-        view1=(ViewPager) findViewById(R.id.view);
-        view1.setAdapter(new AdminPageAdapter());
+           NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+           navigationView.setNavigationItemSelectedListener(this);
+
+           //implementacion slider
+           view1=(ViewPager) findViewById(R.id.view);
+           view1.setAdapter(new AdminPageAdapter());
+
+
 
 
     }
@@ -110,7 +119,47 @@ public class PantallaPrincipalDelFestival extends AppCompatActivity
                 case 0:
                     if (paginainformacion == null)
                     {
-                        paginainformacion = (LinearLayout) LayoutInflater.from(PantallaPrincipalDelFestival.this).inflate(R.layout.paginainformacion, null);
+                        try{
+
+                            paginainformacion = (LinearLayout) LayoutInflater.from(PantallaPrincipalDelFestival.this).inflate(R.layout.paginainformacion, null);
+
+
+                            ImageView imagenPrincipal = (ImageView)paginainformacion.findViewById(R.id.imagenPrincipal);
+                            ImageView imagenLogo = (ImageView)paginainformacion.findViewById(R.id.imagenLogo);
+                            TextView ciudad = (TextView)paginainformacion.findViewById(R.id.labelLugar);
+                            TextView fecha = (TextView)paginainformacion.findViewById(R.id.labelFecha);
+                            TextView descripcion = (TextView)paginainformacion.findViewById(R.id.labelDescripcion);
+
+
+                            Date fechaFestivalInicio = festival.getFechaInicio();
+                            Date fechaFestivalFin = festival.getFechaFin();
+                            String fechaPantalla = "";
+                            //procesamos la fecha
+                            SimpleDateFormat formatoAnyo = new SimpleDateFormat("yyyy");
+                            SimpleDateFormat formatoMes = new SimpleDateFormat("MM");
+                            SimpleDateFormat formatoDía = new SimpleDateFormat("dd");
+                            String anyo = formatoAnyo.format(fechaFestivalInicio);
+                            String mes = formatoMes.format(fechaFestivalInicio);
+                            mes = procesarMes(mes);
+                            String diaInicio = formatoDía.format(fechaFestivalInicio);
+                            String diaFin = formatoDía.format(fechaFestivalFin);
+
+                            fechaPantalla = diaInicio+" - "+diaFin+" de "+mes+" del "+anyo;
+
+
+
+                            fecha.setText(fechaPantalla);
+                            ciudad.setText(festival.getLocalidad());
+                            descripcion.setText(festival.getDescripcion());
+                            imagenLogo.setImageBitmap(BitmapFactory.decodeByteArray(festival.getImagenLogo(),0,festival.getImagenLogo().length));
+                            imagenPrincipal.setImageBitmap(BitmapFactory.decodeByteArray(festival.getImagenPral(),0,festival.getImagenPral().length));
+
+
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+
+
                     }
                     paginaactual = paginainformacion;
                     break;
@@ -132,6 +181,61 @@ public class PantallaPrincipalDelFestival extends AppCompatActivity
             ViewPager vp=(ViewPager) collection;
             vp.addView(paginaactual, 0);
             return paginaactual;
+        }
+
+        private String procesarMes(String mes) {
+            String mesCadena = "";
+            switch (mes){
+                case "01":
+                    mesCadena = "Enero";
+                break;
+                case "02":
+                    mesCadena = "Febrero";
+                    break;
+                case "03":
+                    mesCadena = "Marzo";
+                    break;
+                case "04":
+                    mesCadena = "Abril";
+                    break;
+                case "05":
+                    mesCadena = "Mayo";
+                    break;
+                case "06":
+                    mesCadena = "Junio";
+                    break;
+                case "07":
+                    mesCadena = "Julio";
+                    break;
+                case "08":
+                    mesCadena = "Agosto";
+                    break;
+                case "09":
+                    mesCadena = "Septiembre";
+                    break;
+                case "10":
+                    mesCadena = "Octubre";
+                    break;
+                case "11":
+                    mesCadena = "Noviembre";
+                    break;
+                case "12":
+                    mesCadena = "Diciembre";
+                    break;
+
+
+
+
+
+
+
+
+
+
+
+            }
+
+            return mesCadena;
         }
 
         @Override

@@ -37,7 +37,9 @@ public class PantallaPrincipal extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pantalla_principal);
+
+            setContentView(R.layout.activity_pantalla_principal);
+
 
         listaFestivales = (ListView)findViewById(R.id.listFestivalesPantallaPral);
 
@@ -96,11 +98,9 @@ public class PantallaPrincipal extends AppCompatActivity {
                 btnCoste.setBackgroundColor(Color.BLUE);
                 btnFecha.setBackgroundColor(Color.BLUE);
                 //ordenar por popularidad primeros mas populares y despues menos populares
-                try {
+
                     ordenarPopularidad();
-                }catch(Exception e){
-                    e.printStackTrace();
-                }
+
                 adaptadorFestivalesUser.notifyDataSetChanged();
             }
         });
