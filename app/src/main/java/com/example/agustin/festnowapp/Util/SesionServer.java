@@ -44,7 +44,7 @@ public class SesionServer extends AsyncTask<Void,Void,Boolean> {
     private boolean abrirFlujos() {
         try {
 
-            skCliente = new Socket(Constantes.IP_CONEXION,2000);
+            skCliente = new Socket(Constantes.IP_CONEXION,1990);
 
 
             InputStream entrada = skCliente.getInputStream();

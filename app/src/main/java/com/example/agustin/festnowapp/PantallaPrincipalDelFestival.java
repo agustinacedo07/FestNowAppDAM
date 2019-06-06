@@ -18,19 +18,24 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RatingBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,15 +49,17 @@ import com.example.agustin.festnowapp.fragmentos.Fragment03;
 import com.example.agustin.festnowapp.fragmentos.Fragment04;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
+import modelos.Artista;
 import modelos.Festival;
 
 public class PantallaPrincipalDelFestival extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener  {
 
     private ViewPager view1;
-    private LinearLayout paginainformacion;
+    private ScrollView paginainformacion;
     private LinearLayout paginaartistas;
     private LinearLayout paginanoticias;
 
@@ -91,9 +98,16 @@ public class PantallaPrincipalDelFestival extends AppCompatActivity
            NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
            navigationView.setNavigationItemSelectedListener(this);
 
-           //implementacion slider
-           view1=(ViewPager) findViewById(R.id.view);
-           view1.setAdapter(new AdminPageAdapter());
+
+           try{
+               //implementacion slider
+               view1=(ViewPager) findViewById(R.id.view);
+               view1.setAdapter(new AdminPageAdapter());
+           }catch(Exception e){
+               e.printStackTrace();
+           }
+
+
 
 
 
@@ -121,7 +135,19 @@ public class PantallaPrincipalDelFestival extends AppCompatActivity
                     {
                         try{
 
-                            paginainformacion = (LinearLayout) LayoutInflater.from(PantallaPrincipalDelFestival.this).inflate(R.layout.paginainformacion, null);
+                            paginainformacion = (ScrollView) LayoutInflater.from(PantallaPrincipalDelFestival.this).inflate(R.layout.paginainformacion, null);
+
+                            //scrooll de pagina
+                            paginainformacion.setOnTouchListener(new View.OnTouchListener() {
+                                @Override
+                                public boolean onTouch(View v, MotionEvent event) {
+                                    findViewById (R.id.listaCabezas) .getParent (). requestDisallowInterceptTouchEvent (false);
+                                    return false;
+                                }
+                            });
+
+
+
 
 
                             ImageView imagenPrincipal = (ImageView)paginainformacion.findViewById(R.id.imagenPrincipal);
@@ -129,6 +155,43 @@ public class PantallaPrincipalDelFestival extends AppCompatActivity
                             TextView ciudad = (TextView)paginainformacion.findViewById(R.id.labelLugar);
                             TextView fecha = (TextView)paginainformacion.findViewById(R.id.labelFecha);
                             TextView descripcion = (TextView)paginainformacion.findViewById(R.id.labelDescripcion);
+                            ImageButton btnFacebook = (ImageButton)paginainformacion.findViewById(R.id.btnFacebook);
+                            Button btnWeb = (Button)paginainformacion.findViewById(R.id.btnWeb);
+                            ImageButton btnInstagram = (ImageButton)paginainformacion.findViewById(R.id.btnInstagram);
+                            ImageButton btnTwitter = (ImageButton)paginainformacion.findViewById(R.id.btnTwitter);
+                            ListView listaCabezasCartel = (ListView)paginainformacion.findViewById(R.id.listaCabezas);
+
+                            //scroll de vista
+                            listaCabezasCartel.setOnTouchListener(new View.OnTouchListener() {
+                                @Override
+                                public boolean onTouch(View v, MotionEvent event) {
+                                    v.getParent ().requestDisallowInterceptTouchEvent (true);
+                                    return false;
+                                }
+                            });
+
+                            /*
+                            //para controlar los scroll de la pantalla y de la lista de artistas
+                            listaCabezasCartel.setOnTouchListener(new ListView.OnTouchListener(){
+
+                                @Override
+                                public boolean onTouch(View v, MotionEvent event) {
+                                    int action = event.getAction();
+                                    switch (action){
+                                        case MotionEvent.ACTION_DOWN:
+                                            v.getParent().requestDisallowInterceptTouchEvent(true);
+                                            break;
+                                        case MotionEvent.ACTION_UP:
+                                            v.getParent().requestDisallowInterceptTouchEvent(false);
+                                            break;
+                                    }
+
+                                    v.onTouchEvent(event);
+
+                                    return true;
+                                }
+                            });
+                            */
 
 
                             Date fechaFestivalInicio = festival.getFechaInicio();
@@ -153,7 +216,71 @@ public class PantallaPrincipalDelFestival extends AppCompatActivity
                             descripcion.setText(festival.getDescripcion());
                             imagenLogo.setImageBitmap(BitmapFactory.decodeByteArray(festival.getImagenLogo(),0,festival.getImagenLogo().length));
                             imagenPrincipal.setImageBitmap(BitmapFactory.decodeByteArray(festival.getImagenPral(),0,festival.getImagenPral().length));
+                            btnWeb.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Uri uri = Uri.parse(festival.getSitioWeb());
+                                    Intent webFestival = new Intent(Intent.ACTION_VIEW,uri);
+                                    startActivity(webFestival);
+                                }
+                            });
 
+                            btnFacebook.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    //debemos recoger otro campo con el nombre de la pagina web en facebook
+                                    String paginaFacebook = "https://www.facebook.com/"+festival.getNombrePerfilFacebook()+"/";
+                                    String facebookID = "fb://page/"+festival.getFacebook();
+
+                                    //controla si tienes instalada la aplicación de facebook o la lanza por el navegador
+                                    try{
+                                        startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse(facebookID)));
+                                    }catch (Exception e){
+
+                                        startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse(paginaFacebook)));
+                                    }
+
+                                }
+                            });
+
+                            btnInstagram.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    String scheme = "http://instagram.com/_u/"+festival.getInstagram();
+                                    String path = "https://instagram.com/"+festival.getInstagram();
+                                    Intent paginaInstagram = null;
+                                    try {
+                                        paginaInstagram = new Intent(Intent.ACTION_VIEW, Uri.parse(scheme));
+                                    } catch (Exception e) {
+                                        paginaInstagram = new Intent(Intent.ACTION_VIEW, Uri.parse(path));
+                                    }finally {
+                                        startActivity(paginaInstagram);
+
+                                    }
+                                }
+                            });
+
+                            btnTwitter.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent paginaTwitter = null;
+                                    try{
+                                        paginaTwitter = new Intent(Intent.ACTION_VIEW,Uri.parse("twitter://user?screen_name="+festival.getInstagram()));
+                                    }catch (Exception e){
+                                        paginaTwitter = new Intent(Intent.ACTION_VIEW,Uri.parse("https://twitter.com/"+festival.getNombrePerfilTwitter()));
+                                    }finally {
+                                        startActivity(paginaTwitter);
+                                    }
+                                }
+                            });
+
+
+
+
+                            ArrayList<Artista> artistasCabezasCartel = obtenerCabezasCartel(festival.getListaArtistas());
+
+                            AdaptadorArtistaBasico adaptadorCabezasCartel = new AdaptadorArtistaBasico(getApplicationContext(),artistasCabezasCartel,listaCabezasCartel,this);
+                            listaCabezasCartel.setAdapter(adaptadorCabezasCartel);
 
                         }catch (Exception e){
                             e.printStackTrace();
@@ -167,6 +294,12 @@ public class PantallaPrincipalDelFestival extends AppCompatActivity
                     if (paginaartistas == null)
                     {
                         paginaartistas = (LinearLayout) LayoutInflater.from(PantallaPrincipalDelFestival.this).inflate(R.layout.paginaartistas, null);
+
+                        ListView listaArtistasView = (ListView)paginaartistas.findViewById(R.id.listaArtistasGeneral);
+
+                        AdaptadorArtistaBasico adaptadorArtistasBasico = new AdaptadorArtistaBasico(getApplicationContext(),festival.getListaArtistas(),listaArtistasView,this);
+                        listaArtistasView.setAdapter(adaptadorArtistasBasico);
+
                     }
                     paginaactual = paginaartistas;
                     break;
@@ -245,12 +378,28 @@ public class PantallaPrincipalDelFestival extends AppCompatActivity
         }
 
 
+        public void detalleArtista(Artista artista){
+            Toast.makeText(getApplicationContext(),"Ha pulsado al artista "+artista.getNombreArtista(),Toast.LENGTH_LONG).show();
+        }
+
+
         @Override
         public void destroyItem(View collection, int position, Object view)
         {
             ((ViewPager) collection).removeView((View) view);
         }
 
+    }
+
+    private ArrayList<Artista> obtenerCabezasCartel(ArrayList<Artista> listaArtistas) {
+        ArrayList <Artista> listaCabezasCartel = new ArrayList<>();
+        for (Artista artista : listaArtistas){
+            if(artista.getCabezaCartel()==1){
+                listaCabezasCartel.add(artista);
+            }
+        }
+
+        return listaCabezasCartel;
     }
 
     public void irPaginaInformacion(View v) {
