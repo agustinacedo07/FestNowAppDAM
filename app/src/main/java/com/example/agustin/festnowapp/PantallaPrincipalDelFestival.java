@@ -260,19 +260,25 @@ public class PantallaPrincipalDelFestival extends AppCompatActivity
                                 }
                             });
 
-                            btnTwitter.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Intent paginaTwitter = null;
-                                    try{
-                                        paginaTwitter = new Intent(Intent.ACTION_VIEW,Uri.parse("twitter://user?screen_name="+festival.getInstagram()));
-                                    }catch (Exception e){
-                                        paginaTwitter = new Intent(Intent.ACTION_VIEW,Uri.parse("https://twitter.com/"+festival.getNombrePerfilTwitter()));
-                                    }finally {
-                                        startActivity(paginaTwitter);
+
+                                btnTwitter.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+
+
+
+                                            Intent paginaTwitter = null;
+
+                                                //paginaTwitter = new Intent(Intent.ACTION_VIEW, Uri.parse("twitter://user?screen_name=" + festival.getNombrePerfilTwitter()));
+                                                paginaTwitter = new Intent(Intent.ACTION_VIEW, Uri.parse("https://twitter.com/" + festival.getNombrePerfilTwitter()));
+
+                                                paginaTwitter = new Intent(Intent.ACTION_VIEW, Uri.parse("https://twitter.com/" + festival.getNombrePerfilTwitter()));
+
+                                                startActivity(paginaTwitter);
+
+
                                     }
-                                }
-                            });
+                                });
 
 
 

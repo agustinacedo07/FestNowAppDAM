@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.agustin.festnowapp">
 
+    package="com.example.agustin.festnowapp">
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -26,15 +26,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat">
         <activity
-            android:name=".Logueo"
+            android:name="com.example.agustin.festnowapp.Logueo"
             android:label="FestNow"
             android:theme="@style/AppTheme.NoActionBar">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".PantallaPrincipal"
             android:theme="@style/Theme.AppCompat.Light"/>
 
@@ -55,3 +57,4 @@
     </application>
 
 </manifest>
+
