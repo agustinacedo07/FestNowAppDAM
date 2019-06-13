@@ -136,12 +136,27 @@ public class PantallaPrincipalDelFestival extends AppCompatActivity
                         try{
 
                             paginainformacion = (ScrollView) LayoutInflater.from(PantallaPrincipalDelFestival.this).inflate(R.layout.paginainformacion, null);
+                            ListView listaCabezasCartel = (ListView)paginainformacion.findViewById(R.id.listaCabezas);
+                            RecyclerView recycler = (RecyclerView)paginainformacion.findViewById(R.id.my_recycler_view);
+                            LinearLayoutManager manager = new LinearLayoutManager(getApplicationContext());
+                            manager.setOrientation(LinearLayoutManager.HORIZONTAL);
+                            recycler.setLayoutManager(manager);
 
-                            //scrooll de pagina
+
+                           /* //scrooll de lista
                             paginainformacion.setOnTouchListener(new View.OnTouchListener() {
                                 @Override
                                 public boolean onTouch(View v, MotionEvent event) {
-                                    findViewById (R.id.listaCabezas) .getParent (). requestDisallowInterceptTouchEvent (false);
+                                    paginainformacion.findViewById (R.id.listaCabezas) .getParent (). requestDisallowInterceptTouchEvent (false);
+                                    return false;
+                                }
+                            });
+                            */
+                            //scroll de vista
+                            listaCabezasCartel.setOnTouchListener(new View.OnTouchListener() {
+                                @Override
+                                public boolean onTouch(View v, MotionEvent event) {
+                                    v.getParent ().requestDisallowInterceptTouchEvent (true);
                                     return false;
                                 }
                             });
@@ -159,16 +174,8 @@ public class PantallaPrincipalDelFestival extends AppCompatActivity
                             Button btnWeb = (Button)paginainformacion.findViewById(R.id.btnWeb);
                             ImageButton btnInstagram = (ImageButton)paginainformacion.findViewById(R.id.btnInstagram);
                             ImageButton btnTwitter = (ImageButton)paginainformacion.findViewById(R.id.btnTwitter);
-                            ListView listaCabezasCartel = (ListView)paginainformacion.findViewById(R.id.listaCabezas);
 
-                            //scroll de vista
-                            listaCabezasCartel.setOnTouchListener(new View.OnTouchListener() {
-                                @Override
-                                public boolean onTouch(View v, MotionEvent event) {
-                                    v.getParent ().requestDisallowInterceptTouchEvent (true);
-                                    return false;
-                                }
-                            });
+
 
                             /*
                             //para controlar los scroll de la pantalla y de la lista de artistas

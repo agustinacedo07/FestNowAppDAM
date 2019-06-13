@@ -1,33 +1,49 @@
 package com.example.agustin.festnowapp;
 
 
+import android.content.Context;
 import android.icu.util.LocaleData;
+import android.os.AsyncTask;
+import android.widget.Toast;
 
+import com.example.agustin.festnowapp.Util.CallBackControlErroresBD;
+import com.example.agustin.festnowapp.Util.ControlErroresBD;
+import com.example.agustin.festnowapp.Util.SesionServer;
 import com.example.agustin.festnowapp.Util.Validator;
+import com.google.android.gms.common.api.Status;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.ExecutionException;
 
-public class ControlErrores {
+import modelos.Comando;
+
+public class ControlErroresRegistro implements CallBackControlErroresBD{
     //datos que recibirá que queremos validar
     private String [] datos;
     //para informar si la validación general es o no correcta
     private boolean validacion = true;
+
     //conjunto de campos tras su validacion
     ArrayList<Validator> listaValidator;
 
+    //atributos para las variables que consultamos en la base de datos
+    boolean valUser,valMail,valPass;
 
 
 
-    public ControlErrores(String [] datos){
+
+    public ControlErroresRegistro(String [] datos){
         this.datos = datos;
         listaValidator = new ArrayList<Validator>();
         validarCampos();
 
     }
+
 
 
 
@@ -96,6 +112,8 @@ public class ControlErrores {
         //validacion de pass de usuario
         validator = controlPass(datos[10]);
         listaValidator.add(validator);
+
+
 
     }
 
@@ -171,7 +189,19 @@ public class ControlErrores {
         }
 
         //validacion de campo mail en la BD ---- FALTA IMPLEMENTAR
+        ControlErroresBD controlErroresBD = new ControlErroresBD("mail",email,this);
+        Boolean validacionMailBD = false;
+        try {
+            validacionMailBD = controlErroresBD.execute().get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
+        if(validacionMailBD){
+            validacion = false;
+            validator.setValidacionCampo(false);
+            validator.setProblemaValidacion("El mail ("+email+") ya existe");
+        }
 
         return validator;
     }
@@ -263,7 +293,20 @@ public class ControlErrores {
         validator.setValidacionCampo(true);
 
 
-        //validacion de usuario en la BD --- FALTA POR IMPLEMENTAR
+        //validacion de usuario en la BD
+        Boolean validacionUser = false;
+       ControlErroresBD controlErroresBD = new ControlErroresBD("usuario",usuario,this);
+        try {
+             validacionUser = controlErroresBD.execute().get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if(validacionUser){
+            validacion = false;
+            validator.setValidacionCampo(false);
+            validator.setProblemaValidacion("El usuario ("+usuario+") ya existe");
+        }
 
 
         return  validator;
@@ -274,7 +317,20 @@ public class ControlErrores {
         validator.setCampo("Contraseña");
         validator.setValidacionCampo(true);
 
-        //validacion de la contraseña en la BD ---- FALTA POR IMPLEMENTAR
+        //validacion de la contraseña en la BD
+        Boolean validacionPassBD = false;
+        try{
+            ControlErroresBD controlErroresBD = new ControlErroresBD("pass",pass,this);
+            validacionPassBD = controlErroresBD.execute().get();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        if(validacionPassBD){
+            validacion = false;
+            validator.setValidacionCampo(false);
+            validator.setProblemaValidacion("La contraseña ya está en uso");
+        }
         return validator;
     }
 
@@ -301,5 +357,45 @@ public class ControlErrores {
 
     public void setListaValidator(ArrayList<Validator> listaValidator) {
         this.listaValidator = listaValidator;
+    }
+
+    public boolean isValUser() {
+        return valUser;
+    }
+
+    public void setValUser(boolean valUser) {
+        this.valUser = valUser;
+    }
+
+    public boolean isValMail() {
+        return valMail;
+    }
+
+    public void setValMail(boolean valMail) {
+        this.valMail = valMail;
+    }
+
+    public boolean isValPass() {
+        return valPass;
+    }
+
+    public void setValPass(boolean valPass) {
+        this.valPass = valPass;
+    }
+
+
+    @Override
+    public void devolverRespuesta(boolean respuesta, String dato) {
+        switch (dato){
+            case "usuario":
+                this.setValUser(respuesta);
+                break;
+            case "mail":
+                valMail = respuesta;
+                break;
+            case "pass":
+                valPass = respuesta;
+                break;
+        }
     }
 }

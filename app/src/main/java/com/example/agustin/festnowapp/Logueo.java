@@ -72,10 +72,14 @@ public class Logueo extends AppCompatActivity implements View.OnClickListener {
             public void onClick(View view) {
                 usuarioLogin = usuario.getText().toString();
                 passLogin =  contraseña.getText().toString();
-                if(usuarioLogin.isEmpty() && passLogin.isEmpty()){
+                //control de campos vacíos
+                if(usuarioLogin.isEmpty() || passLogin.isEmpty()){
                     Toast.makeText(getApplicationContext(),"Los campos son obligatorios",Toast.LENGTH_LONG).show();
+                }else if(SesionServer.skCliente == null){//control de conexion
+                    Toast.makeText(getApplicationContext(),"No tiene conexion a la red",Toast.LENGTH_LONG).show();
                 }else{
                     new LoginServer().execute();
+
                 }
 
 
@@ -122,10 +126,11 @@ public class Logueo extends AppCompatActivity implements View.OnClickListener {
                 SesionServer.flujoSalidaObjetos.writeObject(comando);
                 comando = (Comando) SesionServer.flujoEntradaObjetos.readObject();
                  validacionLogin = comando.isRespuestaBooleana();
+
             } catch (IOException e) {
                 Toast.makeText(getApplicationContext(),"Problema con la conexion con el Servidor",Toast.LENGTH_LONG).show();
             } catch (ClassNotFoundException e) {
-                validacionLogin = false;
+                e.printStackTrace();
             }
 
             return validacionLogin;

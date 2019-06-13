@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -18,17 +19,26 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
 import com.example.agustin.festnowapp.Util.SesionServer;
+import com.example.agustin.festnowapp.Util.UtilFechas;
 import com.example.agustin.festnowapp.Util.Validator;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -41,6 +51,9 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
     //elementos de la pantalla
     private EditText etiUsuario,etiPass,etiNombre,etiApellidos,etiFechaNacimiento,etiLocalidad,etiProvincia,etiComunidad,etiPais,etiCorreo,etiTelefono;
     private Button btnAceptarRegistro;
+
+    private TextView txtProvincia,txtComunidad,txtPais;
+
     private Cliente nuevoUsuario;
 
     //imagen para guardar la imagen del usuario
@@ -59,7 +72,44 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
+        PlaceAutocompleteFragment autocompleteFragment;
 
+        etiProvincia=(EditText)findViewById(R.id.etiProvincia);
+        etiPais=(EditText)findViewById(R.id.etiPais);
+
+        txtProvincia=(TextView)findViewById(R.id.txtProvincia);
+        txtComunidad = (TextView)findViewById(R.id.txtComunidad);
+        txtPais = (TextView)findViewById(R.id.txtPais);
+
+
+        try{
+
+            if(!Places.isInitialized()){
+                Places.initialize(getApplicationContext(),Constantes.API_KEY_MAPS);
+            }
+
+            AutocompleteSupportFragment autoCompleteFragment = (AutocompleteSupportFragment)
+                    getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
+            autoCompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID,Place.Field.NAME,Place.Field.ADDRESS));
+
+            autoCompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+                @Override
+                public void onPlaceSelected(@NonNull Place place) {
+                    String tokens [] = place.getAddress().split(",");
+
+                    txtPais.setText(tokens[2]);
+                    txtProvincia.setText(tokens[1]);
+                }
+
+                @Override
+                public void onError(@NonNull Status status) {
+                    Toast.makeText(getApplicationContext(),"Error: "+status,Toast.LENGTH_LONG).show();
+                }
+            });
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         imagen=(ImageView) findViewById(R.id.imagenId);
         bfecha=(Button)findViewById(R.id.bfecha);
         fechaNacimiento=(EditText) findViewById(R.id.fechaNacimiento);
@@ -70,14 +120,11 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
         etiNombre=(EditText)findViewById(R.id.etiNombre);
         etiApellidos=(EditText)findViewById(R.id.etiApellidos);
         //instanciar fecha a la actual
-        SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
-        Date fechaActual = new Date();
+        Calendar fechaActual = Calendar.getInstance();
         etiFechaNacimiento=(EditText)findViewById(R.id.fechaNacimiento);
-        etiFechaNacimiento.setText(formatoFecha.format(fechaActual));
-        etiLocalidad=(EditText)findViewById(R.id.etiLocalidad);
-        etiProvincia=(EditText)findViewById(R.id.etiProvincia);
+        etiFechaNacimiento.setText(UtilFechas.valorarFechaPicker(fechaActual.get(Calendar.DAY_OF_MONTH),fechaActual.get(Calendar.MONTH)+1,fechaActual.get(Calendar.YEAR)));
+
         etiComunidad=(EditText)findViewById(R.id.etiComunidad);
-        etiPais=(EditText)findViewById(R.id.etiPais);
         etiCorreo=(EditText)findViewById(R.id.etiCorreo);
         etiTelefono=(EditText)findViewById(R.id.etiTelefono);
         btnAceptarRegistro=(Button)findViewById(R.id.btnEnviarRegistro);
@@ -103,7 +150,7 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
                 String pass = etiPass.getText().toString();
                 String telefono = etiTelefono.getText().toString();
                 String tipoUsuario = "user";
-                String fechaString = fechaNacimiento.getText().toString();
+                String fechaString = ano+"-"+mes+"-"+dia;
 
 
 
@@ -130,10 +177,12 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
                 if(nombre.equals("")||(apellidos.equals("")||(localidad.equals("")||(provincia.equals("")||(comunidad.equals("")||(pais.equals("")||(mail.equals("")||(usuario.equals("")||(pass.equals("")||(telefono.equals("")||fechaString.equals(""))))))))))){
                     Toast.makeText(getApplicationContext(),"Todos los campos son obligatorios, no pueden estar vacios",Toast.LENGTH_LONG).show();
                 }else{
-                    ControlErrores controlErrores = new ControlErrores(datos);
+                    ControlErroresRegistro controlErrores = new ControlErroresRegistro(datos);
                     if(!controlErrores.isValidacion()){
                         //comprobar los errores y mostrarlos en un cuadro de diálogo
                         mostrarDialogoErrores(controlErrores.getListaValidator());
+                    }else if(SesionServer.skCliente ==null) {
+                        Toast.makeText(getApplicationContext(),"No tiene conexion",Toast.LENGTH_LONG).show();
                     }else{
                         //preparamos el cliente y lo insertamos
                         SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
@@ -216,7 +265,8 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
 
-                fechaNacimiento.setText(year + "-" + (month + 1) + "-" + dayOfMonth);
+
+                fechaNacimiento.setText(UtilFechas.valorarFechaPicker(dayOfMonth,month+1,year));
             }
         }
                 , dia, mes, ano);
@@ -266,7 +316,12 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
         Intent takePictureIntent=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
         if(takePictureIntent.resolveActivity(getPackageManager())!=null){
-            startActivityForResult(takePictureIntent,Constantes.REQUEST_IMAGE_CAPTURE);
+            try{
+                startActivityForResult(takePictureIntent,Constantes.REQUEST_IMAGE_CAPTURE);
+
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
     }
 
