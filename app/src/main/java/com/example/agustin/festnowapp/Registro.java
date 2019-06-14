@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.example.agustin.festnowapp.Util.SesionServer;
 import com.example.agustin.festnowapp.Util.UtilFechas;
+import com.example.agustin.festnowapp.Util.UtilGeo;
 import com.example.agustin.festnowapp.Util.Validator;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
@@ -49,10 +50,10 @@ import modelos.Comando;
 public class Registro extends AppCompatActivity implements View.OnClickListener {
 
     //elementos de la pantalla
-    private EditText etiUsuario,etiPass,etiNombre,etiApellidos,etiFechaNacimiento,etiLocalidad,etiProvincia,etiComunidad,etiPais,etiCorreo,etiTelefono;
+    private EditText etiUsuario,etiPass,etiNombre,etiApellidos,etiFechaNacimiento,etiCorreo,etiTelefono;
     private Button btnAceptarRegistro;
-
     private TextView txtProvincia,txtComunidad,txtPais;
+    private AutocompleteSupportFragment autoCompleteFragment;
 
     private Cliente nuevoUsuario;
 
@@ -66,50 +67,22 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
     private EditText fechaNacimiento;
     private int dia, mes, ano;
 
+    //variables para almacenar los datos geográficos
+    String ciudad = "",provincia = "",comunidad = "",pais = "";
+
+
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
-        PlaceAutocompleteFragment autocompleteFragment;
 
-        etiProvincia=(EditText)findViewById(R.id.etiProvincia);
-        etiPais=(EditText)findViewById(R.id.etiPais);
-
+        //instanciar los componentes de laq pantalla
         txtProvincia=(TextView)findViewById(R.id.txtProvincia);
         txtComunidad = (TextView)findViewById(R.id.txtComunidad);
         txtPais = (TextView)findViewById(R.id.txtPais);
-
-
-        try{
-
-            if(!Places.isInitialized()){
-                Places.initialize(getApplicationContext(),Constantes.API_KEY_MAPS);
-            }
-
-            AutocompleteSupportFragment autoCompleteFragment = (AutocompleteSupportFragment)
-                    getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
-            autoCompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID,Place.Field.NAME,Place.Field.ADDRESS));
-
-            autoCompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-                @Override
-                public void onPlaceSelected(@NonNull Place place) {
-                    String tokens [] = place.getAddress().split(",");
-
-                    txtPais.setText(tokens[2]);
-                    txtProvincia.setText(tokens[1]);
-                }
-
-                @Override
-                public void onError(@NonNull Status status) {
-                    Toast.makeText(getApplicationContext(),"Error: "+status,Toast.LENGTH_LONG).show();
-                }
-            });
-
-        }catch(Exception e){
-            e.printStackTrace();
-        }
         imagen=(ImageView) findViewById(R.id.imagenId);
         bfecha=(Button)findViewById(R.id.bfecha);
         fechaNacimiento=(EditText) findViewById(R.id.fechaNacimiento);
@@ -123,11 +96,54 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
         Calendar fechaActual = Calendar.getInstance();
         etiFechaNacimiento=(EditText)findViewById(R.id.fechaNacimiento);
         etiFechaNacimiento.setText(UtilFechas.valorarFechaPicker(fechaActual.get(Calendar.DAY_OF_MONTH),fechaActual.get(Calendar.MONTH)+1,fechaActual.get(Calendar.YEAR)));
-
-        etiComunidad=(EditText)findViewById(R.id.etiComunidad);
+        ano = fechaActual.get(Calendar.YEAR);
+        mes = fechaActual.get(Calendar.MONTH)+1;
+        dia = fechaActual.get(Calendar.DAY_OF_MONTH);
         etiCorreo=(EditText)findViewById(R.id.etiCorreo);
         etiTelefono=(EditText)findViewById(R.id.etiTelefono);
         btnAceptarRegistro=(Button)findViewById(R.id.btnEnviarRegistro);
+
+
+        //preparación del buscador de lugares de google
+        if(!Places.isInitialized()){
+            Places.initialize(getApplicationContext(),Constantes.API_KEY_MAPS);
+        }
+
+        autoCompleteFragment = (AutocompleteSupportFragment)
+                getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
+        autoCompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID,Place.Field.NAME,Place.Field.ADDRESS));
+
+        autoCompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+                public void onPlaceSelected(@NonNull Place place) {
+                    String tokens [] = place.getAddress().split(",");
+                    String ciudadSeleccionada = place.getName();
+                    String provinciaSeleccionada = tokens[1];
+                    String comunidadSeleccionada = UtilGeo.procesarComunidad(provinciaSeleccionada.replace(" ",""));
+                    String paisSeleccionado = tokens[2];
+
+                    //actualizamos los elementos de la pantalla
+                    txtProvincia.setText(provinciaSeleccionada);
+                    txtComunidad.setText(comunidadSeleccionada);
+                    txtPais.setText(paisSeleccionado);
+
+                    //actualizamos las variables globales geográficas
+                    ciudad = ciudadSeleccionada;
+                    provincia = provinciaSeleccionada;
+                    comunidad = comunidadSeleccionada;
+                    pais = paisSeleccionado;
+
+            }
+
+                @Override
+                public void onError(@NonNull Status status) {
+                    Toast.makeText(getApplicationContext(),"Error: "+status,Toast.LENGTH_LONG).show();
+                }
+            });
+
+
+
+
 
 
         /**
@@ -138,21 +154,16 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
             public void onClick(View v) {
 
                 //PASAR LOS DATOS PRIMERO POR CONTROL DE ERRORES
-                //Implementar por Adrían
-                String nombre = etiNombre.getText().toString();
-                String apellidos = etiApellidos.getText().toString();
-                String localidad = etiLocalidad.getText().toString();
-                String provincia = etiProvincia.getText().toString();
-                String comunidad = etiComunidad.getText().toString();
-                String pais = etiPais.getText().toString();
-                String mail = etiCorreo.getText().toString();
+                //recogida de datos introducidas por el usuario
                 String usuario = etiUsuario.getText().toString();
                 String pass = etiPass.getText().toString();
+                String nombre = etiNombre.getText().toString();
+                String apellidos = etiApellidos.getText().toString();
+                String fechaString = ano+"-"+mes+"-"+dia;
+                //los datos geográficos estan recogidos en variables globales
+                String mail = etiCorreo.getText().toString();
                 String telefono = etiTelefono.getText().toString();
                 String tipoUsuario = "user";
-                String fechaString = ano+"-"+mes+"-"+dia;
-
-
 
 
 
@@ -161,20 +172,17 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
                 datos[0] = nombre;
                 datos[1] = apellidos;
                 datos[2] = fechaString;
-                datos[3] = localidad;
-                datos[4] = provincia;
-                datos[5] = comunidad;
-                datos[6] = pais;
-                datos[7] = mail;
-                datos[8] = telefono;
-                datos[9] = usuario;
-                datos[10] = pass;
+                datos[3] = mail;
+                datos[4] = telefono;
+                datos[5] = usuario;
+                datos[6] = pass;
+
 
                 //Longitudes de campo controlados en xml de ... (para evitar conflictos con la base de datos)
                 //Nombre,apellidos,localidad,provincia,comunidad,pais,correo,telefono,usuario y pass
 
                 //Control de campos vacíos
-                if(nombre.equals("")||(apellidos.equals("")||(localidad.equals("")||(provincia.equals("")||(comunidad.equals("")||(pais.equals("")||(mail.equals("")||(usuario.equals("")||(pass.equals("")||(telefono.equals("")||fechaString.equals(""))))))))))){
+                if(nombre.equals("")||(apellidos.equals("")||(ciudad.equals("")||(provincia.equals("")||(comunidad.equals("")||(pais.equals("")||(mail.equals("")||(usuario.equals("")||(pass.equals("")||(telefono.equals("")||fechaString.equals(""))))))))))){
                     Toast.makeText(getApplicationContext(),"Todos los campos son obligatorios, no pueden estar vacios",Toast.LENGTH_LONG).show();
                 }else{
                     ControlErroresRegistro controlErrores = new ControlErroresRegistro(datos);
@@ -184,6 +192,8 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
                     }else if(SesionServer.skCliente ==null) {
                         Toast.makeText(getApplicationContext(),"No tiene conexion",Toast.LENGTH_LONG).show();
                     }else{
+
+
                         //preparamos el cliente y lo insertamos
                         SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
                         Date fechaNacimientoUser = null;
@@ -201,7 +211,7 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
                         //imagen de perfil que guardaremos en un array de bytes
                         byte[] fotoPerfilByte = null;
                         //si se ha seleccionado foto se crea un fichero y se convierte en un array de bytes
-                        if (imagen!=null) {
+                        if (imagen.getDrawable()!=null) {
                             Bitmap bitMapImagenPerfil = ((BitmapDrawable)imagen.getDrawable()).getBitmap();
                             ByteArrayOutputStream stremSalida = new ByteArrayOutputStream();
                             bitMapImagenPerfil.compress(Bitmap.CompressFormat.JPEG,100,stremSalida);
@@ -216,22 +226,25 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
                         }
 
 
+                        //construimos el cliente
                         nuevoCliente.setNombre(nombre);
                         nuevoCliente.setApellidos(apellidos);
-                        nuevoCliente.setLocalidad(localidad);
+                        nuevoCliente.setUsuario(usuario);
+                        nuevoCliente.setPass(pass);
+                        nuevoCliente.setFechaNacimiento(fechaNacimientoUser);
+                        nuevoCliente.setLocalidad(ciudad);
                         nuevoCliente.setProvincia(provincia);
                         nuevoCliente.setComunidad(comunidad);
                         nuevoCliente.setPais(pais);
                         nuevoCliente.setMail(mail);
-                        nuevoCliente.setUsuario(usuario);
-                        nuevoCliente.setPass(pass);
-                        nuevoCliente.setFechaNacimiento(fechaNacimientoUser);
-                        nuevoCliente.setFotoByte(fotoPerfilByte);
                         nuevoCliente.setTelefono(telefono);
                         nuevoCliente.setTipoUsuario(tipoUsuario);
+                        nuevoCliente.setFotoByte(fotoPerfilByte);
+
 
                         nuevoUsuario = nuevoCliente;
 
+                        //registramos el usuario en la BD
                         new RegistroServer().execute();
                     }
 
@@ -267,6 +280,9 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
 
 
                 fechaNacimiento.setText(UtilFechas.valorarFechaPicker(dayOfMonth,month+1,year));
+                dia = dayOfMonth;
+                mes = month+1;
+                ano = year;
             }
         }
                 , dia, mes, ano);
@@ -329,6 +345,8 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
     public void cimag(View view) {
         cargarImagen();
     }
+
+
     private void cargarImagen() {
         Intent intent=new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         intent.setType("image/");
@@ -393,6 +411,7 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
 
             } catch (IOException e) {
                 Toast.makeText(getApplicationContext(),"Problema con la conexion al Servidor",Toast.LENGTH_LONG).show();
+
             }finally {
                 return  respuesta;
             }

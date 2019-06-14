@@ -1,28 +1,21 @@
 package com.example.agustin.festnowapp;
 
 
-import android.content.Context;
-import android.icu.util.LocaleData;
-import android.os.AsyncTask;
-import android.widget.Toast;
+
 
 import com.example.agustin.festnowapp.Util.CallBackControlErroresBD;
 import com.example.agustin.festnowapp.Util.ControlErroresBD;
-import com.example.agustin.festnowapp.Util.SesionServer;
 import com.example.agustin.festnowapp.Util.Validator;
-import com.google.android.gms.common.api.Status;
-
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.concurrent.ExecutionException;
 
-import modelos.Comando;
-
-public class ControlErroresRegistro implements CallBackControlErroresBD{
+/**
+ * Clase que realiza una validación de los campos del registro
+ */
+public class ControlErroresRegistro implements CallBackControlErroresBD {
     //datos que recibirá que queremos validar
     private String [] datos;
     //para informar si la validación general es o no correcta
@@ -31,9 +24,7 @@ public class ControlErroresRegistro implements CallBackControlErroresBD{
     //conjunto de campos tras su validacion
     ArrayList<Validator> listaValidator;
 
-    //atributos para las variables que consultamos en la base de datos
     boolean valUser,valMail,valPass;
-
 
 
 
@@ -45,10 +36,12 @@ public class ControlErroresRegistro implements CallBackControlErroresBD{
     }
 
 
-
-
+    /**
+     * Método que realiza una validación de todos los campos de registro
+     */
     public void validarCampos(){
         Validator validator = new Validator();
+
         //validacion de nombre
         if(controlNombre(datos[0])){
             validacion = false;
@@ -62,6 +55,8 @@ public class ControlErroresRegistro implements CallBackControlErroresBD{
 
         listaValidator.add(validator);
 
+
+
         //validacion de apellidos
         if(controlNombre(datos[1])){
             validacion = false;
@@ -74,43 +69,28 @@ public class ControlErroresRegistro implements CallBackControlErroresBD{
 
         listaValidator.add(validator);
 
+
+
         //validacion de fecha de nacimiento
         validator = controlFecha(datos[2]);
         listaValidator.add(validator);
 
-        //validacion de localidad
-        validator = controlLocalidad(datos[3]);
-        listaValidator.add(validator);
-
-
-        //validacion de provincia
-        validator = controlProvincia (datos[4]);
-        listaValidator.add(validator);
-
-
-        //validacion de comunidad
-        validator = controlComunidad(datos[5]);
-        listaValidator.add(validator);
-
-        //validacion de pais
-        validator = controlPais(datos[6]);
-        listaValidator.add(validator);
 
         //validacion de mail
-        validator = controlEmail(datos[7]);
+        validator = controlEmail(datos[3]);
         listaValidator.add(validator);
 
         //validacion de telefono
-        validator = controlTelefono(datos[8]);
+        validator = controlTelefono(datos[4]);
         listaValidator.add(validator);
 
         //validacion de nombre de usuario
-        validator = controlUser(datos[9]);
+        validator = controlUser(datos[5]);
         listaValidator.add(validator);
 
 
         //validacion de pass de usuario
-        validator = controlPass(datos[10]);
+        validator = controlPass(datos[6]);
         listaValidator.add(validator);
 
 
@@ -133,14 +113,7 @@ public class ControlErroresRegistro implements CallBackControlErroresBD{
     }
 
 
-    public Validator controlLocalidad(String localidad){
-        Validator validator = new Validator();
-        validator.setCampo("Localidad");
-        validator.setValidacionCampo(true);
 
-        //validar localidad
-        return validator;
-    }
 
     public Validator controlProvincia(String provincia){
         Validator validator = new Validator();
@@ -335,6 +308,25 @@ public class ControlErroresRegistro implements CallBackControlErroresBD{
     }
 
 
+    @Override
+    public void devolverRespuesta(boolean respuesta, String dato) {
+        switch (dato){
+            case "usuario":
+                valUser = respuesta;
+                break;
+            case "mail":
+                valMail = respuesta;
+                break;
+            case "pass":
+                valPass = respuesta;
+                break;
+        }
+    }
+
+
+
+    //getter and setter
+
     public String[] getDatos() {
         return datos;
     }
@@ -381,21 +373,5 @@ public class ControlErroresRegistro implements CallBackControlErroresBD{
 
     public void setValPass(boolean valPass) {
         this.valPass = valPass;
-    }
-
-
-    @Override
-    public void devolverRespuesta(boolean respuesta, String dato) {
-        switch (dato){
-            case "usuario":
-                this.setValUser(respuesta);
-                break;
-            case "mail":
-                valMail = respuesta;
-                break;
-            case "pass":
-                valPass = respuesta;
-                break;
-        }
     }
 }
