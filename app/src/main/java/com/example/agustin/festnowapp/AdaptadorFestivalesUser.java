@@ -10,9 +10,11 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.agustin.festnowapp.Util.SesionServer;
+import com.example.agustin.festnowapp.Util.UtilFechas;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -58,13 +60,13 @@ public class AdaptadorFestivalesUser extends BaseAdapter{
         convertView = LayoutInflater.from(contexto).inflate(R.layout.huecolistafesti,null);
         ImageView imagenFoto = (ImageView)convertView.findViewById(R.id.fotoLogo);
         TextView titulo = (TextView)convertView.findViewById(R.id.titulo);
-        TextView fechaInicio = (TextView)convertView.findViewById(R.id.fechainicio);
-        TextView fechaFin = (TextView)convertView.findViewById(R.id.fechafin);
+        TextView fecha = (TextView)convertView.findViewById(R.id.fecha);
         TextView ciudad = (TextView)convertView.findViewById(R.id.ciudad);
         TextView artistas = (TextView)convertView.findViewById(R.id.artistas);
         TextView precioMedio = (TextView)convertView.findViewById(R.id.precioMedio);
-        TextView valoracion = (TextView)convertView.findViewById(R.id.valoracion);
+        RatingBar ratingValoraciones = (RatingBar)convertView.findViewById(R.id.ratingValoracion);
         Button btnSeguir = (Button)convertView.findViewById(R.id.btnSeguirFestival);
+        TextView txtNumValoraciones = (TextView)convertView.findViewById(R.id.txtNumValoraciones);
 
         if(festival.getNombreFotoLogo().equals("default")){
             imagenFoto.setImageResource(R.mipmap.logo2);
@@ -74,9 +76,7 @@ public class AdaptadorFestivalesUser extends BaseAdapter{
         }
 
         titulo.setText(festival.getNombre());
-        SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
-        fechaInicio.setText(formatoFecha.format(festival.getFechaInicio()));
-        fechaFin.setText(formatoFecha.format(festival.getFechaFin()));
+        fecha.setText(UtilFechas.procesarFechaFestival(festival.getFechaInicio(),festival.getFechaFin()));
         ciudad.setText(festival.getLocalidad());
         precioMedio.setText(Double.toString(festival.getPrecioMedio())+" €");
         ArrayList<Artista> listaArtistas = festival.getListaArtistas();
@@ -94,22 +94,13 @@ public class AdaptadorFestivalesUser extends BaseAdapter{
 
 
         //recogida de valoraciones
-        String mensajeValoraciones;
-        double valoracionFestival = festival.getValoracion();
+        float valoracionFestival = (float)festival.getValoracion();
         int numeroValoraciones = festival.getNumValoraciones();
-        if(valoracionFestival==-1){
-            mensajeValoraciones = "Aún no tiene valoraciones";
-        }else{
-            mensajeValoraciones = "Valoración : "+valoracionFestival+" / "+numeroValoraciones;
+        ratingValoraciones.setRating(valoracionFestival);
+        String numValoracionesCadena = Integer.toString(numeroValoraciones);
+        txtNumValoraciones.setText("/"+numValoracionesCadena);
 
-        }
 
-        try{
-            valoracion.setText(mensajeValoraciones);
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
 
         final AdaptadorFestivalesUser adaptador = this;
 

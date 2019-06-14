@@ -34,38 +34,21 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/fechainicio"
-        android:layout_width="92dp"
-        android:layout_height="21dp"
+        android:id="@+id/fecha"
+        android:layout_width="205dp"
+        android:layout_height="25dp"
         android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:gravity="center"
-        android:hint="fechaInicio"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/fotoLogo"
-        app:layout_constraintStart_toEndOf="@+id/fotoLogo"
-        app:layout_constraintTop_toBottomOf="@+id/titulo"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/fechafin"
-        android:layout_width="103dp"
-        android:layout_height="23dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
-        android:gravity="center"
-        android:hint="fechaFin"
+        android:hint="fecha"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/fotoLogo"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/fechainicio"
+        app:layout_constraintStart_toEndOf="@+id/fotoLogo"
         app:layout_constraintTop_toBottomOf="@+id/titulo"
         app:layout_constraintVertical_bias="0.0" />
 
@@ -132,7 +115,6 @@
         android:id="@+id/precioMedio"
         android:layout_width="46dp"
         android:layout_height="32dp"
-        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
@@ -143,30 +125,44 @@
         android:textColor="@android:color/holo_red_dark"
         android:textSize="12sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/fechafin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.111"
         app:layout_constraintStart_toEndOf="@+id/titulo"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RatingBar
+        android:id="@+id/ratingValoracion"
+        android:layout_width="232dp"
+        android:layout_height="53dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="104dp"
+        android:layout_marginStart="104dp"
+        android:layout_marginTop="8dp"
+        android:isIndicator="true"
+        android:scaleX="0.6"
+        android:scaleY="0.6"
+        app:layout_constraintBottom_toBottomOf="@+id/btnSeguirFestival"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.888" />
+        app:layout_constraintVertical_bias="0.907"
+        tools:ignore="MissingConstraints" />
 
     <TextView
-        android:id="@+id/valoracion"
-        android:layout_width="206dp"
-        android:layout_height="27dp"
+        android:id="@+id/txtNumValoraciones"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:gravity="right|center"
-        android:hint="valoracion"
-        android:textColor="@android:color/holo_orange_dark"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/btnSeguirFestival"
+        app:layout_constraintBottom_toBottomOf="@+id/btnSeguirFestival"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.555"
-        app:layout_constraintStart_toEndOf="@+id/fotoLogo"
-        app:layout_constraintTop_toBottomOf="@+id/artistas"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintHorizontal_bias="0.904"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.861" />
 
 </android.support.constraint.ConstraintLayout>

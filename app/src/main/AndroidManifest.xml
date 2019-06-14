@@ -50,6 +50,8 @@
         <activity android:name=".PantallaPrincipalDelFestival"
             android:theme="@style/AppTheme.NoActionBar"
             />
+        <activity android:name=".PantallaPerfil"
+            android:theme="@style/Theme.AppCompat.Light"/>
 
         <!-- maps android key -->
         <meta-data

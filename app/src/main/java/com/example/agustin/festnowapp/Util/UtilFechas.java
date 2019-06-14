@@ -1,5 +1,8 @@
 package com.example.agustin.festnowapp.Util;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class UtilFechas {
 
     public static String valorarFechaPicker(int dia,int mes,int anyo){
@@ -11,6 +14,24 @@ public class UtilFechas {
         fechaProcesada+= " del "+anyo;
 
         return fechaProcesada;
+
+    }
+
+    public static String procesarFechaFestival(Date fechaInicio,Date fechaFin){
+        String fechaProcesada = "";
+        SimpleDateFormat fechaFormato = new SimpleDateFormat("dd-MM-yyyy");
+        //procesar fecha de inicio
+        String fechaInicioString = fechaFormato.format(fechaInicio);
+        String fechaSeparada [] = fechaInicioString.split("-");
+        fechaProcesada+=fechaSeparada[0]+" "+procesarMes(Integer.parseInt(fechaSeparada[1]))+" - ";
+
+        //procesar fecha fin
+        String fechaFinString = fechaFormato.format(fechaFin);
+        fechaSeparada = fechaFinString.split("-");
+        fechaProcesada+=fechaSeparada[0]+" "+procesarMes(Integer.parseInt(fechaSeparada[1]))+" del "+fechaSeparada[2];
+
+        return fechaProcesada;
+
 
     }
 

@@ -6,7 +6,6 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -30,7 +29,7 @@ public class PantallaPrincipal extends AppCompatActivity {
 
 
     private ToggleButton btnCoste,btnFecha,btnPopularidad;
-    private ImageButton btnFestivalesSeguidos;
+    private ImageButton btnFestivalesSeguidos,btnPerfil;
 
 
 
@@ -49,7 +48,7 @@ public class PantallaPrincipal extends AppCompatActivity {
         btnFecha = (ToggleButton)findViewById(R.id.btnFecha);
         btnPopularidad = (ToggleButton)findViewById(R.id.btnPopularidad);
         btnFestivalesSeguidos = (ImageButton)findViewById(R.id.btnFestivalesSeguidos);
-
+        btnPerfil = (ImageButton)findViewById(R.id.btnPerfil);
 
         //funcionalidad de festivales seguidos
         btnFestivalesSeguidos.setOnClickListener(new View.OnClickListener() {
@@ -105,13 +104,24 @@ public class PantallaPrincipal extends AppCompatActivity {
             }
         });
 
+        btnPerfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try{
+                    Intent pantallaPerfil = new Intent(getApplicationContext(),PantallaPerfil.class);
+                    startActivity(pantallaPerfil);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
+            }
+        });
+
 
 
     }
 
-    public void IrPantallaFestisSeguidos(View view) {
 
-    }
 
 
     private  class ListaFestivalesUser extends AsyncTask<Integer,Void,Object>{
