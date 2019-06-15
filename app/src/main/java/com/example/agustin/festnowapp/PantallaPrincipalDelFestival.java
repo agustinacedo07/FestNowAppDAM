@@ -48,6 +48,7 @@ import com.example.agustin.festnowapp.fragmentos.Fragment01;
 import com.example.agustin.festnowapp.fragmentos.Fragment02;
 import com.example.agustin.festnowapp.fragmentos.Fragment03;
 import com.example.agustin.festnowapp.fragmentos.Fragment04;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -172,6 +173,8 @@ public class PantallaPrincipalDelFestival extends AppCompatActivity
 
                                     CameraPosition camaraMapa = CameraPosition.builder().target(new LatLng(390711449,-57564694))
                                             .zoom(10).bearing(0).tilt(45).build();
+
+                                    googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(camaraMapa));
 
                                 }
                             });
