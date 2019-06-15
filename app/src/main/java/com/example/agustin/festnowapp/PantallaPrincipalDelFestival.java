@@ -43,10 +43,16 @@ import android.widget.Toast;
 import com.example.adrian.pruebapantallamenu.fragmentos.Fragment02;
 import com.example.adrian.pruebapantallamenu.fragmentos.Fragment03;
  */
+import com.example.agustin.festnowapp.Util.UtilFechas;
 import com.example.agustin.festnowapp.fragmentos.Fragment01;
 import com.example.agustin.festnowapp.fragmentos.Fragment02;
 import com.example.agustin.festnowapp.fragmentos.Fragment03;
 import com.example.agustin.festnowapp.fragmentos.Fragment04;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -75,37 +81,40 @@ public class PantallaPrincipalDelFestival extends AppCompatActivity
 
         super.onCreate(savedInstanceState);
 
-           festival = (Festival) getIntent().getExtras().get("festival");
-           setContentView(R.layout.activity_main);
-           Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-           setSupportActionBar(toolbar);
+            festival = (Festival) getIntent().getExtras().get("festival");
+            setContentView(R.layout.activity_main);
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
 
-           FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-           fab.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View view) {
-                   Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                           .setAction("Action", null).show();
-               }
-           });
+            FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
+            });
 
-           DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-           ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                   this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-           drawer.addDrawerListener(toggle);
-           toggle.syncState();
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                    this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+            drawer.addDrawerListener(toggle);
+            toggle.syncState();
 
-           NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-           navigationView.setNavigationItemSelectedListener(this);
+            NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+            navigationView.setNavigationItemSelectedListener(this);
 
 
-           try{
-               //implementacion slider
-               view1=(ViewPager) findViewById(R.id.view);
-               view1.setAdapter(new AdminPageAdapter());
-           }catch(Exception e){
-               e.printStackTrace();
-           }
+            try{
+                //implementacion slider
+                view1=(ViewPager) findViewById(R.id.view);
+                view1.setAdapter(new AdminPageAdapter());
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+
+
+
 
 
 
@@ -136,30 +145,9 @@ public class PantallaPrincipalDelFestival extends AppCompatActivity
                         try{
 
                             paginainformacion = (ScrollView) LayoutInflater.from(PantallaPrincipalDelFestival.this).inflate(R.layout.paginainformacion, null);
-                            ListView listaCabezasCartel = (ListView)paginainformacion.findViewById(R.id.listaCabezas);
-                            RecyclerView recycler = (RecyclerView)paginainformacion.findViewById(R.id.my_recycler_view);
-                            LinearLayoutManager manager = new LinearLayoutManager(getApplicationContext());
-                            manager.setOrientation(LinearLayoutManager.HORIZONTAL);
-                            recycler.setLayoutManager(manager);
 
 
-                           /* //scrooll de lista
-                            paginainformacion.setOnTouchListener(new View.OnTouchListener() {
-                                @Override
-                                public boolean onTouch(View v, MotionEvent event) {
-                                    paginainformacion.findViewById (R.id.listaCabezas) .getParent (). requestDisallowInterceptTouchEvent (false);
-                                    return false;
-                                }
-                            });
-                            */
-                            //scroll de vista
-                            listaCabezasCartel.setOnTouchListener(new View.OnTouchListener() {
-                                @Override
-                                public boolean onTouch(View v, MotionEvent event) {
-                                    v.getParent ().requestDisallowInterceptTouchEvent (true);
-                                    return false;
-                                }
-                            });
+
 
 
 
@@ -174,51 +162,29 @@ public class PantallaPrincipalDelFestival extends AppCompatActivity
                             Button btnWeb = (Button)paginainformacion.findViewById(R.id.btnWeb);
                             ImageButton btnInstagram = (ImageButton)paginainformacion.findViewById(R.id.btnInstagram);
                             ImageButton btnTwitter = (ImageButton)paginainformacion.findViewById(R.id.btnTwitter);
+                            final SupportMapFragment mapa = (SupportMapFragment)getSupportFragmentManager().findFragmentById(R.id.fragmentMapa);
 
-
-
-                            /*
-                            //para controlar los scroll de la pantalla y de la lista de artistas
-                            listaCabezasCartel.setOnTouchListener(new ListView.OnTouchListener(){
-
+                            mapa.getMapAsync(new OnMapReadyCallback() {
                                 @Override
-                                public boolean onTouch(View v, MotionEvent event) {
-                                    int action = event.getAction();
-                                    switch (action){
-                                        case MotionEvent.ACTION_DOWN:
-                                            v.getParent().requestDisallowInterceptTouchEvent(true);
-                                            break;
-                                        case MotionEvent.ACTION_UP:
-                                            v.getParent().requestDisallowInterceptTouchEvent(false);
-                                            break;
-                                    }
+                                public void onMapReady(GoogleMap googleMap) {
+                                    googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                                    googleMap.clear();
 
-                                    v.onTouchEvent(event);
+                                    CameraPosition camaraMapa = CameraPosition.builder().target(new LatLng(390711449,-57564694))
+                                            .zoom(10).bearing(0).tilt(45).build();
 
-                                    return true;
                                 }
                             });
-                            */
-
-
-                            Date fechaFestivalInicio = festival.getFechaInicio();
-                            Date fechaFestivalFin = festival.getFechaFin();
-                            String fechaPantalla = "";
-                            //procesamos la fecha
-                            SimpleDateFormat formatoAnyo = new SimpleDateFormat("yyyy");
-                            SimpleDateFormat formatoMes = new SimpleDateFormat("MM");
-                            SimpleDateFormat formatoDía = new SimpleDateFormat("dd");
-                            String anyo = formatoAnyo.format(fechaFestivalInicio);
-                            String mes = formatoMes.format(fechaFestivalInicio);
-                            mes = procesarMes(mes);
-                            String diaInicio = formatoDía.format(fechaFestivalInicio);
-                            String diaFin = formatoDía.format(fechaFestivalFin);
-
-                            fechaPantalla = diaInicio+" - "+diaFin+" de "+mes+" del "+anyo;
 
 
 
-                            fecha.setText(fechaPantalla);
+
+
+                            String fechaProcesada = UtilFechas.procesarFechaFestival(festival.getFechaInicio(),festival.getFechaFin());
+
+
+
+                            fecha.setText(fechaProcesada);
                             ciudad.setText(festival.getLocalidad());
                             descripcion.setText(festival.getDescripcion());
                             imagenLogo.setImageBitmap(BitmapFactory.decodeByteArray(festival.getImagenLogo(),0,festival.getImagenLogo().length));
@@ -290,10 +256,7 @@ public class PantallaPrincipalDelFestival extends AppCompatActivity
 
 
 
-                            ArrayList<Artista> artistasCabezasCartel = obtenerCabezasCartel(festival.getListaArtistas());
 
-                            AdaptadorArtistaBasico adaptadorCabezasCartel = new AdaptadorArtistaBasico(getApplicationContext(),artistasCabezasCartel,listaCabezasCartel,this);
-                            listaCabezasCartel.setAdapter(adaptadorCabezasCartel);
 
                         }catch (Exception e){
                             e.printStackTrace();

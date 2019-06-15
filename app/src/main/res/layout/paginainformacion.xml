@@ -211,70 +211,6 @@
         </android.support.constraint.ConstraintLayout>
 
         <android.support.constraint.ConstraintLayout
-            android:id="@+id/layoutCabezas"
-            android:layout_width="match_parent"
-            android:layout_height="420dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:background="@android:color/holo_blue_dark"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layoutInfoPral"
-            app:layout_constraintVertical_bias="0.0">
-
-            <TextView
-                android:id="@+id/txtCabezas"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:text="Cabezas de Cartel"
-                android:textColor="@android:color/holo_orange_light"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0" />
-
-            <android.support.v7.widget.RecyclerView
-                android:layout_width="347dp"
-                android:layout_height="346dp"
-                tools:layout_editor_absoluteX="11dp"
-                tools:layout_editor_absoluteY="52dp">
-
-                <ListView
-                    android:id="@+id/listaCabezas"
-                    android:layout_width="354dp"
-                    android:layout_height="370dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginTop="44dp"
-                    android:background="@android:color/holo_orange_light"
-                    android:orientation="horizontal"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </android.support.v7.widget.RecyclerView>
-
-
-        </android.support.constraint.ConstraintLayout>
-
-        <android.support.constraint.ConstraintLayout
             android:id="@+id/layoutDescripcion"
             android:layout_width="match_parent"
             android:layout_height="265dp"
@@ -372,6 +308,16 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0" />
+            <fragment
+                android:id="@+id/fragmentMapa"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="372dp"
+                android:layout_height="209dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0"></fragment>
 
 
         </android.support.constraint.ConstraintLayout>
