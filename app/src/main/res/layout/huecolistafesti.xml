@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/fotoLogo"
+        android:id="@+id/imagenLogoListadoArtista"
         android:layout_width="136dp"
         android:layout_height="212dp"
         android:layout_marginLeft="16dp"
@@ -30,7 +30,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/fotoLogo"
+        app:layout_constraintStart_toEndOf="@+id/imagenLogoListadoArtista"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -46,9 +46,9 @@
         android:gravity="center"
         android:hint="fecha"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/fotoLogo"
+        app:layout_constraintBottom_toBottomOf="@+id/imagenLogoListadoArtista"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/fotoLogo"
+        app:layout_constraintStart_toEndOf="@+id/imagenLogoListadoArtista"
         app:layout_constraintTop_toBottomOf="@+id/titulo"
         app:layout_constraintVertical_bias="0.0" />
 
@@ -65,10 +65,10 @@
         android:gravity="center"
         android:hint="localizacion"
         android:textStyle="bold|italic"
-        app:layout_constraintBottom_toBottomOf="@+id/fotoLogo"
+        app:layout_constraintBottom_toBottomOf="@+id/imagenLogoListadoArtista"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/fotoLogo"
+        app:layout_constraintStart_toEndOf="@+id/imagenLogoListadoArtista"
         app:layout_constraintTop_toBottomOf="@+id/titulo"
         app:layout_constraintVertical_bias="0.167" />
 
@@ -85,10 +85,10 @@
         android:gravity="fill"
         android:hint="artistas"
         android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="@+id/fotoLogo"
+        app:layout_constraintBottom_toBottomOf="@+id/imagenLogoListadoArtista"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/fotoLogo"
+        app:layout_constraintStart_toEndOf="@+id/imagenLogoListadoArtista"
         app:layout_constraintTop_toBottomOf="@+id/ciudad"
         app:layout_constraintVertical_bias="0.0" />
 
@@ -104,10 +104,10 @@
         android:layout_marginTop="8dp"
         android:text="SEGUIR"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/fotoLogo"
+        app:layout_constraintBottom_toBottomOf="@+id/imagenLogoListadoArtista"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/fotoLogo"
+        app:layout_constraintStart_toEndOf="@+id/imagenLogoListadoArtista"
         app:layout_constraintTop_toBottomOf="@+id/titulo"
         app:layout_constraintVertical_bias="1.0" />
 

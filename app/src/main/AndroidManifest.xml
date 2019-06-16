@@ -53,6 +53,9 @@
         <activity android:name=".PantallaPerfil"
             android:theme="@style/Theme.AppCompat.Light"/>
 
+        <activity android:name="com.example.agustin.festnowapp.PantallaDetalleArtista"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+
         <!-- maps android key -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"

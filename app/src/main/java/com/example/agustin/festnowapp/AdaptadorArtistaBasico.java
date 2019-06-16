@@ -12,19 +12,25 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.agustin.festnowapp.Util.UtilFechas;
+
 import java.util.ArrayList;
 
 import modelos.Artista;
+import modelos.Concierto;
+import modelos.Festival;
 
 public class AdaptadorArtistaBasico extends BaseAdapter {
     private Context contexto;
     private ArrayList<Artista> listaArtistas;
     private ListView listaPantallaArtistas;
     private PantallaPrincipalDelFestival.AdminPageAdapter pantallaFestivalDetalle;
+    private Festival festival;
 
 
 
-    public AdaptadorArtistaBasico(Context contexto, ArrayList<Artista> listaArtistas, ListView listaPantallaArtistas, PantallaPrincipalDelFestival.AdminPageAdapter pantallaFestivalDetalle) {
+    public AdaptadorArtistaBasico(Context contexto, ArrayList<Artista> listaArtistas, ListView listaPantallaArtistas, PantallaPrincipalDelFestival.AdminPageAdapter pantallaFestivalDetalle,Festival festival) {
+        this.festival = festival;
         this.contexto = contexto;
         this.listaArtistas = listaArtistas;
         this.listaPantallaArtistas = listaPantallaArtistas;
@@ -55,7 +61,7 @@ public class AdaptadorArtistaBasico extends BaseAdapter {
         //iniciamos los componentes
         ImageView imagenArtista = (ImageView)convertView.findViewById(R.id.imagenArtista);
         TextView nombreArtista = (TextView)convertView.findViewById(R.id.lblNombre);
-        TextView fechaConcierto = (TextView)convertView.findViewById(R.id.lblDia);
+        TextView fechaConcierto = (TextView)convertView.findViewById(R.id.lblFechaConcierto);
 
         if(artista.getNombreFoto().equals("default")){
            imagenArtista.setImageResource(R.mipmap.fotovacia);
@@ -65,8 +71,22 @@ public class AdaptadorArtistaBasico extends BaseAdapter {
         }
 
         nombreArtista.setText(artista.getNombreArtista());
-        //FALTA POR IMPLEMENTAR
+        String fechaConciertoString = "Fecha sin determinar";
         //fechaConcierto.setText();
+        for(int i=0;i<artista.getListaConciertos().size();i++){
+            Concierto conciertoArtista = artista.getListaConciertos().get(0);
+            if(conciertoArtista.getFestival().equals(festival)){
+                fechaConciertoString = UtilFechas.procesarFechaConcierto(conciertoArtista.getFechaConcierto());
+                break;
+            }
+
+
+        }
+
+
+        fechaConcierto.setText(fechaConciertoString);
+
+
 
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -54,6 +54,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -82,10 +83,13 @@ public class PantallaPrincipalDelFestival extends AppCompatActivity
 
         super.onCreate(savedInstanceState);
 
+
             festival = (Festival) getIntent().getExtras().get("festival");
             setContentView(R.layout.activity_main);
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
+
+            setTitle(festival.getNombre());
 
             FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
             fab.setOnClickListener(new View.OnClickListener() {
@@ -106,13 +110,14 @@ public class PantallaPrincipalDelFestival extends AppCompatActivity
             navigationView.setNavigationItemSelectedListener(this);
 
 
-            try{
+
                 //implementacion slider
                 view1=(ViewPager) findViewById(R.id.view);
                 view1.setAdapter(new AdminPageAdapter());
-            }catch(Exception e){
-                e.printStackTrace();
-            }
+
+
+
+
 
 
 
@@ -171,13 +176,30 @@ public class PantallaPrincipalDelFestival extends AppCompatActivity
                                     googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
                                     googleMap.clear();
 
-                                    CameraPosition camaraMapa = CameraPosition.builder().target(new LatLng(390711449,-57564694))
+                                    googleMap.addMarker(new MarkerOptions().position(new LatLng(festival.getLatitud(),festival.getLongitud())).title(festival.getNombre()).snippet(festival.getDescripcion()));
+
+
+                                    CameraPosition camaraMapa = CameraPosition.builder().target(new LatLng(festival.getLatitud(),festival.getLongitud()
+                                    ))
                                             .zoom(10).bearing(0).tilt(45).build();
 
                                     googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(camaraMapa));
 
                                 }
                             });
+
+                            TextView labelNumeroSeguidores = (TextView)paginainformacion.findViewById(R.id.labelNumSeguidores);
+                            TextView labelNumValoraciones = (TextView)paginainformacion.findViewById(R.id.labelNumValoraciones);
+                            RatingBar ratingValoracionFestDetalle = (RatingBar)paginainformacion.findViewById(R.id.ratingValoracionDetalle);
+                            float valoracionFest = (float)festival.getValoracion();
+                            String numValoraciones = Integer.toString(festival.getNumValoraciones());
+                            int numeroSeguidores = festival.getNumSeguidores();
+
+
+
+                            ratingValoracionFestDetalle.setRating(valoracionFest);
+                            labelNumValoraciones.setText(numValoraciones);
+                            labelNumeroSeguidores.setText(Integer.toString(numeroSeguidores)+" Seguidores");
 
 
 
@@ -276,7 +298,7 @@ public class PantallaPrincipalDelFestival extends AppCompatActivity
 
                         ListView listaArtistasView = (ListView)paginaartistas.findViewById(R.id.listaArtistasGeneral);
 
-                        AdaptadorArtistaBasico adaptadorArtistasBasico = new AdaptadorArtistaBasico(getApplicationContext(),festival.getListaArtistas(),listaArtistasView,this);
+                        AdaptadorArtistaBasico adaptadorArtistasBasico = new AdaptadorArtistaBasico(getApplicationContext(),festival.getListaArtistas(),listaArtistasView,this,festival);
                         listaArtistasView.setAdapter(adaptadorArtistasBasico);
 
                     }
@@ -295,60 +317,7 @@ public class PantallaPrincipalDelFestival extends AppCompatActivity
             return paginaactual;
         }
 
-        private String procesarMes(String mes) {
-            String mesCadena = "";
-            switch (mes){
-                case "01":
-                    mesCadena = "Enero";
-                break;
-                case "02":
-                    mesCadena = "Febrero";
-                    break;
-                case "03":
-                    mesCadena = "Marzo";
-                    break;
-                case "04":
-                    mesCadena = "Abril";
-                    break;
-                case "05":
-                    mesCadena = "Mayo";
-                    break;
-                case "06":
-                    mesCadena = "Junio";
-                    break;
-                case "07":
-                    mesCadena = "Julio";
-                    break;
-                case "08":
-                    mesCadena = "Agosto";
-                    break;
-                case "09":
-                    mesCadena = "Septiembre";
-                    break;
-                case "10":
-                    mesCadena = "Octubre";
-                    break;
-                case "11":
-                    mesCadena = "Noviembre";
-                    break;
-                case "12":
-                    mesCadena = "Diciembre";
-                    break;
-
-
-
-
-
-
-
-
-
-
-
-            }
-
-            return mesCadena;
-        }
+       
 
         @Override
         public boolean isViewFromObject(View view, Object object)
@@ -358,28 +327,18 @@ public class PantallaPrincipalDelFestival extends AppCompatActivity
 
 
         public void detalleArtista(Artista artista){
-            Toast.makeText(getApplicationContext(),"Ha pulsado al artista "+artista.getNombreArtista(),Toast.LENGTH_LONG).show();
+            Intent pantallaDetalleArtista = new Intent(getApplicationContext(),PantallaDetalleArtista.class);
+            pantallaDetalleArtista.putExtra("artista",artista);
+            pantallaDetalleArtista.putExtra("festival",festival);
+            startActivity(pantallaDetalleArtista);
         }
 
 
-        @Override
-        public void destroyItem(View collection, int position, Object view)
-        {
-            ((ViewPager) collection).removeView((View) view);
-        }
+
 
     }
 
-    private ArrayList<Artista> obtenerCabezasCartel(ArrayList<Artista> listaArtistas) {
-        ArrayList <Artista> listaCabezasCartel = new ArrayList<>();
-        for (Artista artista : listaArtistas){
-            if(artista.getCabezaCartel()==1){
-                listaCabezasCartel.add(artista);
-            }
-        }
 
-        return listaCabezasCartel;
-    }
 
     public void irPaginaInformacion(View v) {
         view1.setCurrentItem(0);
@@ -471,10 +430,11 @@ public class PantallaPrincipalDelFestival extends AppCompatActivity
     }
 
 
+    public Festival getFestival() {
+        return festival;
+    }
 
-
-
-
-
-
+    public void setFestival(Festival festival) {
+        this.festival = festival;
+    }
 }

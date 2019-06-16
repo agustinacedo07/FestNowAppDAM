@@ -35,6 +35,17 @@ public class UtilFechas {
 
     }
 
+    public static String procesarFechaConcierto(Date fechaConcierto){
+        String fechaProcesada = "";
+
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("MM-dd");
+        String [] tokensFecha = formatoFecha.format(fechaConcierto).split("-");
+        fechaProcesada = tokensFecha[1]+" de "+procesarMes(Integer.parseInt(tokensFecha[0]));
+
+
+        return fechaProcesada;
+    }
+
 
     private static String procesarMes(int mes){
         String mesCadena = "";

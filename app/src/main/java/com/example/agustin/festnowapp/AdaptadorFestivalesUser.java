@@ -16,7 +16,6 @@ import android.widget.TextView;
 import com.example.agustin.festnowapp.Util.SesionServer;
 import com.example.agustin.festnowapp.Util.UtilFechas;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import modelos.Artista;
@@ -58,7 +57,7 @@ public class AdaptadorFestivalesUser extends BaseAdapter{
 
 
         convertView = LayoutInflater.from(contexto).inflate(R.layout.huecolistafesti,null);
-        ImageView imagenFoto = (ImageView)convertView.findViewById(R.id.fotoLogo);
+        ImageView imagenFoto = (ImageView)convertView.findViewById(R.id.imagenLogoListadoArtista);
         TextView titulo = (TextView)convertView.findViewById(R.id.titulo);
         TextView fecha = (TextView)convertView.findViewById(R.id.fecha);
         TextView ciudad = (TextView)convertView.findViewById(R.id.ciudad);
