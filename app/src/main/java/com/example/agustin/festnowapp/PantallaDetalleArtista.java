@@ -113,8 +113,6 @@ public class PantallaDetalleArtista extends AppCompatActivity {
 
     }
 
-
-
     public void lanzarDetalleFestival (Festival festival){
         Intent pantallaDetalleFestival = new Intent(getApplicationContext(),PantallaPrincipalDelFestival.class);
         pantallaDetalleFestival.putExtra("festival",festival);

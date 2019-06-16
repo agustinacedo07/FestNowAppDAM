@@ -71,13 +71,15 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
     String ciudad = "",provincia = "",comunidad = "",pais = "";
 
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registro);
+        try{
+            setContentView(R.layout.activity_registro);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
         //instanciar los componentes de laq pantalla
         txtProvincia=(TextView)findViewById(R.id.txtProvincia);

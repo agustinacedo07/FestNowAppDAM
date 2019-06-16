@@ -1,6 +1,7 @@
 package com.example.agustin.festnowapp;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -9,8 +10,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import com.example.agustin.festnowapp.Util.SesionServer;
 
@@ -33,6 +36,11 @@ import modelos.Comando;
  */
 public class Logueo extends AppCompatActivity implements View.OnClickListener {
 
+
+    //video
+    VideoView videoView;
+
+
     //elementos de la pantalla
     private EditText usuario, contraseña;
     private Button entrar;
@@ -42,14 +50,29 @@ public class Logueo extends AppCompatActivity implements View.OnClickListener {
     String usuarioLogin,passLogin;
 
 
-
-
     //metodo constructor de la ventana
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logueo);
 
+        videoView = (VideoView) findViewById(R.id.videofondo);
+
+       // String videoPath = "android.resource://" + getPackageName() +"/"+R.raw.recortadofinal.mp4;
+       // String prueba = "./../../res/raw/recortadofinal.mp4";
+
+
+        String videoPath = "android.resource://com.example.agustin.festnowapp/"+R.raw.recortadofinal;
+
+
+        // Uri path = Uri.parse(“android.resource://com.example.reproducirvideo/”
+        //+ R.raw.intromono);
+
+        Uri uri= Uri.parse(videoPath);
+        videoView.setMediaController(new MediaController(this));
+        videoView.setVideoURI(uri);
+        videoView.requestFocus();
+        videoView.start();
 
         entrar = (Button) findViewById(R.id.entrar);
         usuario = (EditText) findViewById(R.id.usuario);
