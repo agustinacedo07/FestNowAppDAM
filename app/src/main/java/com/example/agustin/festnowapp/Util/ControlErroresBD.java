@@ -45,8 +45,8 @@ public class ControlErroresBD extends AsyncTask<Void,Boolean,Boolean>{
         }
 
         try {
-            SesionServer.flujoSalidaObjetos.writeObject(comando);
-            validacionCampo = SesionServer.flujoDatosEntrada.readBoolean();
+            SesionUserServer.flujoSalidaObjetosUser.writeObject(comando);
+            validacionCampo = SesionUserServer.flujoDatosEntradaUser.readBoolean();
         } catch (IOException e) {
             validacionCampo = false;
             return validacionCampo;

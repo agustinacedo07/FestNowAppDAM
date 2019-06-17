@@ -11,7 +11,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import com.example.agustin.festnowapp.Util.SesionServer;
+
+import com.example.agustin.festnowapp.Util.SesionUserServer;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -39,10 +40,9 @@ public class PantallaPrincipal extends AppCompatActivity {
 
             setContentView(R.layout.activity_pantalla_principal);
 
-
         listaFestivales = (ListView)findViewById(R.id.listFestivalesPantallaPral);
 
-        new ListaFestivalesUser(SesionServer.clienteAplicacion.getIdCliente(),listaFestivales).execute();
+        new ListaFestivalesUser(SesionUserServer.clienteAplicacion.getIdCliente(),listaFestivales).execute();
 
         btnCoste = (ToggleButton)findViewById(R.id.btnCoste);
         btnFecha = (ToggleButton)findViewById(R.id.btnFecha);
@@ -124,6 +124,9 @@ public class PantallaPrincipal extends AppCompatActivity {
 
 
 
+
+
+
     private  class ListaFestivalesUser extends AsyncTask<Integer,Void,Object>{
         int idCliente;
         ListView listaFestivalesUsuario;
@@ -141,8 +144,8 @@ public class PantallaPrincipal extends AppCompatActivity {
             comando.getArgumentos().add(idCliente);
 
             try {
-                SesionServer.flujoSalidaObjetos.writeObject(comando);
-                comando = (Comando) SesionServer.flujoEntradaObjetos.readObject();
+                SesionUserServer.flujoSalidaObjetosUser.writeObject(comando);
+                comando = (Comando) SesionUserServer.flujoEntradaObjetosUser.readObject();
             } catch (IOException e) {
                 return null;
             } catch (ClassNotFoundException e) {
@@ -166,6 +169,8 @@ public class PantallaPrincipal extends AppCompatActivity {
     }
 
 
+
+    //Métodos de ordenación de los festivales
     public void ordenarCoste(){
         Collections.sort(AdaptadorFestivalesUser.getListaFestivales(), new Comparator<Festival>() {
             @Override

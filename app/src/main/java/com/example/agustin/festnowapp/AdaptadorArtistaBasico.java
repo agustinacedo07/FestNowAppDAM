@@ -24,17 +24,15 @@ public class AdaptadorArtistaBasico extends BaseAdapter {
     private Context contexto;
     private ArrayList<Artista> listaArtistas;
     private ListView listaPantallaArtistas;
-    private PantallaPrincipalDelFestival.AdminPageAdapter pantallaFestivalDetalle;
     private Festival festival;
 
 
 
-    public AdaptadorArtistaBasico(Context contexto, ArrayList<Artista> listaArtistas, ListView listaPantallaArtistas, PantallaPrincipalDelFestival.AdminPageAdapter pantallaFestivalDetalle,Festival festival) {
+    public AdaptadorArtistaBasico(Context contexto, ArrayList<Artista> listaArtistas, ListView listaPantallaArtistas,Festival festival) {
         this.festival = festival;
         this.contexto = contexto;
         this.listaArtistas = listaArtistas;
         this.listaPantallaArtistas = listaPantallaArtistas;
-        this.pantallaFestivalDetalle = pantallaFestivalDetalle;
     }
 
     @Override
@@ -88,12 +86,13 @@ public class AdaptadorArtistaBasico extends BaseAdapter {
 
 
 
+        /*
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 pantallaFestivalDetalle.detalleArtista(artista);
             }
-        });
+        });*/
 
 
 
@@ -129,11 +128,5 @@ public class AdaptadorArtistaBasico extends BaseAdapter {
         this.listaPantallaArtistas = listaPantallaArtistas;
     }
 
-    public PantallaPrincipalDelFestival.AdminPageAdapter getPantallaFestivalDetalle() {
-        return pantallaFestivalDetalle;
-    }
 
-    public void setPantallaFestivalDetalle(PantallaPrincipalDelFestival.AdminPageAdapter pantallaFestivalDetalle) {
-        this.pantallaFestivalDetalle = pantallaFestivalDetalle;
-    }
 }

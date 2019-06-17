@@ -5,7 +5,8 @@ import android.os.AsyncTask;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.agustin.festnowapp.Util.SesionServer;
+
+import com.example.agustin.festnowapp.Util.SesionUserServer;
 
 import java.io.IOException;
 
@@ -38,8 +39,8 @@ public class SeguirFestivalServer extends AsyncTask<String,Void,Boolean>{
         comando.getArgumentos().add(idFestival);
 
         try {
-            SesionServer.flujoSalidaObjetos.writeObject(comando);
-            comando = (Comando) SesionServer.flujoEntradaObjetos.readObject();
+            SesionUserServer.flujoSalidaObjetosUser.writeObject(comando);
+            comando = (Comando) SesionUserServer.flujoEntradaObjetosUser.readObject();
 
              follow = comando.isRespuestaBooleana();
 

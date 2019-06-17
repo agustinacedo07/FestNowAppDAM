@@ -23,7 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-import com.example.agustin.festnowapp.Util.SesionServer;
+import com.example.agustin.festnowapp.Util.SesionUserServer;
 import com.example.agustin.festnowapp.Util.UtilFechas;
 import com.example.agustin.festnowapp.Util.UtilGeo;
 import com.example.agustin.festnowapp.Util.Validator;
@@ -191,7 +191,7 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
                     if(!controlErrores.isValidacion()){
                         //comprobar los errores y mostrarlos en un cuadro de diálogo
                         mostrarDialogoErrores(controlErrores.getListaValidator());
-                    }else if(SesionServer.skCliente ==null) {
+                    }else if(SesionUserServer.skClienteUser ==null) {
                         Toast.makeText(getApplicationContext(),"No tiene conexion",Toast.LENGTH_LONG).show();
                     }else{
 
@@ -408,8 +408,8 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
             comando.getArgumentos().add(nuevoUsuario);
 
             try {
-                SesionServer.flujoSalidaObjetos.writeObject(comando);
-                respuesta = SesionServer.flujoDatosEntrada.readBoolean();
+                SesionUserServer.flujoSalidaObjetosUser.writeObject(comando);
+                respuesta = SesionUserServer.flujoDatosEntradaUser.readBoolean();
 
             } catch (IOException e) {
                 Toast.makeText(getApplicationContext(),"Problema con la conexion al Servidor",Toast.LENGTH_LONG).show();

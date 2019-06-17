@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/contenedor"
@@ -10,95 +10,46 @@
     tools:context=".PantallaPrincipalDelFestival"
     tools:showIn="content_main">
 
-    <Button
-        android:id="@+id/Informacion"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="120dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="24dp"
-        android:background="@color/colorAccent"
-        android:onClick="irPaginaInformacion"
-        android:text="Informacion"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <!--<include
+        layout="@layout/app_bar_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-    <Button
-        android:id="@+id/Artistas"
-        style="@style/Widget.AppCompat.Button.Colored"
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
         android:layout_width="wrap_content"
-        android:layout_height="36dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="24dp"
-        android:background="@color/colorAccent"
-        android:onClick="irPaginaArtistas"
-        android:text="Artistas"
-        app:layout_constraintStart_toEndOf="@+id/Informacion"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_header_main"
+        app:menu="@menu/activity_main_drawer" />-->
 
-    <Button
-        android:id="@+id/noticias"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="wrap_content"
-        android:layout_height="36dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="24dp"
-        android:background="@color/colorAccent"
-        android:onClick="irPaginaNoticias"
-        android:text="Noticias"
-        app:layout_constraintStart_toEndOf="@+id/Artistas"
-        app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/Foro"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="64dp"
-        android:layout_height="36dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="24dp"
-        android:background="@color/colorAccent"
-        android:text="Foro"
-        app:layout_constraintStart_toEndOf="@+id/noticias"
-        app:layout_constraintTop_toTopOf="parent" />
+    <!-- <android.support.constraint.Guideline
+         android:id="@+id/guideline"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content" />
 
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="20dp" />
+     <android.support.constraint.Guideline
+         android:id="@+id/guideline2"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content" />
 
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="20dp" />
+     <android.support.constraint.Barrier
+         android:id="@+id/barrier"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content" />-->
 
-    <android.support.constraint.Barrier
-        android:id="@+id/barrier"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:barrierDirection="left" />
-
+    <!-- MODIFICACION WAWA -->
     <android.support.v4.view.ViewPager
         android:id="@+id/view"
         android:layout_width="354dp"
         android:layout_height="482dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
         android:background="@color/common_google_signin_btn_text_dark_default"
-        android:visibility="visible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.533"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/noticias" />
+        android:visibility="visible" />
 
-</android.support.constraint.ConstraintLayout>
+
+</RelativeLayout>

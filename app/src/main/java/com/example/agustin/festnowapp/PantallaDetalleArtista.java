@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.agustin.festnowapp.Util.UtilFechas;
 
@@ -27,8 +28,8 @@ public class PantallaDetalleArtista extends AppCompatActivity {
     private TextView descripcionArtista;
     private ListView listaFestivalesArtista;
 
-    private Artista artista;
-    private Festival festival;
+    //private Artista artista;
+    //private Festival festival;
 
 
 
@@ -40,9 +41,12 @@ public class PantallaDetalleArtista extends AppCompatActivity {
 
             setContentView(R.layout.detalle_artista_festival);
 
-            artista = (Artista) getIntent().getExtras().get("artista");
-            festival = (Festival) getIntent().getExtras().get("festival");
+            //artista = (Artista) getIntent().getExtras().get("artista");
+            //festival = (Festival) getIntent().getExtras().get("festival");
 
+
+        String uno = (String) getIntent().getExtras().get("artista");
+        Toast.makeText(getApplicationContext(),"Mensaje recibido "+uno,Toast.LENGTH_LONG).show();
             //instanciar los elementos de la pantalla
             imagenArtista = (ImageView) findViewById(R.id.imagenDetalleArtista);
             imagenLogoFest = (ImageView)findViewById(R.id.imagenLogoDetalleArtista);
@@ -52,6 +56,9 @@ public class PantallaDetalleArtista extends AppCompatActivity {
             descripcionArtista = (TextView)findViewById(R.id.etiDescripcionArtistaDetalle);
             listaFestivalesArtista = (ListView)findViewById(R.id.listaFestivalesArtistaDetalle);
 
+
+
+            /*
             //imagen artista
             if(!artista.getNombreFoto().equals("default")){
                 Bitmap imagenArtistaByte = BitmapFactory.decodeByteArray(artista.getFotoArtistaByte(),0,artista.getFotoArtistaByte().length);
@@ -60,6 +67,8 @@ public class PantallaDetalleArtista extends AppCompatActivity {
                 imagenArtista.setImageResource(R.mipmap.logo2);
             }
 
+*/
+            /*
             //imagen logo del festival
             if(!festival.getNombreFotoLogo().equals("default")){
                 Bitmap imagenLogoFestByte = BitmapFactory.decodeByteArray(festival.getImagenLogo(),0,festival.getImagenLogo().length);
@@ -67,7 +76,9 @@ public class PantallaDetalleArtista extends AppCompatActivity {
             }else{
                 imagenLogoFest.setImageResource(R.mipmap.logo2);
             }
+            */
 
+            /*
             //fecha de concierto
             String fechaConciertoProcesada = "Fecha sin determinar";
             for(int i=0;i<artista.getListaConciertos().size();i++){
@@ -78,9 +89,11 @@ public class PantallaDetalleArtista extends AppCompatActivity {
                 }
             }
 
+
             fechaConcierto.setText(fechaConciertoProcesada);
+*/
 
-
+            /*
             //funcionalidad del boton de spotify
             btnSpotify.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -97,19 +110,20 @@ public class PantallaDetalleArtista extends AppCompatActivity {
                 }
             });
 
+*/
             //nombre artista
-            nombreArtista.setText(artista.getNombreArtista());
+//            nombreArtista.setText(artista.getNombreArtista());
 
             //descripcion artista
-            descripcionArtista.setText(artista.getDescripcion());
+  //          descripcionArtista.setText(artista.getDescripcion());
 
 
-
+/*
             //lista de festivales
             AdaptadorFestivalesArtista adaptadorListaFestivales = new AdaptadorFestivalesArtista(getApplicationContext(),artista.getListaFestivales(),listaFestivalesArtista,this,artista);
             listaFestivalesArtista.setAdapter(adaptadorListaFestivales);
 
-
+*/
 
     }
 

@@ -2,7 +2,6 @@ package com.example.agustin.festnowapp;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.se.omapi.Session;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,7 +9,8 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.agustin.festnowapp.Util.SesionServer;
+
+import com.example.agustin.festnowapp.Util.SesionUserServer;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -34,7 +34,8 @@ public class FestivalesSeguidos extends AppCompatActivity {
 
 
 
-        new ListarFestivalesFollow(SesionServer.clienteAplicacion.getIdCliente(),listaFestivales,this).execute();
+
+        new ListarFestivalesFollow(SesionUserServer.clienteAplicacion.getIdCliente(),listaFestivales,this).execute();
 
         //funcionalidad de volver a pantalla principal
         btnVolverPantallaPrincipal.setOnClickListener(new View.OnClickListener() {
@@ -45,6 +46,15 @@ public class FestivalesSeguidos extends AppCompatActivity {
             }
         });
     }
+
+
+
+
+
+
+
+
+
 
     private class ListarFestivalesFollow extends AsyncTask<Integer,Void,Object>{
         private int idCliente;
@@ -64,8 +74,8 @@ public class FestivalesSeguidos extends AppCompatActivity {
             comando.getArgumentos().add(idCliente);
 
             try {
-                SesionServer.flujoSalidaObjetos.writeObject(comando);
-                comando = (Comando) SesionServer.flujoEntradaObjetos.readObject();
+                SesionUserServer.flujoSalidaObjetosUser.writeObject(comando);
+                comando = (Comando) SesionUserServer.flujoEntradaObjetosUser.readObject();
 
             } catch (IOException e) {
                 return  null;
@@ -90,6 +100,11 @@ public class FestivalesSeguidos extends AppCompatActivity {
             }
         }
     }
+
+
+
+
+
 
 
     public void lanzarDetalleFestival(Festival festival){

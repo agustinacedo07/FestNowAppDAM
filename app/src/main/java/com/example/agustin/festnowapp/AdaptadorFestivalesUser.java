@@ -13,7 +13,7 @@ import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.example.agustin.festnowapp.Util.SesionServer;
+import com.example.agustin.festnowapp.Util.SesionUserServer;
 import com.example.agustin.festnowapp.Util.UtilFechas;
 
 import java.util.ArrayList;
@@ -107,7 +107,7 @@ public class AdaptadorFestivalesUser extends BaseAdapter{
         btnSeguir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    new SeguirFestivalServer(contexto,festival,position,adaptador).execute(Integer.toString(SesionServer.clienteAplicacion.getIdCliente()),Integer.toString(festival.getIdFestival()));
+                    new SeguirFestivalServer(contexto,festival,position,adaptador).execute(Integer.toString(SesionUserServer.clienteAplicacion.getIdCliente()),Integer.toString(festival.getIdFestival()));
             }
         });
 

@@ -3,9 +3,7 @@ package com.example.agustin.festnowapp;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -15,7 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
-import com.example.agustin.festnowapp.Util.SesionServer;
+
+import com.example.agustin.festnowapp.Util.SesionUserServer;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -50,29 +49,23 @@ public class Logueo extends AppCompatActivity implements View.OnClickListener {
     String usuarioLogin,passLogin;
 
 
+
+
     //metodo constructor de la ventana
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logueo);
 
+        //FALTA IMPLEMENTAR
         videoView = (VideoView) findViewById(R.id.videofondo);
-
-       // String videoPath = "android.resource://" + getPackageName() +"/"+R.raw.recortadofinal.mp4;
-       // String prueba = "./../../res/raw/recortadofinal.mp4";
-
-
         String videoPath = "android.resource://com.example.agustin.festnowapp/"+R.raw.recortadofinal;
-
-
-        // Uri path = Uri.parse(“android.resource://com.example.reproducirvideo/”
-        //+ R.raw.intromono);
-
         Uri uri= Uri.parse(videoPath);
         videoView.setMediaController(new MediaController(this));
         videoView.setVideoURI(uri);
         videoView.requestFocus();
         videoView.start();
+
 
         entrar = (Button) findViewById(R.id.entrar);
         usuario = (EditText) findViewById(R.id.usuario);
@@ -83,7 +76,7 @@ public class Logueo extends AppCompatActivity implements View.OnClickListener {
         enlaceRegistro.setOnClickListener(this);
 
         //por si se vuelve a la pantalla de logueo tras un registro que no inicialize de nuevo la conexion
-        if(SesionServer.skCliente==null){
+        if(SesionUserServer.skClienteUser==null){
             new SesionServer().execute();
 
         }
@@ -98,7 +91,7 @@ public class Logueo extends AppCompatActivity implements View.OnClickListener {
                 //control de campos vacíos
                 if(usuarioLogin.isEmpty() || passLogin.isEmpty()){
                     Toast.makeText(getApplicationContext(),"Los campos son obligatorios",Toast.LENGTH_LONG).show();
-                }else if(SesionServer.skCliente == null){//control de conexion
+                }else if(SesionUserServer.skClienteUser == null){//control de conexion
                     Toast.makeText(getApplicationContext(),"No tiene conexion a la red",Toast.LENGTH_LONG).show();
                 }else{
                     new LoginServer().execute();
@@ -127,14 +120,9 @@ public class Logueo extends AppCompatActivity implements View.OnClickListener {
     }
 
 
-
-
-
-
-
-
-
-
+    /**
+     * Clase que realiza el Logueo del cliente
+     */
     private class LoginServer extends  AsyncTask<Void,Void,Boolean>{
         Comando comando = new Comando();
 
@@ -146,8 +134,8 @@ public class Logueo extends AppCompatActivity implements View.OnClickListener {
             comando.getArgumentos().add(passLogin);
 
             try {
-                SesionServer.flujoSalidaObjetos.writeObject(comando);
-                comando = (Comando) SesionServer.flujoEntradaObjetos.readObject();
+                SesionUserServer.flujoSalidaObjetosUser.writeObject(comando);
+                comando = (Comando) SesionUserServer.flujoEntradaObjetosUser.readObject();
                  validacionLogin = comando.isRespuestaBooleana();
 
             } catch (IOException e) {
@@ -165,12 +153,12 @@ public class Logueo extends AppCompatActivity implements View.OnClickListener {
         protected void onPostExecute(Boolean validacionLogin) {
             if(validacionLogin){
                 //creamos una variable estática con todos los datos del cliente logueado
-                SesionServer.clienteAplicacion = (Cliente) comando.getArgumentos().get(0);
+                SesionUserServer.clienteAplicacion = (Cliente) comando.getArgumentos().get(0);
                 Intent pantallaPrincipal = new Intent(getApplicationContext(),PantallaPrincipal.class);
                 startActivity(pantallaPrincipal);
                 Toast.makeText(getApplicationContext(),"Bienvenido a la Aplicación FEST NOW",Toast.LENGTH_LONG).show();
                 //evita que vuelva a la pantalla de logueo si ya ha iniciado sesion
-                finish();
+                //finish();
             }else{
                 Toast.makeText(getApplicationContext(),"Usuario y contraseña incorrectos",Toast.LENGTH_LONG).show();
             }
@@ -179,6 +167,70 @@ public class Logueo extends AppCompatActivity implements View.OnClickListener {
             contraseña.setText("");
         }
     }
+
+
+    /**
+     * Clase que ejecuta un hilo que realiza la conexion con el servidor e inicializa su conexion y flujos para usarlo
+     * en la ejecución del prorgama
+     */
+    private class SesionServer extends AsyncTask<Void,Void,Boolean> {
+        //atributos de comunicación con el servidor
+        Socket skCliente;
+        //flujo de datos
+        DataInputStream flujoDatosEntrada;
+        DataOutputStream flujoDatosSalida;
+        //flujo de objetos
+        ObjectInputStream flujoEntradaObjetos;
+        ObjectOutputStream flujoSalidaObjetos;
+
+
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            return abrirFlujos();
+        }
+
+
+        /**
+         * Abre los flujos de comunicación con el servidor
+         * @return - un booleano indicando si la conexion se ha realizado o no
+         */
+        private boolean abrirFlujos() {
+            try {
+
+                skCliente = new Socket(Constantes.IP_CONEXION,1990);
+
+
+                InputStream entrada = skCliente.getInputStream();
+                OutputStream salida = skCliente.getOutputStream();
+
+
+                flujoSalidaObjetos = new ObjectOutputStream(salida);
+                flujoEntradaObjetos = new ObjectInputStream(skCliente.getInputStream());
+                flujoDatosSalida = new DataOutputStream(salida);
+                flujoDatosEntrada = new DataInputStream(entrada);
+
+
+                SesionUserServer.skClienteUser = skCliente;
+                SesionUserServer.flujoSalidaObjetosUser = flujoSalidaObjetos;
+                SesionUserServer.flujoEntradaObjetosUser = flujoEntradaObjetos;
+                SesionUserServer.flujoDatosSalidaUser = flujoDatosSalida;
+                SesionUserServer.flujoDatosEntradaUser = flujoDatosEntrada;
+
+
+
+                return true;
+
+
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                return false;
+            }
+
+        }
+    }
+
 
 
 

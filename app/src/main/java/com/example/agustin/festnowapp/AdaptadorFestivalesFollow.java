@@ -56,13 +56,13 @@ public class AdaptadorFestivalesFollow extends BaseAdapter {
 
         convertView = LayoutInflater.from(contexto).inflate(R.layout.itemfestivalesfollow,null);
         //adaptar componentes de item
-        ImageView imagenFoto = (ImageView)convertView.findViewById(R.id.imagenLogoListadoArtista);
-        TextView titulo = (TextView)convertView.findViewById(R.id.titulo);
-        TextView fecha = (TextView)convertView.findViewById(R.id.fecha);
-        TextView ciudad = (TextView)convertView.findViewById(R.id.ciudad);
-        TextView artistas = (TextView)convertView.findViewById(R.id.artistas);
-        RatingBar valoracion = (RatingBar)convertView.findViewById(R.id.ratingValoracionFollow);
-        TextView numValoraciones = (TextView)convertView.findViewById(R.id.txtNumValoracionesFollow);
+        ImageView imagenFoto = (ImageView)convertView.findViewById(R.id.imagenLogoFestFollow);
+        TextView titulo = (TextView)convertView.findViewById(R.id.tituloFestFollow);
+        TextView fecha = (TextView)convertView.findViewById(R.id.fechaFestFollow);
+        TextView ciudad = (TextView)convertView.findViewById(R.id.ciudadFestFollow);
+        TextView artistas = (TextView)convertView.findViewById(R.id.artistasFestFollow);
+        RatingBar valoracion = (RatingBar)convertView.findViewById(R.id.ratingValoracionFestFollow);
+        TextView numValoraciones = (TextView)convertView.findViewById(R.id.txtValoracionFestFollow);
 
 
 

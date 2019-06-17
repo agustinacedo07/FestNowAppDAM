@@ -1,34 +1,28 @@
 package com.example.agustin.festnowapp;
 
-import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -37,16 +31,8 @@ import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-/*
-import com.example.adrian.pruebapantallamenu.fragmentos.Fragment02;
-import com.example.adrian.pruebapantallamenu.fragmentos.Fragment03;
- */
 import com.example.agustin.festnowapp.Util.UtilFechas;
-import com.example.agustin.festnowapp.fragmentos.Fragment01;
 import com.example.agustin.festnowapp.fragmentos.Fragment02;
-import com.example.agustin.festnowapp.fragmentos.Fragment03;
 import com.example.agustin.festnowapp.fragmentos.Fragment04;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -55,42 +41,41 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-
 import modelos.Artista;
 import modelos.Festival;
 
 public class PantallaPrincipalDelFestival extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener  {
 
+    //MODIFICACION WAWA
+    //private ScrollView paginainformacion;
+    //private LinearLayout paginaartistas;
+    //private LinearLayout paginanoticias;
+
+
     private ViewPager view1;
-    private ScrollView paginainformacion;
-    private LinearLayout paginaartistas;
-    private LinearLayout paginanoticias;
-
-
-    private TextView camino;
-    RatingBar ratingratingBar;
-    Button btnValorar;
-
     private Festival festival;
+    private AdminFragmentAdapter adaptadorFragment;
+
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        super.onCreate(savedInstanceState);
-
-
+        try{
+            super.onCreate(savedInstanceState);
             festival = (Festival) getIntent().getExtras().get("festival");
-            setContentView(R.layout.activity_main);
+            setContentView(R.layout.content_main);
+            /*
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
-
             setTitle(festival.getNombre());
 
+            */
+            //MODIFICACION WAWA
+            /*
             FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -98,8 +83,9 @@ public class PantallaPrincipalDelFestival extends AppCompatActivity
                     Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                 }
-            });
+            });*/
 
+            /*
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
             ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                     this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -108,18 +94,22 @@ public class PantallaPrincipalDelFestival extends AppCompatActivity
 
             NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
             navigationView.setNavigationItemSelectedListener(this);
+            */
+
+            //MODIFICACION WAWA
+
+            //view1.setAdapter(new AdminPageAdapter());
+
+            view1=(ViewPager) findViewById(R.id.view);
+            adaptadorFragment = new AdminFragmentAdapter(getSupportFragmentManager());
+            view1.setAdapter(adaptadorFragment);
 
 
 
-                //implementacion slider
-                view1=(ViewPager) findViewById(R.id.view);
-                view1.setAdapter(new AdminPageAdapter());
 
-
-
-
-
-
+        }catch(Exception e){
+            e.printStackTrace();
+        }
 
 
 
@@ -129,14 +119,62 @@ public class PantallaPrincipalDelFestival extends AppCompatActivity
 
     }
 
-    //implementacion slider
-    class AdminPageAdapter extends PagerAdapter {
 
+
+    class AdminFragmentAdapter extends FragmentPagerAdapter {
+
+
+        public AdminFragmentAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int posicion) {
+            switch (posicion){
+                case 0://informacion del festival
+                    return FragmentInformacion.newInstance(festival);
+                case 1://artistas del festival
+                    break;
+                case 2://noticias del festival
+                    break;
+                case 3://comentarios
+                    break;
+            }
+            return  null;
+        }
+
+        //cantidad de pantalla que habrá
+        @Override
+        public int getCount() {
+            return 4;
+        }
+
+        @Nullable
+        @Override
+        public CharSequence getPageTitle(int position) {
+            switch (position){
+                case 0://informacion del festival
+                    return "Información";
+                case 1://artistas del festival
+                    return "Artistas";
+                case 2://noticias del festival
+                    return "Noticias";
+                case 3://comentarios
+                    return "Comentarios";
+            }
+
+            return null;
+        }
+
+        //MODIFICACION WAWA
+        /*
         @Override
         public int getCount() {
             return 3;
         }
-
+        */
+        //MODIFICACION WAWA
+        /*
         @Override
         public Object instantiateItem(ViewGroup collection, int position) {
             View paginaactual = null;
@@ -274,7 +312,9 @@ public class PantallaPrincipalDelFestival extends AppCompatActivity
                     if (paginaartistas == null) {
                         paginaartistas = (LinearLayout) LayoutInflater.from(PantallaPrincipalDelFestival.this).inflate(R.layout.paginaartistas, null);
 
+
                         ListView listaArtistasView = (ListView) paginaartistas.findViewById(R.id.listaArtistasGeneral);
+
 
                         AdaptadorArtistaBasico adaptadorArtistasBasico = new AdaptadorArtistaBasico(getApplicationContext(), festival.getListaArtistas(), listaArtistasView, this, festival);
                         listaArtistasView.setAdapter(adaptadorArtistasBasico);
@@ -292,30 +332,25 @@ public class PantallaPrincipalDelFestival extends AppCompatActivity
             ViewPager vp = (ViewPager) collection;
             vp.addView(paginaactual, 0);
             return paginaactual;
-        }
+        }*/
 
 
+        //MODIFICACION WAWA
+        /*
         @Override
         public boolean isViewFromObject(View view, Object object) {
             return view == object;
         }
+        */
 
 
-        public void detalleArtista(Artista artista) {
-            try {
-                Intent pantallaDetalleArtista = new Intent(getApplicationContext(), PantallaDetalleArtista.class);
-                pantallaDetalleArtista.putExtra("artista", artista);
-                pantallaDetalleArtista.putExtra("festival", festival);
-                startActivity(pantallaDetalleArtista);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
 
-
-        }
 
     }
 
+
+    //MODIFICACION WAWA
+    /*
     public void irPaginaInformacion(View v) {
         view1.setCurrentItem(0);
     }
@@ -326,7 +361,7 @@ public class PantallaPrincipalDelFestival extends AppCompatActivity
 
     public void irPaginaNoticias(View v) {
         view1.setCurrentItem(2);
-    }
+    }*/
 
 
 
@@ -412,5 +447,18 @@ public class PantallaPrincipalDelFestival extends AppCompatActivity
 
     public void setFestival(Festival festival) {
         this.festival = festival;
+    }
+
+    public void detalleArtista(Artista artista) {
+        try {
+            Intent pantallaDetalleArtista = new Intent(getApplicationContext(), PantallaDetalleArtista.class);
+            pantallaDetalleArtista.putExtra("artista", artista.getNombreArtista());
+            //pantallaDetalleArtista.putExtra("festival", festival);
+            startActivity(pantallaDetalleArtista);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
     }
 }
