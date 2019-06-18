@@ -46,12 +46,6 @@ public class Fragment04 extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         MapsInitializer.initialize(getContext());
         mGoogleMap = googleMap;
-        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(40.689247,-74.04450)).title("estatua de la libertad").snippet("holap"));
-
-        CameraPosition Liberty = CameraPosition.builder().target(new LatLng(40.689247,-74.04450)).zoom(16).bearing(0).tilt(45).build();
-
-        googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(Liberty));
     }
 }

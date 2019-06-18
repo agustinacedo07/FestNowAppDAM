@@ -47,15 +47,11 @@ import modelos.Festival;
 public class PantallaPrincipalDelFestival extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener  {
 
-    //MODIFICACION WAWA
-    //private ScrollView paginainformacion;
-    //private LinearLayout paginaartistas;
-    //private LinearLayout paginanoticias;
-
 
     private ViewPager view1;
     private Festival festival;
     private AdminFragmentAdapter adaptadorFragment;
+    private Button btnAtras;
 
 
 
@@ -68,38 +64,23 @@ public class PantallaPrincipalDelFestival extends AppCompatActivity
             super.onCreate(savedInstanceState);
             festival = (Festival) getIntent().getExtras().get("festival");
             setContentView(R.layout.content_main);
-            /*
-            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-            setSupportActionBar(toolbar);
             setTitle(festival.getNombre());
 
-            */
-            //MODIFICACION WAWA
-            /*
-            FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-            fab.setOnClickListener(new View.OnClickListener() {
+            //ejecutamos operaciones de la BD
+            new FragmentArtistas.ObtenerArtistasFestival(festival).execute();
+            new FragmentNoticias.ObtenerNoticias(festival).execute();
+            new FragmentSeguidores.ObtenerSeguidores(festival).execute();
+
+
+            btnAtras = (Button)findViewById(R.id.btnAtras);
+            btnAtras.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view) {
-                    Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
+                public void onClick(View v) {
+                    Intent pantallaFestivalesSeguidos = new Intent(getApplicationContext(),FestivalesSeguidos.class);
+                    startActivity(pantallaFestivalesSeguidos);
+
                 }
-            });*/
-
-            /*
-            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                    this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-            drawer.addDrawerListener(toggle);
-            toggle.syncState();
-
-            NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-            navigationView.setNavigationItemSelectedListener(this);
-            */
-
-            //MODIFICACION WAWA
-
-            //view1.setAdapter(new AdminPageAdapter());
-
+            });
             view1=(ViewPager) findViewById(R.id.view);
             adaptadorFragment = new AdminFragmentAdapter(getSupportFragmentManager());
             view1.setAdapter(adaptadorFragment);
@@ -130,17 +111,22 @@ public class PantallaPrincipalDelFestival extends AppCompatActivity
 
         @Override
         public Fragment getItem(int posicion) {
-            switch (posicion){
-                case 0://informacion del festival
-                    return FragmentInformacion.newInstance(festival);
-                case 1://artistas del festival
-                    break;
-                case 2://noticias del festival
-                    break;
-                case 3://comentarios
-                    break;
+            try{
+                switch (posicion){
+                    case 0://informacion del festival
+                        return FragmentInformacion.newInstance(festival);
+                    case 1://artistas del festival
+                        return FragmentArtistas.newInstance(festival,getApplicationContext());
+                    case 2://noticias del festival
+                        return FragmentNoticias.newInstance(festival,getApplicationContext());
+                    case 3://comentarios
+                        return  FragmentSeguidores.newInstance(festival,getApplicationContext());
+                }
+                return  null;
+            }catch(Exception e){
+                return null;
             }
-            return  null;
+
         }
 
         //cantidad de pantalla que habrá
@@ -160,7 +146,7 @@ public class PantallaPrincipalDelFestival extends AppCompatActivity
                 case 2://noticias del festival
                     return "Noticias";
                 case 3://comentarios
-                    return "Comentarios";
+                    return "Lista de Seguidores";
             }
 
             return null;

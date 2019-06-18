@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="384dp"
+        android:background="@android:color/holo_orange_dark">
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="115dp"
+            android:layout_height="30dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/fechaComenBasico"
+            android:layout_marginTop="84dp"
+            android:text="Creado por:"
+            android:textColor="@android:color/black"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/usuarioComenBasico"
+            android:layout_width="181dp"
+            android:layout_height="63dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/textView11"
+            android:layout_marginTop="124dp"
+            android:gravity="center"
+            android:text="Usuario"
+            android:textColor="@android:color/holo_blue_dark"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/imagenPerfilComenBasico"
+            android:layout_width="138dp"
+            android:layout_height="159dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="30dp" />
+
+        <TextView
+            android:id="@+id/fechaComenBasico"
+            android:layout_width="184dp"
+            android:layout_height="29dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="12dp"
+            android:layout_marginTop="39dp"
+            android:gravity="center"
+            android:text="Fecha de comentario" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="28dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="210dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/comentarioComenBasico"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:text="Comentario del Usuario"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </ScrollView>
+
+    </RelativeLayout>
+</LinearLayout>

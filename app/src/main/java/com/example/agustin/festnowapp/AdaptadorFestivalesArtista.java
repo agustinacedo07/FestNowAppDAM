@@ -86,13 +86,7 @@ public class AdaptadorFestivalesArtista extends BaseAdapter {
             txtFechaConcierto.setText(fechaProcesada);
 
 
-            //implementar al pulsar el festival
-            convertView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    pantallaGeneralArista.lanzarDetalleFestival(festival);
-                }
-            });
+
 
 
             return convertView;

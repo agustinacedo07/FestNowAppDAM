@@ -100,16 +100,14 @@ public class AdaptadorFestivalesFollow extends BaseAdapter {
 
 
 
-
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //nos llevaria a la otra pantalla a la que le pasaremos el festival completo
-                //Toast.makeText(contexto,"Ha pulsado el Festival "+festival.getNombre(),Toast.LENGTH_LONG).show();
                 pantallaFestivalesSeguidos.lanzarDetalleFestival(festival);
-
             }
         });
+
+
 
 
         return  convertView;

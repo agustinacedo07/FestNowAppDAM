@@ -46,6 +46,15 @@ public class UtilFechas {
         return fechaProcesada;
     }
 
+    public static String procesarFechaNoticia (Date fechaNoticia){
+        String fechaProcesada = "";
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
+        String [] tokensFecha = formatoFecha.format(fechaNoticia).split("-");
+        fechaProcesada = tokensFecha[0]+" del "+procesarMes(Integer.parseInt(tokensFecha[1]))+" de "+tokensFecha[2];
+
+        return fechaProcesada;
+    }
+
 
     private static String procesarMes(int mes){
         String mesCadena = "";

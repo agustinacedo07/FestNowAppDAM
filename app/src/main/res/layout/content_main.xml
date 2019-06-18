@@ -10,7 +10,8 @@
     tools:context=".PantallaPrincipalDelFestival"
     tools:showIn="content_main">
 
-    <!--<include
+    <!--
+    <include
         layout="@layout/app_bar_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
@@ -40,16 +41,31 @@
          android:layout_width="wrap_content"
          android:layout_height="wrap_content" />-->
 
-    <!-- MODIFICACION WAWA -->
     <android.support.v4.view.ViewPager
         android:id="@+id/view"
         android:layout_width="354dp"
-        android:layout_height="482dp"
+        android:layout_height="512dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"
         android:background="@color/common_google_signin_btn_text_dark_default"
-        android:visibility="visible" />
+        android:visibility="visible">
+
+        <android.support.v4.view.PagerTitleStrip
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></android.support.v4.view.PagerTitleStrip>
+
+
+    </android.support.v4.view.ViewPager>
+
+    <Button
+        android:id="@+id/btnAtras"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/view"
+        android:layout_marginTop="12dp"
+        android:text="Atras" />
 
 
 </RelativeLayout>

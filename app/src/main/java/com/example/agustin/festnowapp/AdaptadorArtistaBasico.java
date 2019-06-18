@@ -25,14 +25,16 @@ public class AdaptadorArtistaBasico extends BaseAdapter {
     private ArrayList<Artista> listaArtistas;
     private ListView listaPantallaArtistas;
     private Festival festival;
+    private FragmentArtistas pantallaArtistas;
 
 
 
-    public AdaptadorArtistaBasico(Context contexto, ArrayList<Artista> listaArtistas, ListView listaPantallaArtistas,Festival festival) {
+    public AdaptadorArtistaBasico(Context contexto, ArrayList<Artista> listaArtistas, ListView listaPantallaArtistas,Festival festival,FragmentArtistas pantallaArtistas) {
         this.festival = festival;
         this.contexto = contexto;
         this.listaArtistas = listaArtistas;
         this.listaPantallaArtistas = listaPantallaArtistas;
+        this.pantallaArtistas = pantallaArtistas;
     }
 
     @Override
@@ -86,13 +88,13 @@ public class AdaptadorArtistaBasico extends BaseAdapter {
 
 
 
-        /*
+
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pantallaFestivalDetalle.detalleArtista(artista);
+                pantallaArtistas.detalleArtista(artista);
             }
-        });*/
+        });
 
 
 

@@ -48,7 +48,7 @@
         <activity android:name=".FestivalesSeguidos"
             android:theme="@style/Theme.AppCompat.Light"/>
         <activity android:name=".PantallaPrincipalDelFestival"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:theme="@style/Theme.AppCompat.Light"/>
             />
         <activity android:name=".PantallaPerfil"
             android:theme="@style/Theme.AppCompat.Light"/>

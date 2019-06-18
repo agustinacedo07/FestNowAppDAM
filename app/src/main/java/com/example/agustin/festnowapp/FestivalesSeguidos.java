@@ -104,19 +104,14 @@ public class FestivalesSeguidos extends AppCompatActivity {
 
 
 
-
-
-
-    public void lanzarDetalleFestival(Festival festival){
-        try{
-            Intent pantallaDetalleFestival = new Intent(getApplicationContext(),PantallaPrincipalDelFestival.class);
-            pantallaDetalleFestival.putExtra("festival",festival);
-            startActivity(pantallaDetalleFestival);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
+    public void lanzarDetalleFestival (Festival festival){
+        Intent pantallaDetalleFestival = new Intent(getApplicationContext(),PantallaPrincipalDelFestival.class);
+        pantallaDetalleFestival.putExtra("festival",festival);
+        startActivity(pantallaDetalleFestival);
     }
+
+
+
 
 
 
