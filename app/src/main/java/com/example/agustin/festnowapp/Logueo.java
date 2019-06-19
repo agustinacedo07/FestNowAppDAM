@@ -198,7 +198,7 @@ public class Logueo extends AppCompatActivity implements View.OnClickListener {
         private boolean abrirFlujos() {
             try {
 
-                skCliente = new Socket(Constantes.IP_CONEXION,1990);
+                skCliente = new Socket(Constantes.IP_CONEXION,2000);
 
 
                 InputStream entrada = skCliente.getInputStream();

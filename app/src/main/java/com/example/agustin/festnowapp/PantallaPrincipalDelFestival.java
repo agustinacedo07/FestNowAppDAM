@@ -1,13 +1,10 @@
 package com.example.agustin.festnowapp;
 
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -49,9 +46,12 @@ public class PantallaPrincipalDelFestival extends AppCompatActivity
 
 
     private ViewPager view1;
-    private Festival festival;
+    static Festival festival;
     private AdminFragmentAdapter adaptadorFragment;
     private Button btnAtras;
+    static Context contexto;
+
+    public static int numPantallas = 6;
 
 
 
@@ -60,7 +60,6 @@ public class PantallaPrincipalDelFestival extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        try{
             super.onCreate(savedInstanceState);
             festival = (Festival) getIntent().getExtras().get("festival");
             setContentView(R.layout.content_main);
@@ -70,6 +69,8 @@ public class PantallaPrincipalDelFestival extends AppCompatActivity
             new FragmentArtistas.ObtenerArtistasFestival(festival).execute();
             new FragmentNoticias.ObtenerNoticias(festival).execute();
             new FragmentSeguidores.ObtenerSeguidores(festival).execute();
+            new FragmentComentarios.ObtenerComentarios(festival).execute();
+
 
 
             btnAtras = (Button)findViewById(R.id.btnAtras);
@@ -81,18 +82,10 @@ public class PantallaPrincipalDelFestival extends AppCompatActivity
 
                 }
             });
+
             view1=(ViewPager) findViewById(R.id.view);
             adaptadorFragment = new AdminFragmentAdapter(getSupportFragmentManager());
             view1.setAdapter(adaptadorFragment);
-
-
-
-
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-
-
 
 
 
@@ -119,8 +112,12 @@ public class PantallaPrincipalDelFestival extends AppCompatActivity
                         return FragmentArtistas.newInstance(festival,getApplicationContext());
                     case 2://noticias del festival
                         return FragmentNoticias.newInstance(festival,getApplicationContext());
-                    case 3://comentarios
+                    case 3://seguidores
                         return  FragmentSeguidores.newInstance(festival,getApplicationContext());
+                    case 4://comentarios
+                        return FragmentComentarios.newInstance(festival,getApplicationContext());
+                    case 5:
+                        return FragmentValoraciones.newInstance(getApplicationContext());
                 }
                 return  null;
             }catch(Exception e){
@@ -132,7 +129,7 @@ public class PantallaPrincipalDelFestival extends AppCompatActivity
         //cantidad de pantalla que habrá
         @Override
         public int getCount() {
-            return 4;
+            return PantallaPrincipalDelFestival.numPantallas;
         }
 
         @Nullable
@@ -145,8 +142,14 @@ public class PantallaPrincipalDelFestival extends AppCompatActivity
                     return "Artistas";
                 case 2://noticias del festival
                     return "Noticias";
-                case 3://comentarios
+                case 3://seguidores
                     return "Lista de Seguidores";
+                case 4://comentarios
+                    return "Comentarios";
+                case 5://valoracion del festival
+                    return "Valora el Festival";
+
+
             }
 
             return null;
