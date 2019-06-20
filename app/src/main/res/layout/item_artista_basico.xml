@@ -38,10 +38,10 @@
 
     <TextView
         android:id="@+id/lblFechaConcierto"
-        android:layout_width="338dp"
+        android:layout_width="378dp"
         android:layout_height="47dp"
         android:layout_marginBottom="200dp"
-        android:gravity="right"
+        android:gravity="center"
         android:text="Dia"
         android:textColor="@android:color/black"
         android:textSize="24sp"

@@ -1,5 +1,8 @@
 package com.example.agustin.festnowapp.Util;
 
+/**
+ * Clase de objeto modelo, para el procesamiento y análisis de determinados campos en su control de errores
+ */
 public class Validator {
     //indica el tipo de campo que se ha validado
     private String campo;

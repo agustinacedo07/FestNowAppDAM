@@ -3,8 +3,18 @@ package com.example.agustin.festnowapp.Util;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * Clase que contiene metodo para el procesamiento de formato de fechas
+ */
 public class UtilFechas {
 
+    /**
+     * Procesa la fecha seleccionada en el selector de fechas de el registro
+     * @param dia
+     * @param mes
+     * @param anyo
+     * @return
+     */
     public static String valorarFechaPicker(int dia,int mes,int anyo){
         String fechaProcesada = "";
         fechaProcesada+=dia;
@@ -17,6 +27,12 @@ public class UtilFechas {
 
     }
 
+    /**
+     * Procesa la fecha de un festival, obteniendo su fecha de inicio y de fin
+     * @param fechaInicio
+     * @param fechaFin
+     * @return
+     */
     public static String procesarFechaFestival(Date fechaInicio,Date fechaFin){
         String fechaProcesada = "";
         SimpleDateFormat fechaFormato = new SimpleDateFormat("dd-MM-yyyy");
@@ -35,6 +51,11 @@ public class UtilFechas {
 
     }
 
+    /**
+     * Procesa la fecha de un concierto
+     * @param fechaConcierto
+     * @return
+     */
     public static String procesarFechaConcierto(Date fechaConcierto){
         String fechaProcesada = "";
 
@@ -46,6 +67,11 @@ public class UtilFechas {
         return fechaProcesada;
     }
 
+    /**
+     * Procesa la fecha al formato de una noticia
+     * @param fechaNoticia
+     * @return
+     */
     public static String procesarFechaNoticia (Date fechaNoticia){
         String fechaProcesada = "";
         SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
@@ -56,6 +82,11 @@ public class UtilFechas {
     }
 
 
+    /**
+     * Procesa el mes del año según un numero de mes recibido
+     * @param mes -numero del mes
+     * @return - mes convertido a cadena de caracteres
+     */
     private static String procesarMes(int mes){
         String mesCadena = "";
         switch (mes){

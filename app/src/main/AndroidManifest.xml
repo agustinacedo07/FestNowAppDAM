@@ -28,7 +28,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat">
         <activity
-            android:name="com.example.agustin.festnowapp.Logueo"
+            android:name="com.example.agustin.festnowapp.Activitys.Logueo"
             android:label="FestNow"
             android:theme="@style/AppTheme.NoActionBar">
 
@@ -39,21 +39,20 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".PantallaPrincipal"
+        <activity android:name=".Activitys.PantallaPrincipal"
             android:theme="@style/Theme.AppCompat.Light"/>
 
-        <activity android:name=".Registro"
+        <activity android:name=".Activitys.Registro"
             android:theme="@style/Theme.AppCompat.Light"/>
-        <activity android:name=".Comentarios" />
-        <activity android:name=".FestivalesSeguidos"
+        <activity android:name=".Activitys.FestivalesSeguidos"
             android:theme="@style/Theme.AppCompat.Light"/>
-        <activity android:name=".PantallaPrincipalDelFestival"
+        <activity android:name=".Activitys.PantallaDetalleFestival"
             android:theme="@style/Theme.AppCompat.Light"/>
             />
-        <activity android:name=".PantallaPerfil"
+        <activity android:name=".Activitys.PantallaPerfil"
             android:theme="@style/Theme.AppCompat.Light"/>
 
-        <activity android:name="com.example.agustin.festnowapp.PantallaDetalleArtista"
+        <activity android:name="com.example.agustin.festnowapp.Activitys.PantallaDetalleArtista"
             android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <!-- maps android key -->

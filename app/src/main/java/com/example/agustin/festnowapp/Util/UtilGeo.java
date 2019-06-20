@@ -1,5 +1,8 @@
 package com.example.agustin.festnowapp.Util;
 
+/**
+ * Clase que procesa según una provincia obtenido su comunidad autonoma
+ */
 public class UtilGeo {
 
     public static String procesarComunidad (String provincia){
@@ -196,6 +199,4 @@ public class UtilGeo {
     }
 }
 
-/**
- *
- */
+

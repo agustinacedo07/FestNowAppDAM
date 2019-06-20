@@ -1,19 +1,19 @@
 package com.example.agustin.festnowapp.Util;
 
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.os.AsyncTask;
-
-import com.example.agustin.festnowapp.ControlErroresRegistro;
 
 import java.io.IOException;
 
 import modelos.Comando;
 
+/**
+ * Clase que realiza control de errores realacionados con campos guardados en la BD que son importantes a la hroa de registro, que no
+ * se encuentren repetidos o mal formados
+ */
 public class ControlErroresBD extends AsyncTask<Void,Boolean,Boolean>{
-    String tipoDatoValidar;
-    String datoValidar;
-    CallBackControlErroresBD oyente;
+    private String tipoDatoValidar;
+    private String datoValidar;
+    private CallBackControlErroresBD oyente;
 
 
     public ControlErroresBD(String tipoDato, String dato, CallBackControlErroresBD oyente){
@@ -32,6 +32,7 @@ public class ControlErroresBD extends AsyncTask<Void,Boolean,Boolean>{
         boolean validacionCampo = false;
         Comando comando = new Comando();
         comando.getArgumentos().add(datoValidar);
+        //comprueba que tipo de campo se va a realizar la comprobacion de los ubicados en el registro
         switch (tipoDatoValidar){
             case "usuario":
                 comando.setOrden("isUser");
