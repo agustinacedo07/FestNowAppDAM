@@ -27,6 +27,7 @@ public class FragmentArtistas extends Fragment {
     public static ArrayList<Artista> artistasFestival = new ArrayList<Artista>();
    static Context contexto;
     Festival festival;
+    static ListView listViewArtistas;
 
 
 
@@ -50,18 +51,20 @@ public class FragmentArtistas extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        festival = (Festival)getArguments().getSerializable("festival");
+        new FragmentArtistas.ObtenerArtistasFestival(festival).execute();
+
+
         View rootView = inflater.inflate(R.layout.paginaartistas,container,false);
 
-         festival = (Festival)getArguments().getSerializable("festival");
 
 
         //componentes de la vista
-        ListView listaArtistas = (ListView)rootView.findViewById(R.id.listaArtistasGeneral);
+         listViewArtistas = (ListView)rootView.findViewById(R.id.listaArtistasGeneral);
 
 
 
-        AdaptadorArtistaBasico adaptadorListadoArtistasBasico = new AdaptadorArtistaBasico(contexto,artistasFestival,listaArtistas,festival,this);
-        listaArtistas.setAdapter(adaptadorListadoArtistasBasico);
+
 
 
 
@@ -70,7 +73,7 @@ public class FragmentArtistas extends Fragment {
 
     }
 
-    public static class ObtenerArtistasFestival extends AsyncTask<Void,Void,Boolean>{
+    public static class ObtenerArtistasFestival extends AsyncTask<Void,Void,Object>{
         private Festival festival;
 
         public ObtenerArtistasFestival(Festival festival){
@@ -79,47 +82,41 @@ public class FragmentArtistas extends Fragment {
         }
 
         @Override
-        protected Boolean doInBackground(Void... voids) {
-            boolean obtencionArtistas = false;
+        protected Object doInBackground(Void... voids) {
             Comando comando = new Comando();
             comando.setOrden("artistasFest");
             comando.getArgumentos().add(festival.getIdFestival());
+            ArrayList<Artista> listaArtistas = new ArrayList<Artista>();
 
             try {
                 SesionUserServer.flujoSalidaObjetosUser.writeObject(comando);
                 comando = (Comando) SesionUserServer.flujoEntradaObjetosUser.readObject();
-                artistasFestival = (ArrayList<Artista>) comando.getArgumentos().get(0);
-                obtencionArtistas = true;
+                listaArtistas = (ArrayList<Artista>) comando.getArgumentos().get(0);
             } catch (IOException e) {
-                return  false;
-            }finally {
-                return obtencionArtistas;
+                return  null;
+            } catch (ClassNotFoundException e) {
+                return null;
             }
+
+            return listaArtistas;
 
 
 
         }
 
         @Override
-        protected void onPostExecute(Boolean obtencionArtistas) {
-            if(obtencionArtistas){
-                if(artistasFestival.size()==0){
-                    Toast.makeText(contexto,"No existen artistas para el festival "+festival.getNombre(),Toast.LENGTH_LONG).show();
-                }
-            }else{
-                Toast.makeText(contexto,"Problemas con la conexion",Toast.LENGTH_LONG).show();
-            }
+        protected void onPostExecute(Object objeto) {
+           ArrayList<Artista> listaArtistas = (ArrayList<Artista>)objeto;
+           if(listaArtistas!=null){
+               if(listaArtistas.size()==0){
+                   Toast.makeText(contexto,"No existen artistas para el festival: "+festival.getNombre(),Toast.LENGTH_LONG).show();
+               }else{
+                   AdaptadorArtistaBasico adaptadorListadoArtistasBasico = new AdaptadorArtistaBasico(contexto,listaArtistas,listViewArtistas,festival);
+                   listViewArtistas.setAdapter(adaptadorListadoArtistasBasico);
+               }
+           }
         }
     }
 
-    public void detalleArtista(Artista artista) {
 
-            Intent pantallaDetalleArtista = new Intent(contexto, PantallaDetalleArtista.class);
-            pantallaDetalleArtista.putExtra("artista", artista);
-            pantallaDetalleArtista.putExtra("festival",festival);
-            startActivity(pantallaDetalleArtista);
-
-
-
-    }
 }

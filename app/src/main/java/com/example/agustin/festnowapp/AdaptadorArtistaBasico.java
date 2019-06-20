@@ -1,6 +1,7 @@
 package com.example.agustin.festnowapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
@@ -25,16 +26,14 @@ public class AdaptadorArtistaBasico extends BaseAdapter {
     private ArrayList<Artista> listaArtistas;
     private ListView listaPantallaArtistas;
     private Festival festival;
-    private FragmentArtistas pantallaArtistas;
 
 
 
-    public AdaptadorArtistaBasico(Context contexto, ArrayList<Artista> listaArtistas, ListView listaPantallaArtistas,Festival festival,FragmentArtistas pantallaArtistas) {
+    public AdaptadorArtistaBasico(Context contexto, ArrayList<Artista> listaArtistas, ListView listaPantallaArtistas,Festival festival) {
         this.festival = festival;
         this.contexto = contexto;
         this.listaArtistas = listaArtistas;
         this.listaPantallaArtistas = listaPantallaArtistas;
-        this.pantallaArtistas = pantallaArtistas;
     }
 
     @Override
@@ -92,7 +91,12 @@ public class AdaptadorArtistaBasico extends BaseAdapter {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pantallaArtistas.detalleArtista(artista);
+
+                    Intent pantallaDetalleArtista = new Intent(contexto, PantallaDetalleArtista.class);
+                    pantallaDetalleArtista.putExtra("artista", artista);
+                    pantallaDetalleArtista.putExtra("festival",festival);
+                    contexto.startActivity(pantallaDetalleArtista);
+
             }
         });
 

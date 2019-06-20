@@ -50,6 +50,9 @@ public class FragmentNoticias extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final Festival festival = (Festival) getArguments().getSerializable("festival");
+        new FragmentNoticias.ObtenerNoticias(festival).execute();
+
+
         View rootView = inflater.inflate(R.layout.paginanoticias,container,false);
 
         ListView listaNoticias = (ListView)rootView.findViewById(R.id.listaNoticias);

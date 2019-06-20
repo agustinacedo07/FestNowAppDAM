@@ -81,6 +81,7 @@ public class PantallaPerfil extends AppCompatActivity {
         apellidos.setText(SesionUserServer.clienteAplicacion.getApellidos());
         nombre.setText(SesionUserServer.clienteAplicacion.getNombre());
 
+
         if(SesionUserServer.clienteAplicacion.getNombreFoto().equals("default")){
             imagenUsuario.setImageResource(R.mipmap.logo2);
         }else{

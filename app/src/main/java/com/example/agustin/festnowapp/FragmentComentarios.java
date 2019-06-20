@@ -43,7 +43,9 @@ public class FragmentComentarios extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Festival festival = (Festival)getArguments().getSerializable("festival");
+
         View viewRoot = inflater.inflate(R.layout.paginacomentarios,container,false);
+        new FragmentComentarios.ObtenerComentarios(festival).execute();
 
 
         ListView listaComentarios = (ListView)viewRoot.findViewById(R.id.listaComentarios);

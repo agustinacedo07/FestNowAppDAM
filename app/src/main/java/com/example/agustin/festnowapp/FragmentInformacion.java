@@ -48,10 +48,15 @@ public class FragmentInformacion extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        final Festival festival = (Festival) getArguments().getSerializable("festival");
+
+
+
+
+
         View rootView = inflater.inflate(R.layout.paginainformacion,container,false);
 
 
-            final Festival festival = (Festival) getArguments().getSerializable("festival");
 
             //componentes de la vista
             ImageView imagenFestivalPrincipal = (ImageView)rootView.findViewById(R.id.imagenPrincipal);

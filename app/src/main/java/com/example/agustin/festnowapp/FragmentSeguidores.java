@@ -39,9 +39,12 @@ public class FragmentSeguidores extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        modelos.Festival festival = (modelos.Festival) getArguments().getSerializable("festival");
+
+        new FragmentSeguidores.ObtenerSeguidores(festival).execute();
+
         View viewRoot = inflater.inflate(R.layout.paginaseguidores,container,false);
 
-        modelos.Festival festival = (modelos.Festival) getArguments().getSerializable("festival");
 
         ListView listaSeguidores = (ListView)viewRoot.findViewById(R.id.listaSeguidores);
 

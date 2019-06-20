@@ -5,43 +5,48 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/fondopan2"
-    tools:context=".PantallaPrincipal">
+    tools:context="com.example.agustin.festnowapp.PantallaPrincipal">
 
     <ListView
         android:id="@+id/listFestivalesPantallaPral"
         android:layout_width="367dp"
         android:layout_height="392dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageButton
         android:id="@+id/btnFestivalesSeguidos"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:onClick="IrPantallaFestisSeguidos"
+        android:layout_width="37dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="28dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@mipmap/iconitomenu" />
 
     <ImageButton
         android:id="@+id/btnPerfil"
-        android:layout_width="39dp"
-        android:layout_height="37dp"
+        android:layout_width="53dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="12dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
+        android:adjustViewBounds="true"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.977"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/images" />
+        app:srcCompat="@mipmap/iconoperfil"
+        android:background="@android:color/transparent"
+        />
 
     <ToggleButton
         android:id="@+id/btnCoste"
@@ -102,8 +107,8 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="194dp"
-        android:layout_height="91dp"
+        android:layout_width="382dp"
+        android:layout_height="112dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"

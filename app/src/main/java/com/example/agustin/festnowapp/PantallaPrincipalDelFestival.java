@@ -51,7 +51,7 @@ public class PantallaPrincipalDelFestival extends AppCompatActivity
     private Button btnAtras;
     static Context contexto;
 
-    public static int numPantallas = 6;
+    public static int numPantallas = 2;
 
 
 
@@ -65,11 +65,6 @@ public class PantallaPrincipalDelFestival extends AppCompatActivity
             setContentView(R.layout.content_main);
             setTitle(festival.getNombre());
 
-            //ejecutamos operaciones de la BD
-            new FragmentArtistas.ObtenerArtistasFestival(festival).execute();
-            new FragmentNoticias.ObtenerNoticias(festival).execute();
-            new FragmentSeguidores.ObtenerSeguidores(festival).execute();
-            new FragmentComentarios.ObtenerComentarios(festival).execute();
 
 
 
@@ -86,8 +81,6 @@ public class PantallaPrincipalDelFestival extends AppCompatActivity
             view1=(ViewPager) findViewById(R.id.view);
             adaptadorFragment = new AdminFragmentAdapter(getSupportFragmentManager());
             view1.setAdapter(adaptadorFragment);
-
-
 
 
 
